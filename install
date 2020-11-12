@@ -13,7 +13,7 @@ curl -sL -o ${INSTALLER} ${URL} && chmod +x ${INSTALLER}
 echo " - done."
 
 echo " - installing ASP.NET v${DOTNET_VERSION}..."
-./${INSTALLER} --architecture amd64 --channel ${DOTNET_VERSION} --runtime aspnetcore
+./${INSTALLER} --architecture amd64 --version ${DOTNET_VERSION} --runtime aspnetcore
 
 if [ -d /usr/share/dotnet ] ; then
     echo " - done."
