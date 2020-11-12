@@ -44,7 +44,7 @@ COPY ./install /tmp/install
 RUN apk add --no-cache --virtual .install curl \
     && chmod +x /tmp/install \
     && /tmp/install \
-    && rm /tmp/install \
+    && rm -rf /tmp/* \
     && apk del --no-cache .install
 
 COPY ./overlay /
