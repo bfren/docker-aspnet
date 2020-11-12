@@ -1,42 +1,19 @@
 #!/bin/bash
 
 #======================================================================================================================
-# Get correct installer for target platform
-#======================================================================================================================
-
-case "${TARGETPLATFORM}" in
-    "linux/amd64")
-        PLATFORM="x64-alpine"
-        ;;
-    "linux/arm/v6" | "linux/arm/v7")
-        PLATFORM="arm32"
-        ;;
-    "linux/arm64")
-        PLATFORM="arm64"
-        ;;
-    *)
-esac
-
-if [ -z "${PLATFORM}" ] ; then
-    echo "Unsupported target platform: ${TARGETPLATFORM}"
-    exit 1
-fi
-
-
-#======================================================================================================================
 # Download and run installer
 #======================================================================================================================
 
 cd /tmp
 
-URL="https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-aspnetcore-${DOTNET_VERSION}-linux-${PLATFORM}-binaries"
-INSTALLER="dotnet-installer"
+INSTALLER="dotnet-install.sh"
+URL="https://dot.net/v1/${INSTALLER}"
 echo " - downloading ${URL}..."
 curl -sL -o ${INSTALLER} ${URL} && chmod +x ${INSTALLER}
 echo " - done."
 
-echo " - installing ASP.NET v${CHANNEL}..."
-./${INSTALLER}
+echo " - installing ASP.NET v${DOTNET_VERSION}..."
+./${INSTALLER} --architecture amd64 --channel ${DOTNET_VERSION} --runtime aspnetcore
 
 if [ -d /usr/share/dotnet ] ; then
     echo " - done."

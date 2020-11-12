@@ -13,8 +13,6 @@ LABEL maintainer="Ben Green <ben@bcgdesign.com>" \
     org.label-schema.vendor="Ben Green" \
     org.label-schema.schema-version="1.0"
 
-ENV PORT=5000
-
 RUN addgroup --gid 1000 www \
     && adduser --uid 1000 --no-create-home --disabled-password --ingroup www www \
     && apk update \
@@ -38,6 +36,8 @@ RUN apk add --no-cache --virtual .install curl \
     && /tmp/install \
     && rm /tmp/install \
     && apk del --no-cache .install
+
+ENV PORT=5000
 
 COPY ./overlay /
 
