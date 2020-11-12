@@ -1,4 +1,12 @@
+FROM --platform=$BUILDPLATFORM golang:alpine AS build
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+
+RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
+
 FROM bcgdesign/alpine-s6:1.0.3
+COPY --from=build /log /log
 
 LABEL maintainer="Ben Green <ben@bcgdesign.com>" \
     org.label-schema.name=".NET" \
@@ -29,6 +37,7 @@ ENV \
     # Set the invariant mode since icu_libs isn't included (see https://github.com/dotnet/announcements/issues/20)
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
+ARG TARGETPLATFORM
 ENV DOTNET_VERSION=5.0.0
 
 COPY ./install /tmp/install
