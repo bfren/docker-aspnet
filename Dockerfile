@@ -18,8 +18,7 @@ LABEL maintainer="Ben Green <ben@bcgdesign.com>" \
 RUN addgroup --gid 1000 www \
     && adduser --uid 1000 --no-create-home --disabled-password --ingroup www www \
     && rm -rf /var/cache/apk/* \
-    && apk update \
-    && apk upgrade \
+    && apk -U upgrade \
     && apk add \
         ca-certificates \
         krb5-libs \
