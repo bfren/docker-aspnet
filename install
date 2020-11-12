@@ -6,13 +6,14 @@
 
 cd /tmp
 
-URL="https://dot.net/v1/dotnet-install.sh"
+INSTALLER="dotnet-install.sh"
+URL="https://dot.net/v1/${INSTALLER}"
 echo " - downloading ${URL}..."
-curl -sL -o install ${URL} && chmod +x install
+curl -sL -o ${INSTALLER} ${URL} && chmod +x ${INSTALLER}
 echo " - done."
 
 echo " - installing .NET..."
-./install --channel ${CHANNEL} --runtime aspnetcore && rm "install"
+./${INSTALLER} --channel ${CHANNEL} --runtime aspnetcore && rm ${INSTALLER}
 
 if [ -d /usr/share/dotnet ] ; then
     echo " - done."
