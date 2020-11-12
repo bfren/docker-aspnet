@@ -22,7 +22,7 @@ case "${TARGETPLATFORM}" in
     *)
 esac
 
-if [ -z "${INSTALLER}" ] ; then
+if [ -z "${ARCHITECTURE}" ] ; then
     echo "Unsupported target platform: ${TARGETPLATFORM}"
     exit 1
 fi
