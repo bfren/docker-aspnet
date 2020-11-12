@@ -8,7 +8,8 @@ LABEL maintainer="Ben Green <ben@bcgdesign.com>" \
 
 ENV PORT=5000
 
-RUN adduser --uid 1000 --no-create-home --disabled-password --ingroup www www \
+RUN addgroup --gid 1000 www \
+    && adduser --uid 1000 --no-create-home --disabled-password --ingroup www www \
     && apk update \
     && apk upgrade \
     && apk add \
