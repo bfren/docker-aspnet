@@ -17,7 +17,7 @@ echo " - installing ASP.NET v${DOTNET_VERSION}..."
 
 PROCESS_PATH=`cat /root/.dotnet`
 echo "PROCESS_PATH: ${PROCESS_PATH}"
-/root/.dotnet
+ls /root/.dotnet
 
 INSTALLED_VERSION=`dotnet --version`
 if [ "${INSTALLED_VERSION}" == "${DOTNET_VERSION}" ] ; then
