@@ -12,8 +12,8 @@ echo " - downloading ${URL}..."
 curl -sL -o ${INSTALLER} ${URL} && chmod +x ${INSTALLER}
 echo " - done."
 
-echo " - installing .NET..."
-./${INSTALLER} --channel ${CHANNEL} --runtime aspnetcore && rm ${INSTALLER}
+echo " - installing ASP.NET ${CHANNEL}..."
+./${INSTALLER} --channel ${CHANNEL} --runtime aspnetcore
 
 if [ -d /usr/share/dotnet ] ; then
     echo " - done."
