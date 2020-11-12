@@ -59,10 +59,10 @@ ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${DOTNET_V
 echo " - downloading ${ASPNET_URL}..."
 wget -O aspnetcore.tar.gz ${ASPNET_URL} \
     && echo "${ASPNET_CHECKSUM}  aspnetcore.tar.gz" | sha512sum -c - \
-    && tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet /root/shared/Microsoft.AspNetCore.App \
+    && tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App \
     && rm aspnetcore.tar.gz
 
-if [ -d /root/shared/Microsoft.AspNetCore.App ] ; then
+if [ -d /usr/share/dotnet ] ; then
     echo " - done."
     exit 0
 else
