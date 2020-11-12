@@ -36,9 +36,11 @@ ENV \
     # Set the invariant mode since icu_libs isn't included (see https://github.com/dotnet/announcements/issues/20)
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
-ARG TARGETPLATFORM
-ENV DOTNET_VERSION=5.0.0
+COPY ./VERSION /tmp/VERSION
 
+ARG TARGETPLATFORM
+
+COPY ./VERSION /tmp/VERSION
 COPY ./install /tmp/install
 RUN apk add --no-cache --virtual .install curl \
     && chmod +x /tmp/install \
