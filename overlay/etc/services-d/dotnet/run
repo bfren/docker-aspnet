@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo " - starting .NET"
 cd /src
