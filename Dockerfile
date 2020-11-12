@@ -32,11 +32,8 @@ RUN addgroup --gid 1000 www \
 ARG TARGETPLATFORM
 ARG DOTNET_VERSION=5.0.0
 
-COPY ./DOTNET_MINOR /tmp/DOTNET_MINOR
 COPY ./install /tmp/install
-RUN export CHANNEL=$(cat /tmp/DOTNET_MINOR) \
-    && echo "ASP.NET v${CHANNEL}" \
-    && apk add --no-cache --virtual .install curl \
+RUN apk add --no-cache --virtual .install curl \
     && chmod +x /tmp/install \
     && /tmp/install \
     && rm /tmp/install \
