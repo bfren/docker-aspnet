@@ -1,24 +1,59 @@
 #!/bin/bash
 
 #======================================================================================================================
+# Get correct installer for target platform
+#======================================================================================================================
+
+case "${TARGETPLATFORM}" in
+    "linux/amd64")
+        ARCHITECTURE="x64"
+        # https://github.com/dotnet/dotnet-docker/blob/master/src/runtime/5.0/alpine3.12/amd64/Dockerfile
+        RUNTIME_CHECKSUM="c112bdc4308c0b49fa4f4f9845bf13bfcfe2debed9166e6e6922f389c043d6f7f55a7cc3e03778c08df3ffd415059b90dfb87ce84c95a0fb1de0a6e9f4428b6f" 
+        # https://github.com/dotnet/dotnet-docker/blob/master/src/aspnet/5.0/alpine3.12/amd64/Dockerfile
+        ASPNET_CHECKSUM="1f36800145889f6e8dd823deffce309094d35c646e231fd36fa488c83df76db7b6166eea1d50db0513e0730ca33540cb081f7675ea255135e4e553e7aa5ef2ce"  
+        ;;
+    "linux/arm64")
+        ARCHITECTURE="arm64"
+        # https://github.com/dotnet/dotnet-docker/blob/master/src/runtime/5.0/alpine3.12/arm64v8/Dockerfile
+        RUNTIME_CHECKSUM="b2858df7e3bc9d45f2014e0d1cab4490b511694881c713dc5af8e472bca6b218d6a9fc94776727310a8e14a38a29d66475f67d3d02783132125c7e9d285d1379" 
+        # https://github.com/dotnet/dotnet-docker/blob/master/src/aspnet/5.0/alpine3.12/arm64v8/Dockerfile
+        ASPNET_CHECKSUM="fb0703d66b223fed4d9d7d18c943e3a56fe7048b747a98edfce5abbebf37bcbf9e76bba50822704d028ecd004a48d72a1cab9a1ef4f2a99acb3f7fa6480349d9"  
+        ;;
+    *)
+esac
+
+if [ -z "${INSTALLER}" ] ; then
+    echo "Unsupported target platform: ${TARGETPLATFORM}"
+    exit 1
+fi
+
+
+#======================================================================================================================
 # Download and run installer
 #======================================================================================================================
 
 cd /tmp
 
-INSTALLER="dotnet-install.sh"
-URL="https://dot.net/v1/${INSTALLER}"
-echo " - downloading ${URL}..."
-curl -sL -o ${INSTALLER} ${URL} && chmod +x ${INSTALLER}
+RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${DOTNET_VERSION}/dotnet-runtime-${DOTNET_VERSION}-linux-musl-${ARCHITECTURE}.tar.gz"
+ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${DOTNET_VERSION}/aspnetcore-runtime-${DOTNET_VERSION}-linux-musl-${ARCHITECTURE}.tar.gz"
+
+echo " - downloading ${RUNTIME_URL}..."
+wget -O dotnet.tar.gz ${RUNTIME_URL} \
+    && echo "${RUNTIME_CHECKSUM}  dotnet.tar.gz" | sha512sum -c - \
+    && mkdir -p /usr/share/dotnet \
+    && tar -C /usr/share/dotnet -oxzf dotnet.tar.gz \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
+    && rm dotnet.tar.gz
 echo " - done."
 
-echo " - installing ASP.NET v${DOTNET_VERSION}..."
-./${INSTALLER} --architecture amd64 --version ${DOTNET_VERSION} --runtime aspnetcore
+echo " - downloading ${ASPNET_URL}..."
+wget -O aspnetcore.tar.gz ${ASPNET_URL} \
+    && echo "${ASPNET_CHECKSUM}  aspnetcore.tar.gz" | sha512sum -c - \
+    && tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App \
+    && rm aspnetcore.tar.gz
+echo " - done."
 
-/root/.dotnet/dotnet --info
-
-INSTALLED_VERSION=`/root/.dotnet/dotnet --version`
-if [ "${INSTALLED_VERSION}" == "${DOTNET_VERSION}" ] ; then
+if [ -d /usr/share/dotnet ] ; then
     echo " - done."
     exit 0
 else
