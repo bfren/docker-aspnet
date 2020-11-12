@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo " - starting .NET"
+cd /src
+s6-setuidgid www { dotnet run; }
