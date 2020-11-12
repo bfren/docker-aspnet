@@ -30,7 +30,7 @@ RUN addgroup --gid 1000 www \
 
 ENV \
     # Configure web servers to bind to port 80 when present
-    ASPNETCORE_URLS=http://+:80 \
+    ASPNETCORE_URLS="http://+:80" \
     # Enable detection of running in a container
     DOTNET_RUNNING_IN_CONTAINER=true \
     # Set the invariant mode since icu_libs isn't included (see https://github.com/dotnet/announcements/issues/20)
@@ -45,6 +45,8 @@ COPY ./install /tmp/install
 RUN chmod +x /tmp/install \
     && /tmp/install \
     && rm -rf /tmp/*
+
+ENV DOTNET_RUN_ASSEMBLY=
 
 COPY ./overlay /
 

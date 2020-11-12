@@ -1,5 +1,10 @@
-#!/bin/sh
+#!/usr/bin/with-contenv sh
+
+if [ -z "${DOTNET_RUN_ASSEMBLY}" ] ; then
+    echo " - DOTNET_RUN_ASSEMBLY not set."
+    exit 1
+fi
 
 echo " - starting .NET"
 cd /src
-s6-setuidgid www dotnet run
+s6-setuidgid www dotnet run ${DOTNET_RUN_ASSEMBLY}
