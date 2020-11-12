@@ -15,7 +15,7 @@ echo " - done."
 echo " - installing ASP.NET v${DOTNET_VERSION}..."
 ./${INSTALLER} --architecture amd64 --version ${DOTNET_VERSION} --runtime aspnetcore
 
-if [ -f /usr/bin/dotnet ] ; then
+if [ $(dotnet --version) == ${DOTNET_VERSION} ] ; then
     echo " - done."
     exit 0
 else
