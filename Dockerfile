@@ -42,11 +42,9 @@ ARG TARGETPLATFORM
 
 COPY ./VERSION /tmp/VERSION
 COPY ./install /tmp/install
-RUN apk add --no-cache --virtual .install curl \
-    && chmod +x /tmp/install \
+RUN chmod +x /tmp/install \
     && /tmp/install \
-    && rm -rf /tmp/* \
-    && apk del --no-cache .install
+    && rm -rf /tmp/*
 
 COPY ./overlay /
 
