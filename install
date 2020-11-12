@@ -1,0 +1,23 @@
+#!/usr/bin/with-contenv bash
+
+#======================================================================================================================
+# Download and run installer
+#======================================================================================================================
+
+cd /tmp
+
+URL="https://dot.net/v1/dotnet-install.sh"
+echo " - downloading ${URL}..."
+curl -sL -o install ${URL} && chmod +x install
+echo " - done."
+
+echo " - installing .NET..."
+./install --channel ${CHANNEL} --runtime aspnetcore && rm "install"
+
+if [ -d /usr/share/dotnet ] ; then
+    echo " - done."
+    exit 0
+else
+    echo " - error."
+    exit 1
+fi
