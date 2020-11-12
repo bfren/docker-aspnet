@@ -1,3 +1,10 @@
+FROM --platform=$BUILDPLATFORM golang:alpine AS build
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+
+RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
+
 FROM bcgdesign/alpine-s6:1.0.3
 
 LABEL maintainer="Ben Green <ben@bcgdesign.com>" \
@@ -21,11 +28,14 @@ RUN addgroup --gid 1000 www \
         libstdc++ \
         zlib \
     && rm -rf /var/cache/apk/* /tmp/*
+    
+ARG TARGETPLATFORM
+ARG DOTNET_VERSION=5.0.0
 
 COPY ./DOTNET_MINOR /tmp/DOTNET_MINOR
 COPY ./install /tmp/install
 RUN export CHANNEL=$(cat /tmp/DOTNET_MINOR) \
-    && echo ".NET v${CHANNEL}" \
+    && echo "ASP.NET v${CHANNEL}" \
     && apk add --no-cache --virtual .install curl \
     && chmod +x /tmp/install \
     && /tmp/install \

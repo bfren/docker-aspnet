@@ -12,18 +12,6 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v2
       -
-        name: Read PHP major version
-        uses: bencgreen/read-file-action@v1
-        with:
-          path: ./DOTNET_MAJOR
-        id: dotnet_major
-      -
-        name: Read PHP minor version
-        uses: bencgreen/read-file-action@v1
-        with:
-          path: ./DOTNET_MINOR
-        id: dotnet_minor
-      -
         name: Read version
         uses: bencgreen/read-file-action@v1
         with:
@@ -47,11 +35,9 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
+          platforms: linux/amd64 #,linux/arm/v6,linux/arm/v7,linux/arm64
           tags: |
             bcgdesign/aspnet:latest
-            bcgdesign/aspnet:${{ steps.dotnet_major.outputs.content }}
-            bcgdesign/aspnet:${{ steps.dotnet_minor.outputs.content }}
             bcgdesign/aspnet:${{ steps.version.outputs.content }}
       -
         name: Image digest
