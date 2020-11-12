@@ -26,10 +26,10 @@ ENV \
     # Set the invariant mode since icu_libs isn't included (see https://github.com/dotnet/announcements/issues/20)
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
-ENV DOTNET_VERSION 5.0.0
+ENV DOTNET_VERSION=5.0.0
 
 # https://github.com/dotnet/dotnet-docker/blob/master/src/runtime/5.0/alpine3.12/amd64/Dockerfile
-RUN wget -O dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Runtime/$DOTNET_VERSION/dotnet-runtime-$DOTNET_VERSION-linux-musl-x64.tar.gz \
+RUN wget -O dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Runtime/${DOTNET_VERSION}/dotnet-runtime-${DOTNET_VERSION}-linux-musl-x64.tar.gz \
     && dotnet_sha512='c112bdc4308c0b49fa4f4f9845bf13bfcfe2debed9166e6e6922f389c043d6f7f55a7cc3e03778c08df3ffd415059b90dfb87ce84c95a0fb1de0a6e9f4428b6f' \
     && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
@@ -37,8 +37,10 @@ RUN wget -O dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Runtime/$DOTNET
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
     && rm dotnet.tar.gz
 
+ENV ASPNET_VERSION=${DOTNET_VERSION}
+
 # https://github.com/dotnet/dotnet-docker/blob/master/src/aspnet/5.0/alpine3.12/amd64/Dockerfile
-RUN wget -O aspnetcore.tar.gz https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/$ASPNET_VERSION/aspnetcore-runtime-$ASPNET_VERSION-linux-musl-x64.tar.gz \
+RUN wget -O aspnetcore.tar.gz https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${ASPNET_VERSION}/aspnetcore-runtime-${ASPNET_VERSION}-linux-musl-x64.tar.gz \
     && aspnetcore_sha512='1f36800145889f6e8dd823deffce309094d35c646e231fd36fa488c83df76db7b6166eea1d50db0513e0730ca33540cb081f7675ea255135e4e553e7aa5ef2ce' \
     && echo "$aspnetcore_sha512  aspnetcore.tar.gz" | sha512sum -c - \
     && tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App \
