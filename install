@@ -29,14 +29,12 @@ fi
 
 
 #======================================================================================================================
-# Download and run installer
+# Install .NET Runtime
 #======================================================================================================================
 
 cd /tmp
 
 RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${DOTNET_VERSION}/dotnet-runtime-${DOTNET_VERSION}-linux-musl-${ARCHITECTURE}.tar.gz"
-ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${DOTNET_VERSION}/aspnetcore-runtime-${DOTNET_VERSION}-linux-musl-${ARCHITECTURE}.tar.gz"
-
 echo " - downloading ${RUNTIME_URL}..."
 wget -O dotnet.tar.gz ${RUNTIME_URL} \
     && echo "${RUNTIME_CHECKSUM}  dotnet.tar.gz" | sha512sum -c - \
@@ -44,16 +42,27 @@ wget -O dotnet.tar.gz ${RUNTIME_URL} \
     && tar -C /usr/share/dotnet -oxzf dotnet.tar.gz \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
     && rm dotnet.tar.gz
-echo " - done."
 
+if [ -d /usr/share/dotnet ] ; then
+    echo " - done."
+else
+    echo " - error."
+    exit 1
+fi
+
+
+#======================================================================================================================
+# Install ASP.NET Runtime
+#======================================================================================================================
+
+ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${DOTNET_VERSION}/aspnetcore-runtime-${DOTNET_VERSION}-linux-musl-${ARCHITECTURE}.tar.gz"
 echo " - downloading ${ASPNET_URL}..."
 wget -O aspnetcore.tar.gz ${ASPNET_URL} \
     && echo "${ASPNET_CHECKSUM}  aspnetcore.tar.gz" | sha512sum -c - \
-    && tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App \
+    && tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet /root/shared/Microsoft.AspNetCore.App \
     && rm aspnetcore.tar.gz
-echo " - done."
 
-if [ -d /usr/share/dotnet ] ; then
+if [ -d /root/shared/Microsoft.AspNetCore.App ] ; then
     echo " - done."
     exit 0
 else
