@@ -2,4 +2,4 @@
 
 echo " - starting .NET"
 cd /src
-s6-setuidgid www { dotnet run; }
+s6-setuidgid www dotnet run

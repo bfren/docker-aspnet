@@ -48,7 +48,7 @@ wget -O dotnet.tar.gz ${RUNTIME_URL} \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
     && rm dotnet.tar.gz
 
-if [ -d /usr/share/dotnet ] ; then
+if [ -d "/usr/share/dotnet" ] ; then
     echo " - done."
 else
     echo " - error."
@@ -66,9 +66,8 @@ wget -O aspnetcore.tar.gz ${ASPNET_URL} \
     && tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App \
     && rm aspnetcore.tar.gz
 
-if [ -d /usr/share/dotnet ] ; then
+if [ -d "/usr/share/dotnet/shared/Microsoft.AspNetCore.App/${DOTNET_VERSION}" ] ; then
     echo " - done."
-    exit 0
 else
     echo " - error."
     exit 1
