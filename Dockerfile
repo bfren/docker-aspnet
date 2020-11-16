@@ -44,7 +44,7 @@ EXPOSE 5000
 
 ENV \
     # Must be defined so the service can run the application
-    DOTNET_RUN_ASSEMBLY= \
+    APP_ASSEMBLY= \
     # Configure web servers to bind to port 5000
     ASPNETCORE_URLS="http://+:5000" \
     # Otherwise it is set incorrectly to the S6 service directory

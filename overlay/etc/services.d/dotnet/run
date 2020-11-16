@@ -1,10 +1,4 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z "${DOTNET_RUN_ASSEMBLY}" ] ; then
-    echo " - DOTNET_RUN_ASSEMBLY not set."
-    exit 1
-fi
-
-echo " - starting .NET"
-chmod +x /usr/bin/dotnet_run
-s6-setuidgid www /usr/bin/dotnet_run
+echo " - running ASP.NET application"
+s6-setuidgid www dotnet-start-app
