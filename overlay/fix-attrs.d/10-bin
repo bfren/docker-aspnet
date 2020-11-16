@@ -1,2 +1,2 @@
-/usr/local/bin/dotnet-start-app false www:www 0500 0500
+/usr/local/bin/dotnet-start-app false www:www 0555 0555
 /usr/local/bin/healthcheck false root:root 0500 0500
