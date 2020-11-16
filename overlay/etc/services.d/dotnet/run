@@ -6,4 +6,6 @@ if [ -z "${DOTNET_RUN_ASSEMBLY}" ] ; then
 fi
 
 echo " - starting .NET"
-s6-setuidgid www /usr/bin/dotnet_run
+chmod +x /usr/bin/dotnet_run
+#s6-setuidgid www /usr/bin/dotnet_run
+/usr/bin/dotnet_run

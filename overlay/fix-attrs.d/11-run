@@ -1,1 +1,0 @@
-/usr/bin/dotnet_run false www:www 0555 0555
