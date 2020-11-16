@@ -54,5 +54,4 @@ ENV \
     # Set the invariant mode since icu_libs isn't included (see https://github.com/dotnet/announcements/issues/20)
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
-RUN chmod +x /usr/bin/healthcheck
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=5 CMD [ "/usr/bin/healthcheck" ]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=5 CMD [ "healthcheck" ]
