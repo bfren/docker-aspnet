@@ -28,8 +28,6 @@ RUN addgroup --gid 1000 www \
         libstdc++ \
         zlib
 
-COPY ./VERSION /tmp/VERSION
-
 ARG TARGETPLATFORM
 
 COPY ./VERSION /tmp/VERSION
@@ -38,16 +36,16 @@ RUN chmod +x /tmp/install \
     && /tmp/install \
     && rm -rf /tmp/*
 
-COPY ./overlay /
-
 VOLUME [ "/src" ]
+
+COPY ./overlay /
 
 EXPOSE 5000
 
 ENV \
     # Must be defined so the service can run the application
     DOTNET_RUN_ASSEMBLY= \
-    # Configure web servers to bind to port 80 when present
+    # Configure web servers to bind to port 5000
     ASPNETCORE_URLS="http://+:5000" \
     # Otherwise it is set incorrectly to the S6 service directory
     ASPNETCORE_CONTENTROOT="/src" \
