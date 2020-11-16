@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv sh
 
 echo " - running ASP.NET application"
-s6-setuidgid www dotnet-start-app
+s6-setuidgid www dotnet-run
