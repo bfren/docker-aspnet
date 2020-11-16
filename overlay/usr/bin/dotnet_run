@@ -1,3 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-/usr/share/dotnet/dotnet run /src/${DOTNET_RUN_ASSEMBLY}
+/usr/share/dotnet/dotnet /src/${DOTNET_RUN_ASSEMBLY}
