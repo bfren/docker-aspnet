@@ -8,6 +8,8 @@ RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
 FROM bcgdesign/alpine-s6:1.0.4
 COPY --from=build /log /log
 
+ARG TARGETPLATFORM
+
 LABEL maintainer="Ben Green <ben@bcgdesign.com>" \
     org.label-schema.name=".NET" \
     org.label-schema.version="latest" \
@@ -27,8 +29,6 @@ RUN addgroup --gid 1000 www \
         libssl1.1 \
         libstdc++ \
         zlib
-
-ARG TARGETPLATFORM
 
 COPY ./VERSION /tmp/VERSION
 COPY ./install /tmp/install
