@@ -7,5 +7,4 @@ fi
 
 echo " - starting .NET"
 chmod +x /usr/bin/dotnet_run
-#s6-setuidgid www /usr/bin/dotnet_run
-/usr/bin/dotnet_run
+s6-setuidgid www /usr/bin/dotnet_run

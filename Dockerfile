@@ -31,6 +31,8 @@ RUN addgroup --gid 1000 www \
 ENV \
     # Configure web servers to bind to port 80 when present
     ASPNETCORE_URLS="http://+:80" \
+    # Otherwise it is set incorrectly to the S6 service directory
+    ASPNETCORE_CONTENTROOT="/src" \
     # Enable detection of running in a container
     DOTNET_RUNNING_IN_CONTAINER=true \
     # Set the invariant mode since icu_libs isn't included (see https://github.com/dotnet/announcements/issues/20)
