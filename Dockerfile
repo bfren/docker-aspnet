@@ -5,7 +5,7 @@ ARG BUILDPLATFORM
 
 RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
 
-FROM bcgdesign/alpine-s6:1.0.5
+FROM bcgdesign/alpine-s6:1.0.6
 COPY --from=build /log /log
 
 ARG TARGETPLATFORM
@@ -30,15 +30,14 @@ RUN addgroup --gid 1000 www \
         libstdc++ \
         zlib
 
+COPY ./overlay /
 COPY ./VERSION /tmp/VERSION
-COPY ./install /tmp/install
+
 RUN chmod +x /tmp/install \
     && /tmp/install \
     && rm -rf /tmp/*
 
 VOLUME [ "/src" ]
-
-COPY ./overlay /
 
 EXPOSE 5000
 

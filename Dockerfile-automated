@@ -22,15 +22,14 @@ RUN addgroup --gid 1000 www \
         libstdc++ \
         zlib
 
+COPY ./overlay /
 COPY ./VERSION /tmp/VERSION
-COPY ./install /tmp/install
+
 RUN chmod +x /tmp/install \
     && /tmp/install \
     && rm -rf /tmp/*
 
 VOLUME [ "/src" ]
-
-COPY ./overlay /
 
 EXPOSE 5000
 

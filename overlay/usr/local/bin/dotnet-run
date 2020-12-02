@@ -5,7 +5,7 @@
 #======================================================================================================================
 
 if [ -z "${APP_ASSEMBLY}" ] ; then
-    echo " - APP_ASSEMBLY environment variable must be set."
+    _error "APP_ASSEMBLY environment variable must be set."
     exit 1
 fi
 
@@ -14,8 +14,9 @@ fi
 # Verify APP_ASSEMBLY exists
 #======================================================================================================================
 
-if [ ! -f "/src/${APP_ASSEMBLY}" ] ; then
-    echo " - APP_ASSEMBLY could not be found: /src/${APP_ASSEMBLY}."
+RUN=/src/${APP_ASSEMBLY}
+if [ ! -f "${RUN}" ] ; then
+    _error "APP_ASSEMBLY could not be found: ${RUN}."
     exit 1
 fi
 
@@ -24,4 +25,5 @@ fi
 # Run ASP.NET application
 #======================================================================================================================
 
-/usr/share/dotnet/dotnet /src/${APP_ASSEMBLY}
+_echo "running ${RUN}"
+/usr/share/dotnet/dotnet ${RUN}
