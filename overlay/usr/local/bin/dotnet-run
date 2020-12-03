@@ -25,5 +25,5 @@ fi
 # Run ASP.NET application
 #======================================================================================================================
 
-_echo "running ${RUN}"
+_echo "Running ${RUN}"
 /usr/share/dotnet/dotnet ${RUN}

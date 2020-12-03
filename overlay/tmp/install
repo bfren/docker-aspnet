@@ -40,7 +40,7 @@ fi
 #======================================================================================================================
 
 RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${DOTNET_VERSION}/dotnet-runtime-${DOTNET_VERSION}-linux-musl-${ARCHITECTURE}.tar.gz"
-_echo "downloading ${RUNTIME_URL}..."
+_echo "Downloading ${RUNTIME_URL}..."
 wget -O dotnet.tar.gz ${RUNTIME_URL} \
     && mkdir -p /usr/share/dotnet \
     && tar -C /usr/share/dotnet -oxzf dotnet.tar.gz \
@@ -50,7 +50,7 @@ wget -O dotnet.tar.gz ${RUNTIME_URL} \
 if [ -d "/usr/share/dotnet" ] ; then
     _done
 else
-    _error "error."
+    _error ".NET runtime not installed."
     exit 1
 fi
 
@@ -60,7 +60,7 @@ fi
 #======================================================================================================================
 
 ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${DOTNET_VERSION}/aspnetcore-runtime-${DOTNET_VERSION}-linux-musl-${ARCHITECTURE}.tar.gz"
-_echo "downloading ${ASPNET_URL}..."
+_echo "Downloading ${ASPNET_URL}..."
 wget -O aspnetcore.tar.gz ${ASPNET_URL} \
     && tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App \
     && rm aspnetcore.tar.gz
@@ -68,6 +68,6 @@ wget -O aspnetcore.tar.gz ${ASPNET_URL} \
 if [ -d "/usr/share/dotnet/shared/Microsoft.AspNetCore.App/${DOTNET_VERSION}" ] ; then
     _done
 else
-    _error "error."
+    _error "ASP.NET runtime not installed."
     exit 1
 fi
