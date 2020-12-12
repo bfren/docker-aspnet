@@ -31,7 +31,7 @@ RUN addgroup --gid 1000 www \
         zlib
 
 COPY ./overlay /
-COPY ./VERSION /tmp/VERSION
+COPY ./3.1/VERSION /tmp/VERSION
 
 RUN chmod +x /tmp/install \
     && /tmp/install \

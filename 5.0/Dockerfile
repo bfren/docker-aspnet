@@ -12,7 +12,7 @@ ARG TARGETPLATFORM
 
 LABEL maintainer="Ben Green <ben@bcgdesign.com>" \
     org.label-schema.name=".NET" \
-    org.label-schema.version="latest" \
+    org.label-schema.version="dev" \
     org.label-schema.vendor="Ben Green" \
     org.label-schema.schema-version="1.0"
 
@@ -31,7 +31,7 @@ RUN addgroup --gid 1000 www \
         zlib
 
 COPY ./overlay /
-COPY ./VERSION /tmp/VERSION
+COPY ./5.0/VERSION /tmp/VERSION
 
 RUN chmod +x /tmp/install \
     && /tmp/install \

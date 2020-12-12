@@ -48,7 +48,7 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bcgdesign/aspnet:latest
+            bcgdesign/aspnet:dev
             bcgdesign/aspnet:${{ steps.net_minor.outputs.content }}
             bcgdesign/aspnet:${{ steps.version.outputs.content }}
       -
