@@ -1,8 +1,11 @@
-name: build
+name: 3.1
 
 on:
   push:
-    branches: main
+    paths:
+      - ".github/workflows/image_3_1.yml"
+      - "3.1/**"
+      - "overlay/**"
 
 jobs:
   main:
@@ -12,10 +15,16 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v2
       -
+        name: Read .NET minor version
+        uses: bencgreen/read-file-action@v1
+        with:
+          path: ./3.1/NET_MINOR
+        id: net_minor
+      -
         name: Read version
         uses: bencgreen/read-file-action@v1
         with:
-          path: ./VERSION
+          path: ./3.1/VERSION
         id: version
       -
         name: Set up QEMU
@@ -38,6 +47,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             bcgdesign/aspnet:latest
+            bcgdesign/aspnet:${{ steps.net_minor.outputs.content }}
             bcgdesign/aspnet:${{ steps.version.outputs.content }}
       -
         name: Image digest
