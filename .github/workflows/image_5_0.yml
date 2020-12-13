@@ -2,6 +2,7 @@ name: 5.0
 
 on:
   push:
+    branches: main
     paths:
       - ".github/workflows/image_5_0.yml"
       - "5.0/**"

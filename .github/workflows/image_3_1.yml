@@ -2,6 +2,7 @@ name: 3.1
 
 on:
   push:
+    branches: main
     paths:
       - ".github/workflows/image_3_1.yml"
       - "3.1/**"
