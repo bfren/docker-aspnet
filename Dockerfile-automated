@@ -20,6 +20,7 @@ RUN addgroup --gid 1000 www \
         libintl \
         libssl1.1 \
         libstdc++ \
+        openssl \
         vsftpd \
         zlib
 
@@ -33,8 +34,8 @@ RUN chmod +x /tmp/install \
 VOLUME [ "/src", "/etc/ssl" ]
 
 EXPOSE 5000
-EXPOSE 20
-EXPOSE 10000-11000
+EXPOSE 990
+EXPOSE 10000-10010
 
 ENV \
     # Must be defined so the service can run the application
