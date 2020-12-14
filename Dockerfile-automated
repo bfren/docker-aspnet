@@ -14,12 +14,14 @@ RUN addgroup --gid 1000 www \
     && rm -rf /var/cache/apk/* \
     && apk -U upgrade \
     && apk add \
+        apache2-utils \
         ca-certificates \
         krb5-libs \
         libgcc \
         libintl \
         libssl1.1 \
         libstdc++ \
+        linux-pam \
         openssl \
         vsftpd \
         zlib
