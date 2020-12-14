@@ -20,6 +20,7 @@ RUN addgroup --gid 1000 www \
         libintl \
         libssl1.1 \
         libstdc++ \
+        vsftpd \
         zlib
 
 COPY ./overlay /
