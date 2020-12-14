@@ -16,6 +16,10 @@ LABEL maintainer="Ben Green <ben@bcgdesign.com>" \
     org.label-schema.vendor="Ben Green" \
     org.label-schema.schema-version="1.0"
 
+ENV \
+    # if you want to enable FTP this must be set
+    FTP_PASSWORD=
+
 # https://github.com/dotnet/dotnet-docker/blob/master/src/runtime-deps/3.1/alpine3.12/amd64/Dockerfile
 RUN addgroup --gid 1000 www \
     && adduser --uid 1000 --no-create-home --disabled-password --ingroup www www \
@@ -28,6 +32,7 @@ RUN addgroup --gid 1000 www \
         libintl \
         libssl1.1 \
         libstdc++ \
+        vsftpd \
         zlib
 
 COPY ./overlay /
@@ -37,9 +42,11 @@ RUN chmod +x /tmp/install \
     && /tmp/install \
     && rm -rf /tmp/*
 
-VOLUME [ "/src" ]
+VOLUME [ "/src", "/etc/ssl" ]
 
 EXPOSE 5000
+EXPOSE 20
+EXPOSE 10000-11000
 
 ENV \
     # Must be defined so the service can run the application
