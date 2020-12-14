@@ -10,8 +10,8 @@ set -euo pipefail
 if [ ! -z "${FTP_PASSWORD}" ] ; then
 
     _echo "Adding ftp user..."
-    addgroup --gid 1001 ftp \
-        && adduser --uid 1001 --no-create-home --password "${FTP_PASSWORD}" --ingroup ftp ftp
+    addgroup --gid 1001 ftps \
+        && adduser --uid 1001 --no-create-home --password "${FTP_PASSWORD}" --ingroup ftps ftps
     _done
 
     SSL=/etc/ssl
