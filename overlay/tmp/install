@@ -8,7 +8,7 @@ set -euo pipefail
 #======================================================================================================================
 
 cd /tmp
-DOTNET_VERSION=$(cat VERSION)
+V=$(cat VERSION)
 
 
 #======================================================================================================================
@@ -17,24 +17,22 @@ DOTNET_VERSION=$(cat VERSION)
 
 case "${TARGETPLATFORM}" in
     "linux/amd64")
-        ARCHITECTURE="x64"
+        ARCH="x64"
         ;;
     "linux/arm64")
-        ARCHITECTURE="arm64"
+        ARCH="arm64"
         ;;
     *)
 esac
 
-if [ -z "${ARCHITECTURE}" ] ; then
-    _error "Unsupported target platform: ${TARGETPLATFORM}."
-fi
+[[ -z "${ARCH}" ]] && _error "Unsupported target platform: ${TARGETPLATFORM}."
 
 
 #======================================================================================================================
 # Install .NET Runtime
 #======================================================================================================================
 
-RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${DOTNET_VERSION}/dotnet-runtime-${DOTNET_VERSION}-linux-musl-${ARCHITECTURE}.tar.gz"
+RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${V}/dotnet-runtime-${V}-linux-musl-${ARCH}.tar.gz"
 _echo "Downloading ${RUNTIME_URL}..."
 wget -O dotnet.tar.gz ${RUNTIME_URL} \
     && mkdir -p /usr/share/dotnet \
@@ -42,25 +40,19 @@ wget -O dotnet.tar.gz ${RUNTIME_URL} \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
     && rm dotnet.tar.gz
 
-if [ -d "/usr/share/dotnet" ] ; then
-    _done
-else
-    _error ".NET runtime not installed."
-fi
+[[ ! -d "/usr/share/dotnet" ]] && _error ".NET runtime not installed."
+_done
 
 
 #======================================================================================================================
 # Install ASP.NET Runtime
 #======================================================================================================================
 
-ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${DOTNET_VERSION}/aspnetcore-runtime-${DOTNET_VERSION}-linux-musl-${ARCHITECTURE}.tar.gz"
+ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${V}/aspnetcore-runtime-${V}-linux-musl-${ARCH}.tar.gz"
 _echo "Downloading ${ASPNET_URL}..."
 wget -O aspnetcore.tar.gz ${ASPNET_URL} \
     && tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App \
     && rm aspnetcore.tar.gz
 
-if [ -d "/usr/share/dotnet/shared/Microsoft.AspNetCore.App/${DOTNET_VERSION}" ] ; then
-    _done
-else
-    _error "ASP.NET runtime not installed."
-fi
+[[ ! -d "/usr/share/dotnet/shared/Microsoft.AspNetCore.App/${V}" ]] && _error "ASP.NET runtime not installed."
+_done
