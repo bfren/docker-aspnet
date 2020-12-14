@@ -1,12 +1,14 @@
 #!/usr/bin/with-contenv sh
 
+set -euo pipefail
+
+
 #======================================================================================================================
 # Verify APP_ASSEMBLY is set
 #======================================================================================================================
 
 if [ -z "${APP_ASSEMBLY}" ] ; then
     _error "APP_ASSEMBLY environment variable must be set."
-    exit 1
 fi
 
 
@@ -17,7 +19,6 @@ fi
 RUN=/src/${APP_ASSEMBLY}
 if [ ! -f "${RUN}" ] ; then
     _error "APP_ASSEMBLY could not be found: ${RUN}."
-    exit 1
 fi
 
 
