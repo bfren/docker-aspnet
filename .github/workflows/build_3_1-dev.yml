@@ -1,9 +1,9 @@
-name: 3.1
+name: 3.1-dev
 
 on:
   push:
     paths:
-      - ".github/workflows/image_3_1.yml"
+      - ".github/workflows/build_3_1-dev.yml"
       - "3.1/**"
       - "overlay/**"
 
