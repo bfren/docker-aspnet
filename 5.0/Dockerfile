@@ -5,7 +5,7 @@ ARG BUILDPLATFORM
 
 RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
 
-FROM bcgdesign/alpine-s6:1.0.13
+FROM bcgdesign/alpine-s6:1.0.15
 COPY --from=build /log /log
 
 ARG TARGETPLATFORM
@@ -48,8 +48,7 @@ RUN chmod +x /tmp/install \
 VOLUME [ "/src", "/etc/ssl" ]
 
 EXPOSE 5000
-EXPOSE 990
-EXPOSE 10000-10010
+EXPOSE 21 990 10000-10010
 
 ENV \
     # Must be defined so the service can run the application
