@@ -4,7 +4,7 @@ on:
   push:
     branches: main
     paths:
-      - ".github/workflows/image_3_1.yml"
+      - ".github/workflows/build_3_1-main.yml"
       - "3.1/**"
       - "overlay/**"
 

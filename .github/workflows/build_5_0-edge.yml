@@ -3,7 +3,7 @@ name: 5.0-edge
 on:
   push:
     paths:
-      - ".github/workflows/image_5_0.yml"
+      - ".github/workflows/build_5_0-edge.yml"
       - "5.0/**"
       - "overlay/**"
 
