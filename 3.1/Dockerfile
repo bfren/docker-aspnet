@@ -26,16 +26,12 @@ RUN addgroup --gid 1000 www \
     && rm -rf /var/cache/apk/* \
     && apk -U upgrade \
     && apk add \
-        apache2-utils \
         ca-certificates \
         krb5-libs \
         libgcc \
         libintl \
         libssl1.1 \
         libstdc++ \
-        linux-pam \
-        openssl \
-        vsftpd \
         zlib
 
 COPY ./overlay /
@@ -45,7 +41,7 @@ RUN chmod +x /tmp/install \
     && /tmp/install \
     && rm -rf /tmp/*
 
-VOLUME [ "/src", "/etc/ssl" ]
+VOLUME [ "/src" ]
 
 EXPOSE 5000
 EXPOSE 21 990 10000-10010
