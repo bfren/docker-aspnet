@@ -42,7 +42,7 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bcgdesign/aspnet:dev-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:${{ steps.version.outputs.content }}-dev
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
