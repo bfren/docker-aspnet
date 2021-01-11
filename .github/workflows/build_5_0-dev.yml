@@ -1,9 +1,9 @@
-name: 5.0-edge
+name: 5.0-dev
 
 on:
   push:
     paths:
-      - ".github/workflows/build_5_0-edge.yml"
+      - ".github/workflows/build_5_0-dev.yml"
       - "5.0/**"
       - "overlay/**"
 
@@ -14,12 +14,6 @@ jobs:
       -
         name: Checkout code
         uses: actions/checkout@v2
-      -
-        name: Read .NET minor version
-        uses: bencgreen/read-file-action@v1
-        with:
-          path: ./5.0/NET_MINOR
-        id: net_minor
       -
         name: Read version
         uses: bencgreen/read-file-action@v1
@@ -48,9 +42,8 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bcgdesign/aspnet:edge
-            bcgdesign/aspnet:${{ steps.net_minor.outputs.content }}
-            bcgdesign/aspnet:${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:dev
+            bcgdesign/aspnet:dev-${{ steps.version.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
