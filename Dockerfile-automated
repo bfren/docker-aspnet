@@ -23,13 +23,13 @@ RUN addgroup --gid 1000 www \
         zlib
 
 COPY ./overlay /
-COPY ./3.1/VERSION /tmp/VERSION
+COPY ./5.0/VERSION /tmp/VERSION
 
 RUN chmod +x /tmp/install \
     && /tmp/install \
     && rm -rf /tmp/*
 
-VOLUME [ "/src", "/etc/ssl" ]
+VOLUME [ "/src" ]
 
 EXPOSE 5000
 

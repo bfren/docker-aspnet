@@ -1,11 +1,10 @@
-name: 3.1-main
+name: 5.0-main
 
 on:
   push:
-    branches: main
     paths:
-      - ".github/workflows/build_3_1-main.yml"
-      - "3.1/**"
+      - ".github/workflows/build_5_0-main.yml"
+      - "5.0/**"
       - "overlay/**"
 
 jobs:
@@ -19,13 +18,13 @@ jobs:
         name: Read .NET minor version
         uses: bencgreen/read-file-action@v1
         with:
-          path: ./3.1/NET_MINOR
+          path: ./5.0/NET_MINOR
         id: net_minor
       -
         name: Read version
         uses: bencgreen/read-file-action@v1
         with:
-          path: ./3.1/VERSION
+          path: ./5.0/VERSION
         id: version
       -
         name: Set up QEMU
@@ -45,10 +44,11 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./3.1/Dockerfile
+          file: ./5.0/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
+            bcgdesign/aspnet:latest
             bcgdesign/aspnet:${{ steps.net_minor.outputs.content }}
             bcgdesign/aspnet:${{ steps.version.outputs.content }}
       -
