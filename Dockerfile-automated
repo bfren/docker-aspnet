@@ -23,7 +23,7 @@ RUN addgroup --gid 1000 www \
         zlib
 
 COPY ./overlay /
-COPY ./5.0/VERSION /tmp/VERSION
+COPY ./5.0/NET_REVISION /tmp/VERSION
 
 RUN chmod +x /tmp/install \
     && /tmp/install \
