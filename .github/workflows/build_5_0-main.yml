@@ -16,16 +16,22 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v2
       -
-        name: Read .NET minor version
+        name: Read .NET version - minor
         uses: bencgreen/read-file-action@v1
         with:
           path: ./5.0/NET_MINOR
         id: net_minor
       -
-        name: Read version
+        name: Read .NET version - revision
         uses: bencgreen/read-file-action@v1
         with:
-          path: ./5.0/VERSION
+          path: ./5.0/NET_REVISION
+        id: net_revision
+      -
+        name: Read image version
+        uses: bencgreen/read-file-action@v1
+        with:
+          path: ./VERSION
         id: version
       -
         name: Set up QEMU
@@ -50,8 +56,9 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             bcgdesign/aspnet:latest
-            bcgdesign/aspnet:${{ steps.net_minor.outputs.content }}
             bcgdesign/aspnet:${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:aspnet-${{ steps.net_minor.outputs.content }}
+            bcgdesign/aspnet:aspnet-${{ steps.net_revision.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
