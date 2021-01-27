@@ -16,6 +16,12 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v2
       -
+        name: Read .NET version - major
+        uses: bencgreen/read-file-action@v1
+        with:
+          path: ./3.1/NET_MAJOR
+        id: net_major
+      -
         name: Read .NET version - minor
         uses: bencgreen/read-file-action@v1
         with:
@@ -49,6 +55,7 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
+            bcgdesign/aspnet:aspnet-${{ steps.net_major.outputs.content }}
             bcgdesign/aspnet:aspnet-${{ steps.net_minor.outputs.content }}
             bcgdesign/aspnet:aspnet-${{ steps.net_revision.outputs.content }}
       -
