@@ -2,6 +2,10 @@ name: 3.1-dev
 
 on:
   push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
     paths:
       - ".github/workflows/build_3_1-dev.yml"
       - "3.1/**"

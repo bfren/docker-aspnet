@@ -2,7 +2,10 @@ name: 5.0-main
 
 on:
   push:
-    branches: main
+    branches:
+      - 'main'
+    tags-ignore:
+      - '**'
     paths:
       - ".github/workflows/build_5_0-main.yml"
       - "5.0/**"
