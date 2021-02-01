@@ -10,25 +10,26 @@ Comes pre-installed with the ASP.NET runtime and all dependencies.
 
 * 80
 
-## Environment Variables
-
-The following is required, or `dotnet run` will not succeed:
-
-```bash
-DOTNET_RUN_ASSEMBLY= # this must be set to your starting assembly dll, relative to /src
-```
-
-The following variables modify the ASP.NET environment:
-
-```bash
-ASPNETCORE_URLS="http://+:80" # binds web server to port 80
-DOTNET_RUNNING_IN_CONTAINER=true
-DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
-```
-
 ## Volumes
 
-* `/src` - the command `dotnet run` will be executed in this folder
+| Volume | Purpose                                  |
+| ------ | ---------------------------------------- |
+| `/src` | Publish your source code to this folder. |
+
+## Environment Variables
+
+| Variable                                | Values        | Description                                                                                                     | Default               |
+| --------------------------------------- | ------------- | --------------------------------------------------------------------------------------------------------------- | --------------------- |
+| `DOTNET_RUN_ASSEMBLY`                   | string        | The filename of the assembly to execute.                                                                        | *None* - **required** |
+| `ASPNETCORE_URLS`                       | string        | Default value binds web server to port 80 - should not normally need to be changed.                             | "http://+:80"         |
+| `DOTNET_RUNNING_IN_CONTAINER`           | true or false | This should always be set to true - it tells dotnet that it is running in a container environment.              | true                  |
+| `DOTNET_SYSTEM_GLOBALIZATION_INVARIANT` | true or false | See [here](https://github.com/dotnet/runtime/blob/master/docs/design/features/globalization-invariant-mode.md). | true                  |
+
+## Helper Functions
+
+| Function     | Arguments | Description                                                                             |
+| ------------ | --------- | --------------------------------------------------------------------------------------- |
+| `dotnet-run` | *None*    | Checks that the `DOTNET_RUN_ASSEMBLY` environment variable is set and then executes it. |
 
 ## Authors
 
