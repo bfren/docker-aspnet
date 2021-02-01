@@ -21,7 +21,7 @@ Comes pre-installed with the ASP.NET runtime and all dependencies.
 | Variable                                | Values        | Description                                                                                                     | Default               |
 | --------------------------------------- | ------------- | --------------------------------------------------------------------------------------------------------------- | --------------------- |
 | `DOTNET_RUN_ASSEMBLY`                   | string        | The filename of the assembly to execute.                                                                        | *None* - **required** |
-| `ASPNETCORE_URLS`                       | string        | Default value binds web server to port 80 - should not normally need to be changed.                             | "http://+:80"         |
+| `ASPNETCORE_URLS`                       | string        | Default value binds web server to port 5000 - should not normally need to be changed.                           | "http://+:5000"       |
 | `DOTNET_RUNNING_IN_CONTAINER`           | true or false | This should always be set to true - it tells dotnet that it is running in a container environment.              | true                  |
 | `DOTNET_SYSTEM_GLOBALIZATION_INVARIANT` | true or false | See [here](https://github.com/dotnet/runtime/blob/master/docs/design/features/globalization-invariant-mode.md). | true                  |
 
