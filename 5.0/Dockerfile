@@ -12,7 +12,7 @@ ARG TARGETPLATFORM
 
 LABEL maintainer="Ben Green <ben@bcgdesign.com>" \
     org.label-schema.name=".NET" \
-    org.label-schema.version="dev" \
+    org.label-schema.version="latest" \
     org.label-schema.vendor="Ben Green" \
     org.label-schema.schema-version="1.0"
 
