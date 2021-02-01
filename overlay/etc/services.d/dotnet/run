@@ -5,4 +5,4 @@
 #======================================================================================================================
 
 _echo "Starting ASP.NET application"
-s6-setuidgid www dotnet-run || sleep 20s
+s6-setuidgid www dotnet-run
