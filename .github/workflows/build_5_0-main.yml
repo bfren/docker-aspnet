@@ -19,18 +19,6 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v2
       -
-        name: Read .NET version - major
-        uses: bencgreen/read-file-action@v1
-        with:
-          path: ./5.0/NET_MAJOR
-        id: net_major
-      -
-        name: Read .NET version - minor
-        uses: bencgreen/read-file-action@v1
-        with:
-          path: ./5.0/NET_MINOR
-        id: net_minor
-      -
         name: Read .NET version - revision
         uses: bencgreen/read-file-action@v1
         with:
@@ -66,8 +54,10 @@ jobs:
           tags: |
             bcgdesign/aspnet:latest
             bcgdesign/aspnet:${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:aspnet-${{ steps.net_major.outputs.content }}
-            bcgdesign/aspnet:aspnet-${{ steps.net_minor.outputs.content }}
+            bcgdesign/aspnet:aspnet-5
+            bcgdesign/aspnet:aspnet-5-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:aspnet-5.0
+            bcgdesign/aspnet:aspnet-5.0-${{ steps.version.outputs.content }}
             bcgdesign/aspnet:aspnet-${{ steps.net_revision.outputs.content }}
       -
         name: Image digest

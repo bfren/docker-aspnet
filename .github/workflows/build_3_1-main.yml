@@ -19,23 +19,17 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v2
       -
-        name: Read .NET version - major
-        uses: bencgreen/read-file-action@v1
-        with:
-          path: ./3.1/NET_MAJOR
-        id: net_major
-      -
-        name: Read .NET version - minor
-        uses: bencgreen/read-file-action@v1
-        with:
-          path: ./3.1/NET_MINOR
-        id: net_minor
-      -
         name: Read .NET version - revision
         uses: bencgreen/read-file-action@v1
         with:
           path: ./3.1/NET_REVISION
         id: net_revision
+      -
+        name: Read image version
+        uses: bencgreen/read-file-action@v1
+        with:
+          path: ./VERSION
+        id: version
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -58,8 +52,10 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bcgdesign/aspnet:aspnet-${{ steps.net_major.outputs.content }}
-            bcgdesign/aspnet:aspnet-${{ steps.net_minor.outputs.content }}
+            bcgdesign/aspnet:aspnet-3
+            bcgdesign/aspnet:aspnet-3-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:aspnet-3.1
+            bcgdesign/aspnet:aspnet-3.1-${{ steps.version.outputs.content }}
             bcgdesign/aspnet:aspnet-${{ steps.net_revision.outputs.content }}
       -
         name: Image digest
