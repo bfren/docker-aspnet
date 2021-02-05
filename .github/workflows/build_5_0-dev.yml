@@ -19,12 +19,6 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v2
       -
-        name: Read .NET version - minor
-        uses: bencgreen/read-file-action@v1
-        with:
-          path: ./5.0/NET_MINOR
-        id: net_minor
-      -
         name: Read .NET version - revision
         uses: bencgreen/read-file-action@v1
         with:
@@ -53,7 +47,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             bcgdesign/aspnet:dev
-            bcgdesign/aspnet:dev-aspnet-${{ steps.net_minor.outputs.content }}
+            bcgdesign/aspnet:dev-aspnet-5.0
             bcgdesign/aspnet:dev-aspnet-${{ steps.net_revision.outputs.content }}
       -
         name: Image digest
