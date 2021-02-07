@@ -49,5 +49,5 @@ Comes pre-installed with the ASP.NET runtime and all dependencies.
 
 ## Copyright
 
-> Copyright (c) 2021 Ben Green <https://bcgdesign.com>  
+> Copyright (c) 2021 Ben Green <https://bcgdesign.com>
 > Unless otherwise stated
