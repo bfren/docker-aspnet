@@ -9,13 +9,14 @@ set -euo pipefail
 
 cd /tmp
 V=$(cat VERSION)
+[[ -z "${V}" ]] && _error "Unable to determine .NET version."
 
 
 #======================================================================================================================
 # Get correct installer for target platform
 #======================================================================================================================
 
-case "${TARGETPLATFORM}" in
+case "${TARGETPLATFORM-}" in
     "linux/amd64")
         ARCH="x64"
         ;;
@@ -25,7 +26,7 @@ case "${TARGETPLATFORM}" in
     *)
 esac
 
-[[ -z "${ARCH}" ]] && _error "Unsupported target platform: ${TARGETPLATFORM}."
+[[ -z "${ARCH-}" ]] && _error "Unsupported target platform: ${TARGETPLATFORM}."
 
 
 #======================================================================================================================
