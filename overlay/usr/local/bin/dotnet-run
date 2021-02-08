@@ -7,7 +7,7 @@ set -euo pipefail
 # Verify APP_ASSEMBLY is set
 #======================================================================================================================
 
-[[ -z "${APP_ASSEMBLY-}" ]] && _error "APP_ASSEMBLY environment variable must be set."
+[[ -z "${APP_ASSEMBLY}" ]] && _error "APP_ASSEMBLY environment variable must be set."
 
 
 #======================================================================================================================
@@ -15,12 +15,10 @@ set -euo pipefail
 #======================================================================================================================
 
 RUN=/src/${APP_ASSEMBLY}
-[[ ! -f "${RUN}" ]] && _error "APP_ASSEMBLY could not be found: ${RUN}."
-
-
-#======================================================================================================================
-# Run ASP.NET application
-#======================================================================================================================
-
-_echo "Running ${RUN}"
-/usr/share/dotnet/dotnet ${RUN}
+if [ -e ${RUN} ] ; then
+    /usr/share/dotnet/dotnet ${RUN}
+else
+    SLEEP=30
+    _notok "${APP_ASSEMBLY} not found in /src - sleeping for ${SLEEP}s."
+    sleep ${SLEEP}
+fi
