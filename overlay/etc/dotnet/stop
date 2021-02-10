@@ -7,7 +7,7 @@ set -euo pipefail
 # Stop the dotnet service
 #======================================================================================================================
 
-_echo "Stopping dotnet service..."
+bcg-echo "Stopping dotnet service..."
 SVC=/var/run/s6/services/dotnet
 s6-svc -t ${SVC}
-_done
+bcg-done

@@ -9,7 +9,7 @@ set -euo pipefail
 
 cd /tmp
 V=$(cat VERSION)
-[[ -z "${V}" ]] && _error "Unable to determine .NET version."
+[[ -z "${V}" ]] && bcg-error "Unable to determine .NET version."
 
 
 #======================================================================================================================
@@ -26,7 +26,7 @@ case "${TARGETPLATFORM-}" in
     *)
 esac
 
-[[ -z "${ARCH-}" ]] && _error "Unsupported target platform: ${TARGETPLATFORM}."
+[[ -z "${ARCH-}" ]] && bcg-error "Unsupported target platform: ${TARGETPLATFORM}."
 
 
 #======================================================================================================================
@@ -34,15 +34,15 @@ esac
 #======================================================================================================================
 
 RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${V}/dotnet-runtime-${V}-linux-musl-${ARCH}.tar.gz"
-_echo "Downloading ${RUNTIME_URL}..."
+bcg-echo "Downloading ${RUNTIME_URL}..."
 wget -O dotnet.tar.gz ${RUNTIME_URL} \
     && mkdir -p /usr/share/dotnet \
     && tar -C /usr/share/dotnet -oxzf dotnet.tar.gz \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
     && rm dotnet.tar.gz
 
-[[ ! -d "/usr/share/dotnet" ]] && _error ".NET runtime not installed."
-_done
+[[ ! -d "/usr/share/dotnet" ]] && bcg-error ".NET runtime not installed."
+bcg-done
 
 
 #======================================================================================================================
@@ -50,10 +50,10 @@ _done
 #======================================================================================================================
 
 ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${V}/aspnetcore-runtime-${V}-linux-musl-${ARCH}.tar.gz"
-_echo "Downloading ${ASPNET_URL}..."
+bcg-echo "Downloading ${ASPNET_URL}..."
 wget -O aspnetcore.tar.gz ${ASPNET_URL} \
     && tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App \
     && rm aspnetcore.tar.gz
 
-[[ ! -d "/usr/share/dotnet/shared/Microsoft.AspNetCore.App/${V}" ]] && _error "ASP.NET runtime not installed."
-_done
+[[ ! -d "/usr/share/dotnet/shared/Microsoft.AspNetCore.App/${V}" ]] && bcg-error "ASP.NET runtime not installed."
+bcg-done
