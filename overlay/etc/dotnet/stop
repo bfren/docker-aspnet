@@ -4,7 +4,10 @@ set -euo pipefail
 
 
 #======================================================================================================================
-# Use base executable to terminate all services
+# Stop the dotnet service
 #======================================================================================================================
 
-_terminate
+bcg-echo "Stopping dotnet service..."
+SVC=/var/run/s6/services/dotnet
+s6-svc -t ${SVC}
+bcg-done

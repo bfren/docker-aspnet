@@ -1,0 +1,2 @@
+/etc/dotnet/run false www:www 0500 0500
+/etc/dotnet/stop false root:root 0500 0500

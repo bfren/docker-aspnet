@@ -47,7 +47,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             bcgdesign/aspnet:dev-aspnet-3.1
-            bcgdesign/aspnet:dev-aspnet-${{ steps.net_revision.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

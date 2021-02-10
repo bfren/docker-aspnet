@@ -5,7 +5,7 @@ ARG BUILDPLATFORM
 
 RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
 
-FROM bcgdesign/alpine-s6:alpine-3.13-1.3.0
+FROM bcgdesign/alpine-s6:alpine-3.13-1.4.0
 COPY --from=build /log /log
 
 ARG TARGETPLATFORM
@@ -31,11 +31,12 @@ RUN addgroup --gid 1000 www \
         zlib
 
 COPY ./overlay /
+COPY ./install /tmp/install
 COPY ./5.0/NET_REVISION /tmp/VERSION
 
 RUN chmod +x /tmp/install \
     && /tmp/install \
-    && rm -rf /tmp/*
+    && rm /tmp/*
 
 VOLUME [ "/src" ]
 

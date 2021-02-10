@@ -48,7 +48,6 @@ jobs:
           tags: |
             bcgdesign/aspnet:dev
             bcgdesign/aspnet:dev-aspnet-5.0
-            bcgdesign/aspnet:dev-aspnet-${{ steps.net_revision.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
