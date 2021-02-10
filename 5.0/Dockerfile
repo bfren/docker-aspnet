@@ -35,7 +35,7 @@ COPY ./5.0/NET_REVISION /tmp/VERSION
 
 RUN chmod +x /tmp/install \
     && /tmp/install \
-    && rm -rf /tmp/*
+    && rm /tmp/*
 
 VOLUME [ "/src" ]
 
