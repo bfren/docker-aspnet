@@ -1,0 +1,25 @@
+#!/usr/bin/with-contenv sh
+
+set -euo pipefail
+
+
+#======================================================================================================================
+# Verify APP_ASSEMBLY is set
+#======================================================================================================================
+
+[[ -z "${APP_ASSEMBLY}" ]] && _error "APP_ASSEMBLY environment variable must be set."
+
+
+#======================================================================================================================
+# Verify APP_ASSEMBLY exists
+#======================================================================================================================
+
+RUN=/src/${APP_ASSEMBLY}
+if [ -e ${RUN} ] ; then
+    _echo "Starting ASP.NET application"
+    /usr/share/dotnet/dotnet ${RUN}
+else
+    SLEEP=30
+    _notok "${APP_ASSEMBLY} not found in /src - sleeping for ${SLEEP}s."
+    sleep ${SLEEP}
+fi

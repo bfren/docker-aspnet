@@ -4,21 +4,7 @@ set -euo pipefail
 
 
 #======================================================================================================================
-# Verify APP_ASSEMBLY is set
+# Run /etc/dotnet/run executable as www user
 #======================================================================================================================
 
-[[ -z "${APP_ASSEMBLY}" ]] && _error "APP_ASSEMBLY environment variable must be set."
-
-
-#======================================================================================================================
-# Verify APP_ASSEMBLY exists
-#======================================================================================================================
-
-RUN=/src/${APP_ASSEMBLY}
-if [ -e ${RUN} ] ; then
-    /usr/share/dotnet/dotnet ${RUN}
-else
-    SLEEP=30
-    _notok "${APP_ASSEMBLY} not found in /src - sleeping for ${SLEEP}s."
-    sleep ${SLEEP}
-fi
+s6-setuidgid www /etc/dotnet/run

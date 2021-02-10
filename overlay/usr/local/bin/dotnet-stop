@@ -4,10 +4,7 @@ set -euo pipefail
 
 
 #======================================================================================================================
-# Stop the dotnet service
+# Run /etc/dotnet/stop executable
 #======================================================================================================================
 
-_echo "Stopping dotnet service..."
-SVC=/var/run/s6/services/dotnet
-s6-svc -d ${SVC}
-_done
+/etc/dotnet/stop
