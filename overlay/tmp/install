@@ -27,17 +27,17 @@ apk add --no-cache \
 
 
 #======================================================================================================================
-# Get .NET Version.
+# Ensure target platform is set.
 #======================================================================================================================
 
-V=$(cat /tmp/DOTNET_VERSION)
+[[ -z "${TARGETPLATFORM-}" ]] && bcg-error "install: Target platform not set."
 
 
 #======================================================================================================================
-# Get correct installer for target platform.
+# Get target platform architecture.
 #======================================================================================================================
 
-case "${TARGETPLATFORM-}" in
+case "${TARGETPLATFORM}" in
 
     linux/amd64)
         ARCH="x64"
@@ -53,32 +53,48 @@ case "${TARGETPLATFORM-}" in
 
 esac
 
+bcg-debug "install: Platform architecture ${ARCH}."
+
 
 #======================================================================================================================
-# Install .NET Runtime.
+# Get .NET Version.
 #======================================================================================================================
+
+cd /tmp
+
+V=$(cat DOTNET_VERSION)
+bcg-debug "install: .NET version ${V}."
+
+
+#======================================================================================================================
+# Download and install .NET Runtime.
+#======================================================================================================================
+
+DOTNET=/usr/share/dotnet
 
 RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${V}/dotnet-runtime-${V}-linux-musl-${ARCH}.tar.gz"
 bcg-echo "Downloading ${RUNTIME_URL}..."
-wget -O dotnet.tar.gz ${RUNTIME_URL} \
-    && mkdir -p /usr/share/dotnet \
-    && tar -C /usr/share/dotnet -oxzf dotnet.tar.gz \
-    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
-    && rm dotnet.tar.gz
-
-[[ ! -d "/usr/share/dotnet" ]] && bcg-error ".NET runtime not installed."
+wget -O dotnet.tar.gz ${RUNTIME_URL}
 bcg-done
+
+bcg-echo "Installing .NET runtime..."
+mkdir -p ${DOTNET} \
+    && tar -C ${DOTNET} -oxzf dotnet.tar.gz \
+    && ln -s ${DOTNET}/dotnet /usr/bin/dotnet
+
+[[ -d ${DOTNET} ]] && bcg-done || bcg-error "install: .NET runtime not installed."
 
 
 #======================================================================================================================
-# Install ASP.NET Runtime.
+# Download and install ASP.NET Runtime.
 #======================================================================================================================
 
 ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${V}/aspnetcore-runtime-${V}-linux-musl-${ARCH}.tar.gz"
 bcg-echo "Downloading ${ASPNET_URL}..."
-wget -O aspnetcore.tar.gz ${ASPNET_URL} \
-    && tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App \
-    && rm aspnetcore.tar.gz
-
-[[ ! -d "/usr/share/dotnet/shared/Microsoft.AspNetCore.App/${V}" ]] && bcg-error "ASP.NET runtime not installed."
+wget -O aspnetcore.tar.gz ${ASPNET_URL}
 bcg-done
+
+bcg-echo "Installing ASP.NET..."
+tar -ozxf aspnetcore.tar.gz -C ${DOTNET} ./shared/Microsoft.AspNetCore.App
+
+[[ -d ${DOTNET}/shared/Microsoft.AspNetCore.App/${V} ]] && bcg-done || bcg-error "install: ASP.NET runtime not installed."
