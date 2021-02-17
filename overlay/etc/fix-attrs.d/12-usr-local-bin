@@ -1,3 +1,0 @@
-/usr/local/bin/dotnet-run false root:root 0500 0500
-/usr/local/bin/dotnet-stop false root:root 0500 0500
-/usr/local/bin/healthcheck false root:root 0500 0500

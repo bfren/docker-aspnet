@@ -1,0 +1,2 @@
+/app true www:www 0640 0750
+/usr/local/bin/dotnet-* false root:root 0500 0500
