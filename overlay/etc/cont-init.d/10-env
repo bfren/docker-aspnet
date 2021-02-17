@@ -1,0 +1,16 @@
+#!/usr/bin/with-contenv sh
+
+set -euo pipefail
+
+
+#======================================================================================================================
+# Add environment variables.
+#======================================================================================================================
+
+# Library configuration
+bcg-env "LIB_ASPNET" "${LIB}/aspnet"
+
+# app directory
+ASPNET_APP=/app
+bcg-env "ASPNET_APP" "${ASPNET_APP}"
+bcg-env "ASPNET_APP_ASSEMBLY" "${ASPNET_APP}/${ASPNET_ASSEMBLY}"
