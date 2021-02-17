@@ -8,20 +8,6 @@ LABEL maintainer="Ben Green <ben@bcgdesign.com>" \
     org.label-schema.vendor="Ben Green" \
     org.label-schema.schema-version="1.0"
 
-# https://github.com/dotnet/dotnet-docker/blob/master/src/runtime-deps/3.1/alpine3.12/amd64/Dockerfile
-RUN addgroup --gid 1000 www \
-    && adduser --uid 1000 --no-create-home --disabled-password --ingroup www www \
-    && rm -rf /var/cache/apk/* \
-    && apk -U upgrade \
-    && apk add \
-        ca-certificates \
-        krb5-libs \
-        libgcc \
-        libintl \
-        libssl1.1 \
-        libstdc++ \
-        zlib
-
 EXPOSE 5000
 
 ENV \
@@ -37,7 +23,7 @@ ENV \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
 COPY ./overlay /
-COPY ./5.0/DOTNET_REVISION /tmp/DOTNET_VERSION
+COPY ./5.0/DOTNET_REVISION /tmp/VERSION
 
 RUN bcg-install
 

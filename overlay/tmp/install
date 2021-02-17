@@ -62,7 +62,7 @@ bcg-debug "install: Platform architecture ${ARCH}."
 
 cd /tmp
 
-V=$(cat DOTNET_VERSION)
+V=$(cat VERSION)
 bcg-debug "install: .NET version ${V}."
 
 

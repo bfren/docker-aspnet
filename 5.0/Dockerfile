@@ -5,7 +5,7 @@ ARG BUILDPLATFORM
 
 RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
 
-FROM bcgdesign/alpine-s6:alpine-3.13-1.4.0
+FROM bcgdesign/alpine-s6:alpine-3.13-1.5.0
 COPY --from=build /log /log
 
 ARG TARGETPLATFORM
@@ -31,7 +31,7 @@ ENV \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
 COPY ./overlay /
-COPY ./5.0/DOTNET_REVISION /tmp/DOTNET_VERSION
+COPY ./5.0/DOTNET_REVISION /tmp/VERSION
 
 RUN bcg-install
 
