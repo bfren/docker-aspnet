@@ -4,22 +4,27 @@ set -euo pipefail
 
 
 #======================================================================================================================
-# Verify APP_ASSEMBLY is set.
+# Verify ASPNET_ASSEMBLY is set.
 #======================================================================================================================
 
-[[ -z "${APP_ASSEMBLY}" ]] && bcg-error "APP_ASSEMBLY environment variable must be set."
+[[ -z "${ASPNET_ASSEMBLY}" ]] && bcg-error "run: ASPNET_ASSEMBLY environment variable must be set."
 
 
 #======================================================================================================================
-# Verify APP_ASSEMBLY exists.
+# Verify ASPNET_ASSEMBLY exists before running it.
 #======================================================================================================================
 
-RUN=/src/${APP_ASSEMBLY}
-if [ -e ${RUN} ] ; then
+if [ -f ${ASPNET_APP_ASSEMBLY} ] ; then
+
     bcg-echo "Starting ASP.NET application"
-    /usr/share/dotnet/dotnet ${RUN}
+    bcg-debug "run: ${ASPNET_APP_ASSEMBLY}"
+
+    /usr/share/dotnet/dotnet ${ASPNET_APP_ASSEMBLY}
+
 else
+
     SLEEP=30
-    bcg-notok "${APP_ASSEMBLY} not found in /src - sleeping for ${SLEEP}s."
+    bcg-notok "run: ${ASPNET_APP_ASSEMBLY} not found - sleeping for ${SLEEP}s."
     sleep ${SLEEP}
+
 fi

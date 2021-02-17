@@ -4,10 +4,7 @@ set -euo pipefail
 
 
 #======================================================================================================================
-# Stop the dotnet service.
+# Run /usr/local/bin/aspnet-run executable.
 #======================================================================================================================
 
-bcg-echo "Stopping dotnet service..."
-SVC=/var/run/s6/services/dotnet
-s6-svc -t ${SVC}
-bcg-done
+aspnet-run
