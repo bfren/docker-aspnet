@@ -19,7 +19,7 @@ if [ -f ${ASPNET_APP_ASSEMBLY} ] ; then
     bcg-echo "Starting ASP.NET application"
     bcg-debug "run: ${ASPNET_APP_ASSEMBLY}"
 
-    /usr/share/dotnet/dotnet ${ASPNET_APP_ASSEMBLY}
+    /usr/bin/dotnet ${ASPNET_APP_ASSEMBLY}
 
 else
 

@@ -4,7 +4,7 @@ set -euo pipefail
 
 
 #======================================================================================================================
-# Run /etc/dotnet/run executable as www user.
+# Run start executable as www user.
 #======================================================================================================================
 
-s6-setuidgid www ${LIB_ASPNET}/run
+s6-setuidgid www ${LIB_ASPNET}/start
