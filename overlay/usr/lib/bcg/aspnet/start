@@ -1,30 +1,39 @@
 #!/usr/bin/with-contenv sh
 
 set -euo pipefail
+export BCG_E=`basename ${0}`
+
+
+#======================================================================================================================
+# Check arguments.
+#======================================================================================================================
+
+[[ -z "${1-}" ]] && bcg-error "You must provide the app operating directory."
 
 
 #======================================================================================================================
 # Verify ASPNET_ASSEMBLY is set.
 #======================================================================================================================
 
-[[ -z "${ASPNET_ASSEMBLY}" ]] && bcg-error "run: ASPNET_ASSEMBLY environment variable must be set."
+[[ -z "${ASPNET_ASSEMBLY}" ]] && bcg-error "ASPNET_ASSEMBLY environment variable must be set."
 
 
 #======================================================================================================================
-# Verify ASPNET_ASSEMBLY exists before running it.
+# Verify assembly exists before running it.
 #======================================================================================================================
 
-if [ -f ${ASPNET_APP_ASSEMBLY} ] ; then
+ASSEMBLY_PATH=${1}/${ASPNET_ASSEMBLY}
+if [ -f ${ASSEMBLY_PATH} ] ; then
 
-    bcg-echo "Starting ASP.NET application"
-    bcg-debug "run: ${ASPNET_APP_ASSEMBLY}"
+    bcg-echo "Starting ASP.NET application."
+    bcg-debug "${ASSEMBLY_PATH}."
 
-    /usr/bin/dotnet ${ASPNET_APP_ASSEMBLY}
+    /usr/bin/dotnet ${ASSEMBLY_PATH}
 
 else
 
     SLEEP=30
-    bcg-notok "run: ${ASPNET_APP_ASSEMBLY} not found - sleeping for ${SLEEP}s."
+    bcg-notok "${ASSEMBLY_PATH} not found - sleeping for ${SLEEP}s."
     sleep ${SLEEP}
 
 fi

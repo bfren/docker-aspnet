@@ -1,15 +1,14 @@
 #!/bin/sh
 
 set -euo pipefail
+export BCG_E=`basename ${0}`
 
 
 #======================================================================================================================
 # Add www user.
 #======================================================================================================================
 
-bcg-echo "Adding www user..."
 bcg-adduser www
-bcg-done
 
 
 #======================================================================================================================
@@ -30,7 +29,7 @@ apk add --no-cache \
 # Ensure target platform is set.
 #======================================================================================================================
 
-[[ -z "${TARGETPLATFORM-}" ]] && bcg-error "install: Target platform not set."
+[[ -z "${TARGETPLATFORM-}" ]] && bcg-error "Target platform not set."
 
 
 #======================================================================================================================
@@ -53,7 +52,7 @@ case "${TARGETPLATFORM}" in
 
 esac
 
-bcg-debug "install: Platform architecture ${ARCH}."
+bcg-debug "Platform architecture ${ARCH}."
 
 
 #======================================================================================================================
@@ -63,7 +62,7 @@ bcg-debug "install: Platform architecture ${ARCH}."
 cd /tmp
 
 V=$(cat VERSION)
-bcg-debug "install: .NET version ${V}."
+bcg-debug ".NET version ${V}."
 
 
 #======================================================================================================================
@@ -82,7 +81,8 @@ mkdir -p ${DOTNET} \
     && tar -C ${DOTNET} -oxzf dotnet.tar.gz \
     && ln -s ${DOTNET}/dotnet /usr/bin/dotnet
 
-[[ -d ${DOTNET} ]] && bcg-done || bcg-error "install: .NET runtime not installed."
+[[ -d ${DOTNET} ]] && bcg-done
+    || bcg-error ".NET runtime not installed."
 
 
 #======================================================================================================================
@@ -97,4 +97,14 @@ bcg-done
 bcg-echo "Installing ASP.NET..."
 tar -ozxf aspnetcore.tar.gz -C ${DOTNET} ./shared/Microsoft.AspNetCore.App
 
-[[ -d ${DOTNET}/shared/Microsoft.AspNetCore.App/${V} ]] && bcg-done || bcg-error "install: ASP.NET runtime not installed."
+[[ -d ${DOTNET}/shared/Microsoft.AspNetCore.App/${V} ]] && bcg-done
+    || bcg-error "ASP.NET runtime not installed."
+
+
+#======================================================================================================================
+# Make app directories.
+#======================================================================================================================
+
+bcg-debug "Creating /app directories."
+mkdir -p /app/live
+mkdir /app/publish

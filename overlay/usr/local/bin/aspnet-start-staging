@@ -8,5 +8,5 @@ export BCG_E=`basename ${0}`
 # Run start executable as www user.
 #======================================================================================================================
 
-bcg-debug "Start app in live environment."
-s6-setuidgid www ${LIB_ASPNET}/start ${ASPNET_APP_LIVE}
+bcg-debug "Start app in staging environment."
+s6-setuidgid www ${LIB_ASPNET}/start ${ASPNET_APP_STAGING}

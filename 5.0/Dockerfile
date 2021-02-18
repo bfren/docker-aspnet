@@ -24,7 +24,7 @@ ENV \
     # Configure web servers to bind to port 5000
     ASPNETCORE_URLS="http://+:5000" \
     # Otherwise it is set incorrectly to the S6 service directory
-    ASPNETCORE_CONTENTROOT="/app" \
+    ASPNETCORE_CONTENTROOT="/app/live" \
     # Enable detection of running in a container
     DOTNET_RUNNING_IN_CONTAINER=true \
     # Set the invariant mode since icu_libs isn't included (see https://github.com/dotnet/announcements/issues/20)
@@ -35,4 +35,4 @@ COPY ./5.0/DOTNET_REVISION /tmp/VERSION
 
 RUN bcg-install
 
-VOLUME [ "/app" ]
+VOLUME [ "/app/live" ]
