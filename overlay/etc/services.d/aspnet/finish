@@ -7,7 +7,7 @@ set -euo pipefail
 # Terminate the container if we haven't just been asleep.
 #======================================================================================================================
 
-if [ -z "${ASPNET_SLEEP-}" || "${ASPNET_SLEEP}" = "0" ] ; then
+if [ -z "${ASPNET_SLEEP-}" ] || [ "${ASPNET_SLEEP}" = "0" ] ; then
     bcg-svc-finish -s ${PWD##*/} -t
 else
     bcg-svc-finish -s ${PWD##*/}

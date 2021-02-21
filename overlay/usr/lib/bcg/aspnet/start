@@ -23,7 +23,7 @@ DIR=${1}
 # Verify assembly exists before running it.
 #======================================================================================================================
 
-bcg-env ASPNET_SLEEP 0
+bcg-env ASPNET_SLEEP 0 > /dev/null 2>&1
 ASSEMBLY_PATH=${DIR}/${ASPNET_ASSEMBLY}
 if [ -f "${ASSEMBLY_PATH}" ] ; then
 
@@ -38,7 +38,7 @@ else
 
     SLEEP=30
     bcg-debug "Sleeping for ${SLEEP}s."
-    bcg-env ASPNET_SLEEP ${SLEEP}
+    bcg-env ASPNET_SLEEP ${SLEEP} > /dev/null 2>&1
     sleep ${SLEEP}
 
 fi
