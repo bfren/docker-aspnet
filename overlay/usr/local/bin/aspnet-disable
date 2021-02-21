@@ -8,4 +8,4 @@ export BCG_E=`basename ${0}`
 # Run disable executable.
 #======================================================================================================================
 
-${LIB_ASPNET}/disable
+${ASPNET_LIB}/disable

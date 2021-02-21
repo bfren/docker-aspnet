@@ -9,7 +9,7 @@ export BCG_E=`basename ${0}`
 #======================================================================================================================
 
 # Library configuration
-bcg-env "LIB_ASPNET" "${LIB}/aspnet"
+bcg-env "ASPNET_LIB" "${BCG_LIB}/aspnet"
 
 # app directories
 ASPNET_APP=/app

@@ -16,13 +16,13 @@ Comes pre-installed with the ASP.NET runtime and all dependencies.
 
 ## Ports
 
-* 80
+* 5000
 
 ## Volumes
 
-| Volume | Purpose                                  |
-| ------ | ---------------------------------------- |
-| `/src` | Publish your source code to this folder. |
+| Volume      | Purpose                                  |
+| ----------- | ---------------------------------------- |
+| `/app/live` | Publish your source code to this folder. |
 
 ## Environment Variables
 
