@@ -8,9 +8,9 @@ export BCG_E="${PWD##*/}/$(basename ${0})"
 # Sleep (service will then restart) or terminate the container.
 #======================================================================================================================
 
-if [ -n "${ASPNET_SLEEP}" ] ; then
+if [ -n "${ASPNET_SLEEP-}" ] && [ "${ASPNET_SLEEP}" -gt "0" ] ; then
     bcg-debug "Sleeping for ${ASPNET_SLEEP}s."
     sleep ${ASPNET_SLEEP}
 else
-    bcg-svc=terminate
+    bcg-svc-terminate
 fi

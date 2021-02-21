@@ -22,7 +22,7 @@ export BCG_E=`basename ${0}`
 # Verify assembly exists before running it.
 #======================================================================================================================
 
-unset ASPNET_SLEEP
+bcg-env ASPNET_SLEEP 0
 ASSEMBLY_PATH=${1}/${ASPNET_ASSEMBLY}
 if [ -f ${ASSEMBLY_PATH} ] ; then
 
@@ -34,6 +34,6 @@ if [ -f ${ASSEMBLY_PATH} ] ; then
 else
 
     bcg-notok "${ASSEMBLY_PATH} not found."
-    export ASPNET_SLEEP=${SLEEP}
+    bcg-env ASPNET_SLEEP 30
 
 fi
