@@ -9,4 +9,4 @@ export BCG_E=`basename ${0}`
 #======================================================================================================================
 
 bcg-debug "Start app in live environment."
-s6-setuidgid www ${LIB_ASPNET}/start ${ASPNET_APP_LIVE}
+${LIB_ASPNET}/start ${ASPNET_APP_LIVE}
