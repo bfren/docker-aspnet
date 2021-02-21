@@ -5,8 +5,7 @@ export BCG_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Attempt to load localhost using wget.
+# Test site.
 #======================================================================================================================
 
-URL=${ASPNETCORE_URLS//[+]/localhost}
-wget --no-verbose --tries=1 --spider ${URL} || exit 1
+bcg-test-url ${ASPNETCORE_URLS//[+]/localhost}
