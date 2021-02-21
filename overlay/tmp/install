@@ -81,7 +81,7 @@ mkdir -p ${DOTNET} \
     && tar -C ${DOTNET} -oxzf dotnet.tar.gz \
     && ln -s ${DOTNET}/dotnet /usr/bin/dotnet
 
-[[ -d ${DOTNET} ]] && bcg-done
+[[ -d ${DOTNET} ]] && bcg-done \
     || bcg-error ".NET runtime not installed."
 
 
@@ -97,7 +97,7 @@ bcg-done
 bcg-echo "Installing ASP.NET..."
 tar -ozxf aspnetcore.tar.gz -C ${DOTNET} ./shared/Microsoft.AspNetCore.App
 
-[[ -d ${DOTNET}/shared/Microsoft.AspNetCore.App/${V} ]] && bcg-done
+[[ -d ${DOTNET}/shared/Microsoft.AspNetCore.App/${V} ]] && bcg-done \
     || bcg-error "ASP.NET runtime not installed."
 
 
