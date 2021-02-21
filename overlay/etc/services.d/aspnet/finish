@@ -1,11 +1,10 @@
 #!/usr/bin/with-contenv sh
 
 set -euo pipefail
-export BCG_E="${PWD##*/}/$(basename ${0})"
 
 
 #======================================================================================================================
 # Terminate the container if we haven't just been asleep.
 #======================================================================================================================
 
-[[ -z "${ASPNET_SLEEP-}" || "${ASPNET_SLEEP}" = "0" ]] && bcg-svc-terminate
+[[ -z "${ASPNET_SLEEP-}" || "${ASPNET_SLEEP}" = "0" ]] && bcg-svc-finish -s ${PWD##*/} -t
