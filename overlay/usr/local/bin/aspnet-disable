@@ -1,14 +1,11 @@
 #!/usr/bin/with-contenv sh
 
 set -euo pipefail
-export BCG_E="${PWD##*/}/$(basename ${0})"
+export BCG_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Terminate the container if we haven't just been asleep.
+# Run disable executable.
 #======================================================================================================================
 
-if [ -n "${ASPNET_SLEEP-}" ] && [ "${ASPNET_SLEEP}" -gt "0" ] ; then
-else
-    bcg-svc-terminate
-fi
+${LIB_ASPNET}/disable

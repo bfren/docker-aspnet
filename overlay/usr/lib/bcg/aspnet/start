@@ -9,6 +9,7 @@ export BCG_E=`basename ${0}`
 #======================================================================================================================
 
 [[ -z "${1-}" ]] && bcg-error "You must provide the app operating directory."
+DIR=${1}
 
 
 #======================================================================================================================
@@ -23,17 +24,21 @@ export BCG_E=`basename ${0}`
 #======================================================================================================================
 
 bcg-env ASPNET_SLEEP 0
-ASSEMBLY_PATH=${1}/${ASPNET_ASSEMBLY}
-if [ -f ${ASSEMBLY_PATH} ] ; then
+ASSEMBLY_PATH=${DIR}/${ASPNET_ASSEMBLY}
+if [ -f "${ASSEMBLY_PATH}" ] ; then
 
     bcg-echo "Starting ASP.NET application."
     bcg-debug "${ASSEMBLY_PATH}."
 
-    s6-setuidgid www /usr/bin/dotnet ${ASSEMBLY_PATH}
+    s6-setuidgid www /usr/bin/dotnet "${ASSEMBLY_PATH}"
 
 else
 
     bcg-notok "${ASSEMBLY_PATH} not found."
-    bcg-env ASPNET_SLEEP 30
+
+    SLEEP=30
+    bcg-debug "Sleeping for ${SLEEP}s."
+    bcg-env ASPNET_SLEEP ${SLEEP}
+    sleep ${SLEEP}
 
 fi
