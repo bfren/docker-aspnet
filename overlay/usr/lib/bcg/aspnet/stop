@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/usr/bin/with-contenv sh
 
 set -euo pipefail
 export BCG_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Test site.
+# Stop the aspnet service.
 #======================================================================================================================
 
-bcg-test-url ${ASPNETCORE_URLS//[+]/localhost}
+bcg-svc stop aspnet

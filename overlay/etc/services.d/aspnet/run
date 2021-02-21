@@ -1,10 +1,11 @@
 #!/usr/bin/with-contenv sh
 
 set -euo pipefail
+export BCG_E="${PWD##*/}/$(basename ${0})"
 
 
 #======================================================================================================================
-# Run /etc/dotnet/run executable as www user
+# Run /usr/local/bin/aspnet-start executable.
 #======================================================================================================================
 
-s6-setuidgid www /etc/dotnet/run
+aspnet-start

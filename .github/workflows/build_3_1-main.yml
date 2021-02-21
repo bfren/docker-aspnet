@@ -10,6 +10,7 @@ on:
       - '.github/workflows/build_3_1-main.yml'
       - '3.1/**'
       - 'overlay/**'
+      - 'VERSION'
 
 jobs:
   main:
@@ -22,8 +23,8 @@ jobs:
         name: Read .NET version - revision
         uses: bencgreen/read-file-action@v1
         with:
-          path: ./3.1/NET_REVISION
-        id: net_revision
+          path: ./3.1/DOTNET_REVISION
+        id: dotnet_revision
       -
         name: Read image version
         uses: bencgreen/read-file-action@v1
@@ -56,7 +57,7 @@ jobs:
             bcgdesign/aspnet:aspnet-3-${{ steps.version.outputs.content }}
             bcgdesign/aspnet:aspnet-3.1
             bcgdesign/aspnet:aspnet-3.1-${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:aspnet-${{ steps.net_revision.outputs.content }}
+            bcgdesign/aspnet:aspnet-${{ steps.dotnet_revision.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

@@ -2,14 +2,15 @@ name: 5.0-dev
 
 on:
   push:
-    branches:
-      - '**'
+    branches-ignore:
+      - 'main'
     tags-ignore:
       - '**'
     paths:
       - '.github/workflows/build_5_0-dev.yml'
       - '5.0/**'
       - 'overlay/**'
+      - 'VERSION'
 
 jobs:
   main:
@@ -19,11 +20,11 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v2
       -
-        name: Read .NET version - revision
+        name: Read image version
         uses: bencgreen/read-file-action@v1
         with:
-          path: ./5.0/NET_REVISION
-        id: net_revision
+          path: ./VERSION
+        id: version
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -48,6 +49,9 @@ jobs:
           tags: |
             bcgdesign/aspnet:dev
             bcgdesign/aspnet:dev-aspnet-5.0
+            bcgdesign/aspnet:${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:aspnet-5-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:aspnet-5.0-${{ steps.version.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

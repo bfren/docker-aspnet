@@ -1,0 +1,110 @@
+#!/bin/sh
+
+set -euo pipefail
+export BCG_E=`basename ${0}`
+
+
+#======================================================================================================================
+# Add www user.
+#======================================================================================================================
+
+bcg-adduser www
+
+
+#======================================================================================================================
+# Install dotnet dependencies.
+#======================================================================================================================
+
+apk add --no-cache \
+    ca-certificates \
+    krb5-libs \
+    libgcc \
+    libintl \
+    libssl1.1 \
+    libstdc++ \
+    zlib
+
+
+#======================================================================================================================
+# Ensure target platform is set.
+#======================================================================================================================
+
+[[ -z "${TARGETPLATFORM-}" ]] && bcg-error "Target platform not set."
+
+
+#======================================================================================================================
+# Get target platform architecture.
+#======================================================================================================================
+
+case "${TARGETPLATFORM}" in
+
+    linux/amd64)
+        ARCH="x64"
+        ;;
+
+    linux/arm64)
+        ARCH="arm64"
+        ;;
+
+    *)
+        bcg-error "Unsupported target platform: ${TARGETPLATFORM}."
+        ;;
+
+esac
+
+bcg-debug "Platform architecture ${ARCH}."
+
+
+#======================================================================================================================
+# Get .NET Version.
+#======================================================================================================================
+
+cd /tmp
+
+V=$(cat VERSION)
+bcg-debug ".NET version ${V}."
+
+
+#======================================================================================================================
+# Download and install .NET Runtime.
+#======================================================================================================================
+
+DOTNET=/usr/share/dotnet
+
+RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${V}/dotnet-runtime-${V}-linux-musl-${ARCH}.tar.gz"
+bcg-echo "Downloading ${RUNTIME_URL}..."
+wget -O dotnet.tar.gz ${RUNTIME_URL}
+bcg-done
+
+bcg-echo "Installing .NET runtime..."
+mkdir -p ${DOTNET} \
+    && tar -C ${DOTNET} -oxzf dotnet.tar.gz \
+    && ln -s ${DOTNET}/dotnet /usr/bin/dotnet
+
+[[ -d ${DOTNET} ]] && bcg-done \
+    || bcg-error ".NET runtime not installed."
+
+
+#======================================================================================================================
+# Download and install ASP.NET Runtime.
+#======================================================================================================================
+
+ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${V}/aspnetcore-runtime-${V}-linux-musl-${ARCH}.tar.gz"
+bcg-echo "Downloading ${ASPNET_URL}..."
+wget -O aspnetcore.tar.gz ${ASPNET_URL}
+bcg-done
+
+bcg-echo "Installing ASP.NET..."
+tar -ozxf aspnetcore.tar.gz -C ${DOTNET} ./shared/Microsoft.AspNetCore.App
+
+[[ -d ${DOTNET}/shared/Microsoft.AspNetCore.App/${V} ]] && bcg-done \
+    || bcg-error "ASP.NET runtime not installed."
+
+
+#======================================================================================================================
+# Make app directories.
+#======================================================================================================================
+
+bcg-debug "Creating /app directories."
+mkdir -p /app/live
+mkdir /app/publish

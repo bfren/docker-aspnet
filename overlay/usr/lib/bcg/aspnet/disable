@@ -1,10 +1,11 @@
 #!/usr/bin/with-contenv sh
 
 set -euo pipefail
+export BCG_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Run /usr/local/bin/dotnet-run executable
+# Stop the aspnet service.
 #======================================================================================================================
 
-dotnet-run
+bcg-svc disable aspnet

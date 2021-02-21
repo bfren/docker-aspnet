@@ -2,14 +2,15 @@ name: 3.1-dev
 
 on:
   push:
-    branches:
-      - '**'
+    branches-ignore:
+      - 'main'
     tags-ignore:
       - '**'
     paths:
       - '.github/workflows/build_3_1-dev.yml'
       - '3.1/**'
       - 'overlay/**'
+      - 'VERSION'
 
 jobs:
   main:
@@ -19,11 +20,11 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v2
       -
-        name: Read .NET version - revision
+        name: Read image version
         uses: bencgreen/read-file-action@v1
         with:
-          path: ./3.1/NET_REVISION
-        id: net_revision
+          path: ./VERSION
+        id: version
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -47,6 +48,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             bcgdesign/aspnet:dev-aspnet-3.1
+            bcgdesign/aspnet:aspnet-3-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:aspnet-3.1-${{ steps.version.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

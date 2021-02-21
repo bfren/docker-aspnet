@@ -16,19 +16,19 @@ Comes pre-installed with the ASP.NET runtime and all dependencies.
 
 ## Ports
 
-* 80
+* 5000
 
-## Volumes
+## Volumes
 
-| Volume | Purpose                                  |
-| ------ | ---------------------------------------- |
-| `/src` | Publish your source code to this folder. |
+| Volume      | Purpose                                  |
+| ----------- | ---------------------------------------- |
+| `/app/live` | Publish your source code to this folder. |
 
 ## Environment Variables
 
 | Variable                                | Values        | Description                                                                                                                                                                   | Default               |
 | --------------------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| `DOTNET_RUN_ASSEMBLY`                   | string        | The filename of the assembly to execute.                                                                                                                                      | *None* - **required** |
+| `ASPNET_ASSEMBLY`                       | string        | The filename of the assembly to execute.                                                                                                                                      | *None* - **required** |
 | `ASPNETCORE_URLS`                       | string        | Default value binds web server to port 5000 - should not normally need to be changed.                                                                                         | "http://+:5000"       |
 | `DOTNET_RUNNING_IN_CONTAINER`           | true or false | This should always be set to true - it tells dotnet that it is running in a container environment.                                                                            | true                  |
 | `DOTNET_SYSTEM_GLOBALIZATION_INVARIANT` | true or false | See [here](https://github.com/dotnet/runtime/blob/master/docs/design/features/globalization-invariant-mode.md) and [here](https://github.com/dotnet/announcements/issues/20). | true                  |

@@ -1,11 +1,12 @@
-#!/bin/sh
+#!/usr/bin/with-contenv sh
 
 set -euo pipefail
 export BCG_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Test site.
+# Run start executable as www user.
 #======================================================================================================================
 
-bcg-test-url ${ASPNETCORE_URLS//[+]/localhost}
+bcg-debug "Start app in live environment."
+${ASPNET_LIB}/start ${ASPNET_APP_LIVE}

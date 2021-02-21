@@ -1,13 +1,12 @@
 #!/usr/bin/with-contenv sh
 
 set -euo pipefail
+export BCG_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Stop the dotnet service
+# Run start executable as www user.
 #======================================================================================================================
 
-bcg-echo "Stopping dotnet service..."
-SVC=/var/run/s6/services/dotnet
-s6-svc -t ${SVC}
-bcg-done
+bcg-debug "Start app in staging environment."
+${ASPNET_LIB}/start ${ASPNET_APP_STAGING}

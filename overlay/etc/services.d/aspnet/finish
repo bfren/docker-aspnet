@@ -4,7 +4,12 @@ set -euo pipefail
 
 
 #======================================================================================================================
-# Run /etc/dotnet/stop executable
+# Terminate the container if we haven't just been asleep.
 #======================================================================================================================
 
-/etc/dotnet/stop
+NAME=${PWD##*/}
+if [ -z "${ASPNET_SLEEP-}" ] || [ "${ASPNET_SLEEP}" = "0" ] ; then
+    bcg-svc-finish -s ${NAME} -t
+else
+    bcg-svc-finish -s ${NAME}
+fi
