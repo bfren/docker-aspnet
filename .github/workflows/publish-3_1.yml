@@ -1,4 +1,4 @@
-name: publish-main-5_0
+name: publish-3_1
 
 on:
   push:
@@ -7,13 +7,13 @@ on:
     tags-ignore:
       - '**'
     paths:
-      - '.github/workflows/publish-main-5_0.yml'
-      - '5.0/**'
+      - '.github/workflows/publish-3_1.yml'
+      - '3.1/**'
       - 'overlay/**'
       - 'VERSION'
 
 jobs:
-  publish-main-5_0:
+  publish-3_1:
     runs-on: ubuntu-latest
     steps:
       -
@@ -23,7 +23,7 @@ jobs:
         name: Read .NET version - revision
         uses: bencgreen/read-file-action@v1
         with:
-          path: ./5.0/DOTNET_REVISION
+          path: ./3.1/DOTNET_REVISION
         id: dotnet_revision
       -
         name: Read image version
@@ -49,16 +49,14 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./5.0/Dockerfile
+          file: ./3.1/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bcgdesign/aspnet:latest
-            bcgdesign/aspnet:${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:aspnet-5
-            bcgdesign/aspnet:aspnet-5-${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:aspnet-5.0
-            bcgdesign/aspnet:aspnet-5.0-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:aspnet-3
+            bcgdesign/aspnet:aspnet-3-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:aspnet-3.1
+            bcgdesign/aspnet:aspnet-3.1-${{ steps.version.outputs.content }}
             bcgdesign/aspnet:aspnet-${{ steps.dotnet_revision.outputs.content }}
       -
         name: Image digest
