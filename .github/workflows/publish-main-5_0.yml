@@ -1,24 +1,30 @@
-name: 5.0-dev
+name: publish-main-5_0
 
 on:
   push:
-    branches-ignore:
+    branches:
       - 'main'
     tags-ignore:
       - '**'
     paths:
-      - '.github/workflows/build_5_0-dev.yml'
+      - '.github/workflows/publish-main-5_0.yml'
       - '5.0/**'
       - 'overlay/**'
       - 'VERSION'
 
 jobs:
-  main:
+  publish-main-5_0:
     runs-on: ubuntu-latest
     steps:
       -
         name: Checkout code
         uses: actions/checkout@v2
+      -
+        name: Read .NET version - revision
+        uses: bencgreen/read-file-action@v1
+        with:
+          path: ./5.0/DOTNET_REVISION
+        id: dotnet_revision
       -
         name: Read image version
         uses: bencgreen/read-file-action@v1
@@ -47,11 +53,13 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bcgdesign/aspnet:dev
-            bcgdesign/aspnet:dev-aspnet-5.0
+            bcgdesign/aspnet:latest
             bcgdesign/aspnet:${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:aspnet-5
             bcgdesign/aspnet:aspnet-5-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:aspnet-5.0
             bcgdesign/aspnet:aspnet-5.0-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:aspnet-${{ steps.dotnet_revision.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

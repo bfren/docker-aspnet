@@ -1,4 +1,4 @@
-name: 3.1-dev
+name: publish-dev-3_1
 
 on:
   push:
@@ -7,13 +7,13 @@ on:
     tags-ignore:
       - '**'
     paths:
-      - '.github/workflows/build_3_1-dev.yml'
+      - '.github/workflows/publish-dev-3_1.yml'
       - '3.1/**'
       - 'overlay/**'
       - 'VERSION'
 
 jobs:
-  main:
+  publish-dev-3_1:
     runs-on: ubuntu-latest
     steps:
       -
@@ -47,9 +47,9 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bcgdesign/aspnet:dev-aspnet-3.1
-            bcgdesign/aspnet:aspnet-3-${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:aspnet-3.1-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:aspnet-3.1-dev
+            bcgdesign/aspnet:aspnet-3-${{ steps.version.outputs.content }}-dev
+            bcgdesign/aspnet:aspnet-3.1-${{ steps.version.outputs.content }}-dev
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
