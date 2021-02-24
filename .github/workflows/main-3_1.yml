@@ -1,4 +1,4 @@
-name: publish-3_1
+name: main-3_1
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     tags-ignore:
       - '**'
     paths:
-      - '.github/workflows/publish-3_1.yml'
+      - '.github/workflows/main-3_1.yml'
       - '3.1/**'
       - 'overlay/**'
       - 'VERSION'
