@@ -9,4 +9,4 @@ export BCG_E=`basename ${0}`
 #======================================================================================================================
 
 bcg-debug "Start app in live environment."
-${ASPNET_LIB}/start ${ASPNET_APP_LIVE}
+${ASPNET_LIB}/start
