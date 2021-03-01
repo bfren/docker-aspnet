@@ -55,9 +55,10 @@ jobs:
           tags: |
             bcgdesign/aspnet:${{ steps.version.outputs.content }}-beta
             bcgdesign/aspnet:dev
-            bcgdesign/aspnet:aspnet-5.0-dev
-            bcgdesign/aspnet:aspnet-5-${{ steps.version.outputs.content }}-beta
-            bcgdesign/aspnet:aspnet-5.0-${{ steps.version.outputs.content }}-beta
+            bcgdesign/aspnet:net5-dev
+            bcgdesign/aspnet:net5.0-dev
+            bcgdesign/aspnet:net5-${{ steps.version.outputs.content }}-beta
+            bcgdesign/aspnet:net5.0-${{ steps.version.outputs.content }}-beta
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
