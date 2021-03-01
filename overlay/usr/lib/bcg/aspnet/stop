@@ -8,4 +8,5 @@ export BCG_E=`basename ${0}`
 # Stop the aspnet service.
 #======================================================================================================================
 
+bcg-debug "Stopping application."
 bcg-svc stop aspnet

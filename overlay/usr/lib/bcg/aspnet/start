@@ -12,15 +12,21 @@ export BCG_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Verify assembly exists before running it.
+# Reset ASPNET_SLEEP variable.
 #======================================================================================================================
 
 bcg-env ASPNET_SLEEP 0 > /dev/null 2>&1
+
+
+#======================================================================================================================
+# Verify assembly exists before running it.
+#======================================================================================================================
+
 ASSEMBLY_PATH=${ASPNET_APP_LIVE}/${ASPNET_ASSEMBLY}
 if [ -f "${ASSEMBLY_PATH}" ] ; then
 
     bcg-echo "Starting ASP.NET application."
-    bcg-debug "${ASSEMBLY_PATH}."
+    bcg-debug " .. ${ASSEMBLY_PATH}."
 
     s6-setuidgid www /usr/bin/dotnet "${ASSEMBLY_PATH}"
 

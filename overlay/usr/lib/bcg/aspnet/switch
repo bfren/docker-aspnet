@@ -1,0 +1,38 @@
+#!/usr/bin/with-contenv sh
+
+set -euo pipefail
+export BCG_E=`basename ${0}`
+
+
+#======================================================================================================================
+# Stop application.
+#======================================================================================================================
+
+aspnet-stop
+
+
+#======================================================================================================================
+# Switch code from staging to live.
+#======================================================================================================================
+
+bcg-echo "Switching code..."
+
+TEMP=$(mktemp -d src.XXXXXX) || bcg-error "Unable to create temporary source directory."
+
+bcg-debug " .. moving live files to ${TEMP}"
+mv ${ASPNET_APP_LIVE}/* ${TEMP}
+
+bcg-debug " .. moving staging files to ${ASPNET_APP_LIVE}"
+mv ${ASPNET_APP_STAGING}/* ${ASPNET_APP_LIVE}
+
+bcg-debug " .. moving live files to ${ASPNET_APP_STAGING}"
+mv ${TEMP}/* ${ASPNET_APP_STAGING}
+
+bcg-done
+
+
+#======================================================================================================================
+# Start application.
+#======================================================================================================================
+
+aspnet-start
