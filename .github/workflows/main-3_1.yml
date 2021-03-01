@@ -53,11 +53,11 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bcgdesign/aspnet:aspnet-3
-            bcgdesign/aspnet:aspnet-3-${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:aspnet-3.1
-            bcgdesign/aspnet:aspnet-3.1-${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:aspnet-${{ steps.dotnet_revision.outputs.content }}
+            bcgdesign/aspnet:net3
+            bcgdesign/aspnet:net3-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:net3.1
+            bcgdesign/aspnet:net3.1-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:net${{ steps.dotnet_revision.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

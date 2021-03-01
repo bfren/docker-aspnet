@@ -55,11 +55,11 @@ jobs:
           tags: |
             bcgdesign/aspnet:latest
             bcgdesign/aspnet:${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:aspnet-5
-            bcgdesign/aspnet:aspnet-5-${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:aspnet-5.0
-            bcgdesign/aspnet:aspnet-5.0-${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:aspnet-${{ steps.dotnet_revision.outputs.content }}
+            bcgdesign/aspnet:net5
+            bcgdesign/aspnet:net5-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:net5.0
+            bcgdesign/aspnet:net5.0-${{ steps.version.outputs.content }}
+            bcgdesign/aspnet:net${{ steps.dotnet_revision.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
