@@ -35,4 +35,4 @@ COPY ./3.1/DOTNET_REVISION /tmp/VERSION
 
 RUN bcg-install
 
-VOLUME [ "/app/live" ]
+VOLUME [ "/app/live", "/app/publish" ]
