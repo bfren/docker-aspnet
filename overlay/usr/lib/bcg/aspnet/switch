@@ -5,6 +5,13 @@ export BCG_E=`basename ${0}`
 
 
 #======================================================================================================================
+# Check for staging files.
+#======================================================================================================================
+
+[[ -z "$(ls -A ${ASPNET_APP_PUBLISH})" ]] && bcg-error "Please publish source files first."
+
+
+#======================================================================================================================
 # Set permissions of published code.
 #======================================================================================================================
 
@@ -27,14 +34,18 @@ bcg-echo "Switching code..."
 
 TEMP=$(mktemp -d src.XXXXXX) || bcg-error "Unable to create temporary source directory."
 
-bcg-debug " .. moving live files to ${TEMP}"
-mv ${ASPNET_APP_LIVE}/* ${TEMP}
+if [ "$(ls -A ${ASPNET_APP_LIVE})" ] ; then
+    bcg-debug " .. moving live files to ${TEMP}"
+    mv ${ASPNET_APP_LIVE}/* ${TEMP}
+fi
 
-bcg-debug " .. moving staging files to ${ASPNET_APP_LIVE}"
+bcg-debug " .. moving published files to ${ASPNET_APP_LIVE}"
 mv ${ASPNET_APP_PUBLISH}/* ${ASPNET_APP_LIVE}
 
-bcg-debug " .. moving live files to ${ASPNET_APP_PUBLISH}"
-mv ${TEMP}/* ${ASPNET_APP_PUBLISH}
+if [ "$(ls -A ${TEMP})" ] ; then
+    bcg-debug " .. moving live files to ${ASPNET_APP_PUBLISH}"
+    mv ${TEMP}/* ${ASPNET_APP_PUBLISH}
+fi
 
 bcg-done
 
