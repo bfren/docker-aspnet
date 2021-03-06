@@ -1,2 +1,2 @@
-/app true www:www 0400 0500
+/app true www:www 0400 0700
 /usr/local/bin/aspnet-* false root:root 0500 0500
