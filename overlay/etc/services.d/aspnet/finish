@@ -4,12 +4,7 @@ set -euo pipefail
 
 
 #======================================================================================================================
-# Terminate the container if we haven't just been asleep.
+# Show helpful log message.
 #======================================================================================================================
 
-NAME=${PWD##*/}
-if [ -z "${ASPNET_SLEEP-}" ] || [ "${ASPNET_SLEEP}" = "0" ] ; then
-    bcg-svc-finish -s ${NAME} -t
-else
-    bcg-svc-finish -s ${NAME}
-fi
+bcg-svc-finish -s ${PWD##*/}

@@ -19,6 +19,23 @@ bcg-env ASPNET_SLEEP 0 > /dev/null 2>&1
 
 
 #======================================================================================================================
+# Sleep thread.
+#
+# Arguments
+#   1   The number of seconds to sleep for
+#======================================================================================================================
+
+go-to-sleep() {
+
+    SLEEP=${1}
+    bcg-debug "Sleeping for ${SLEEP}s."
+    bcg-env ASPNET_SLEEP ${SLEEP} > /dev/null 2>&1
+    sleep ${SLEEP}
+
+}
+
+
+#======================================================================================================================
 # Verify assembly exists before running it.
 #======================================================================================================================
 
@@ -33,10 +50,6 @@ if [ -f "${ASSEMBLY_PATH}" ] ; then
 else
 
     bcg-notok "${ASSEMBLY_PATH} not found."
-
-    SLEEP=30
-    bcg-debug "Sleeping for ${SLEEP}s."
-    bcg-env ASPNET_SLEEP ${SLEEP} > /dev/null 2>&1
-    sleep ${SLEEP}
+    go-to-sleep 30
 
 fi
