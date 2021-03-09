@@ -25,7 +25,7 @@ bcg-env ASPNET_SLEEP 0 > /dev/null 2>&1
 #   1   The number of seconds to sleep for
 #======================================================================================================================
 
-go-to-sleep() {
+go_to_sleep() {
 
     SLEEP=${1}
     bcg-debug "Sleeping for ${SLEEP}s."
@@ -50,6 +50,6 @@ if [ -f "${ASSEMBLY_PATH}" ] ; then
 else
 
     bcg-notok "${ASSEMBLY_PATH} not found."
-    go-to-sleep 30
+    go_to_sleep 30
 
 fi
