@@ -15,8 +15,8 @@ export BCG_E=`basename ${0}`
 # Set permissions of published code.
 #======================================================================================================================
 
-bcg-ch -o www:www -m 0400 -t f ${ASPNET_APP_PUBLISH}
-bcg-ch -o www:www -m 0500 -t d ${ASPNET_APP_PUBLISH}
+#bcg-ch -o www:www -m 0400 -t f ${ASPNET_APP_PUBLISH}
+#bcg-ch -o www:www -m 0500 -t d ${ASPNET_APP_PUBLISH}
 
 
 #======================================================================================================================
@@ -46,18 +46,11 @@ if [ "$(ls -A ${TEMP})" ] ; then
     bcg-debug " .. moving live files to ${ASPNET_APP_PUBLISH}"
     mv ${TEMP}/* ${ASPNET_APP_PUBLISH}
 
-bcg-ch -m 0500 -t d ${ASPNET_APP_LIVE}
+#bcg-ch -m 0500 -t d ${ASPNET_APP_LIVE}
 
-bcg-ch -m 0600 -t f ${ASPNET_APP_PUBLISH}
-bcg-ch -m 0700 -t d ${ASPNET_APP_PUBLISH}
+#bcg-ch -m 0600 -t f ${ASPNET_APP_PUBLISH}
+#bcg-ch -m 0700 -t d ${ASPNET_APP_PUBLISH}
 
 fi
 
 bcg-done
-
-
-#======================================================================================================================
-# Start application.
-#======================================================================================================================
-
-bcg-svc start aspnet
