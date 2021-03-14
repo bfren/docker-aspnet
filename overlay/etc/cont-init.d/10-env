@@ -15,4 +15,4 @@ bcg-env "ASPNET_LIB" "${BCG_LIB}/aspnet"
 ASPNET_APP=/app
 bcg-env "ASPNET_APP" "${ASPNET_APP}"
 bcg-env "ASPNET_APP_LIVE" "${ASPNET_APP}/live"
-bcg-env "ASPNET_APP_STAGING" "${ASPNET_APP}/staging"
+bcg-env "ASPNET_APP_PUBLISH" "${ASPNET_APP}/publish"

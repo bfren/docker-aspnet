@@ -5,51 +5,52 @@ export BCG_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Verify ASPNET_ASSEMBLY is set.
+# Check for staging files.
 #======================================================================================================================
 
-[[ -z "${ASPNET_ASSEMBLY}" ]] && bcg-error "ASPNET_ASSEMBLY environment variable must be set."
-
-
-#======================================================================================================================
-# Reset ASPNET_SLEEP variable.
-#======================================================================================================================
-
-bcg-env ASPNET_SLEEP 0 > /dev/null 2>&1
+[[ -z "$(ls -A ${ASPNET_APP_PUBLISH})" ]] && bcg-error "Please publish source files first."
 
 
 #======================================================================================================================
-# Sleep thread.
-#
-# Arguments
-#   1   The number of seconds to sleep for
+# Set permissions of published code.
 #======================================================================================================================
 
-go_to_sleep() {
-
-    SLEEP=${1}
-    bcg-debug "Sleeping for ${SLEEP}s."
-    bcg-env ASPNET_SLEEP ${SLEEP} > /dev/null 2>&1
-    sleep ${SLEEP}
-
-}
+#bcg-ch -o www:www -m 0400 -t f ${ASPNET_APP_PUBLISH}
+#bcg-ch -o www:www -m 0500 -t d ${ASPNET_APP_PUBLISH}
 
 
 #======================================================================================================================
-# Verify assembly exists before running it.
+# Disable application (so it won't try to restart before we're ready).
 #======================================================================================================================
 
-ASSEMBLY_PATH=${ASPNET_APP_LIVE}/${ASPNET_ASSEMBLY}
-if [ -f "${ASSEMBLY_PATH}" ] ; then
+bcg-svc disable aspnet
 
-    bcg-echo "Starting ASP.NET application."
-    bcg-debug " .. ${ASSEMBLY_PATH}."
 
-    s6-setuidgid www /usr/bin/dotnet "${ASSEMBLY_PATH}"
+#======================================================================================================================
+# Switch code from staging to live.
+#======================================================================================================================
 
-else
+bcg-echo "Switching code..."
 
-    bcg-notok "${ASSEMBLY_PATH} not found."
-    go_to_sleep 30
+TEMP=$(mktemp -d src.XXXXXX) || bcg-error "Unable to create temporary source directory."
+
+if [ "$(ls -A ${ASPNET_APP_LIVE})" ] ; then
+    bcg-debug " .. moving live files to ${TEMP}"
+    mv ${ASPNET_APP_LIVE}/* ${TEMP}
+fi
+
+bcg-debug " .. moving published files to ${ASPNET_APP_LIVE}"
+mv ${ASPNET_APP_PUBLISH}/* ${ASPNET_APP_LIVE}
+
+if [ "$(ls -A ${TEMP})" ] ; then
+    bcg-debug " .. moving live files to ${ASPNET_APP_PUBLISH}"
+    mv ${TEMP}/* ${ASPNET_APP_PUBLISH}
+
+#bcg-ch -m 0500 -t d ${ASPNET_APP_LIVE}
+
+#bcg-ch -m 0600 -t f ${ASPNET_APP_PUBLISH}
+#bcg-ch -m 0700 -t d ${ASPNET_APP_PUBLISH}
 
 fi
+
+bcg-done

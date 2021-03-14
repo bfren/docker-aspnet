@@ -5,8 +5,7 @@ export BCG_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Run start executable as www user.
+# Run restart executable.
 #======================================================================================================================
 
-bcg-debug "Start app in staging environment."
-${ASPNET_LIB}/start ${ASPNET_APP_STAGING}
+${ASPNET_LIB}/restart

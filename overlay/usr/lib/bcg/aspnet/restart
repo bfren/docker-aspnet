@@ -5,7 +5,8 @@ export BCG_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Run disable executable.
+# Restart the aspnet service.
 #======================================================================================================================
 
-${ASPNET_LIB}/disable
+bcg-debug "Restarting application."
+bcg-svc restart aspnet
