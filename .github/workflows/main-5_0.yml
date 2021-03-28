@@ -1,16 +1,8 @@
 name: main-5_0
 
 on:
-  push:
-    branches:
-      - 'main'
-    tags-ignore:
-      - '**'
-    paths:
-      - '.github/workflows/main-5_0.yml'
-      - '5.0/**'
-      - 'overlay/**'
-      - 'VERSION'
+  release:
+    types: [published]
 
 jobs:
   publish-5_0:
