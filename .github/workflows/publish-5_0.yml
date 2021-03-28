@@ -1,4 +1,4 @@
-name: main-5_0
+name: publish-5_0
 
 on:
   release:

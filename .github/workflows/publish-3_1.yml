@@ -1,4 +1,4 @@
-name: main-3_1
+name: publish-3_1
 
 on:
   release:
