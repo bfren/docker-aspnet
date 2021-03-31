@@ -1,16 +1,8 @@
-name: main-3_1
+name: publish-3_1
 
 on:
-  push:
-    branches:
-      - 'main'
-    tags-ignore:
-      - '**'
-    paths:
-      - '.github/workflows/main-3_1.yml'
-      - '3.1/**'
-      - 'overlay/**'
-      - 'VERSION'
+  release:
+    types: [published]
 
 jobs:
   publish-3_1:
