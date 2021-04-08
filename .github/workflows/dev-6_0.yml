@@ -1,0 +1,57 @@
+name: dev-6_0
+
+on:
+  push:
+    branches-ignore:
+      - 'main'
+    tags-ignore:
+      - '**'
+
+jobs:
+  test-6_0:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout code
+        uses: actions/checkout@v2
+  build-6_0:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout code
+        uses: actions/checkout@v2
+      -
+        name: Read image version
+        uses: bencgreen/read-file-action@v1
+        with:
+          path: ./VERSION
+        id: version
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./6.0/Dockerfile
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            bcgdesign/aspnet:net6-dev
+            bcgdesign/aspnet:net6.0-dev
+            bcgdesign/aspnet:net6-${{ steps.version.outputs.content }}-beta
+            bcgdesign/aspnet:net6.0-${{ steps.version.outputs.content }}-beta
+      -
+        name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
