@@ -71,7 +71,10 @@ bcg-debug ".NET version ${V}."
 
 DOTNET=/usr/share/dotnet
 
-[[ ${V} == 6* ]] && V="6.0.0-preview.3.21201.4"
+if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
+    DOTNET_PREVIEW="6.0.0-preview.3.21201.4"
+    bcg-debug "Changing version to ${DOTNET_PREVIEW}."
+fi
 
 RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${V}/dotnet-runtime-${V}-linux-musl-${ARCH}.tar.gz"
 bcg-echo "Downloading ${RUNTIME_URL}..."
@@ -91,7 +94,10 @@ mkdir -p ${DOTNET} \
 # Download and install ASP.NET Runtime.
 #======================================================================================================================
 
-[[ ${V} == 6* ]] && V="6.0.0-preview.3.21201.13"
+if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
+    DOTNET_PREVIEW="6.0.0-preview.3.21201.13"
+    bcg-debug "Changing version to ${DOTNET_PREVIEW}."
+fi
 
 ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${V}/aspnetcore-runtime-${V}-linux-musl-${ARCH}.tar.gz"
 bcg-echo "Downloading ${ASPNET_URL}..."
