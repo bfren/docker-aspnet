@@ -1,6 +1,6 @@
 # Docker ASP.NET
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/bencgreen/docker-aspnet) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bencgreen/docker-aspnet/dev-3_1?label=github+3.1) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bencgreen/docker-aspnet/dev-5_0?label=github+5.0) ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/bcgdesign/aspnet?label=docker) ![Docker Pulls](https://img.shields.io/docker/pulls/bcgdesign/aspnet?label=pulls) ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/bcgdesign/aspnet/latest?label=size)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/bencgreen/docker-aspnet) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bencgreen/docker-aspnet/dev-3_1?label=github+3.1) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bencgreen/docker-aspnet/dev-5_0?label=github+5.0) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bencgreen/docker-aspnet/dev-6_0?label=github+6.0) ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/bcgdesign/aspnet?label=docker) ![Docker Pulls](https://img.shields.io/docker/pulls/bcgdesign/aspnet?label=pulls) ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/bcgdesign/aspnet/latest?label=size)
 
 [Docker Repository](https://hub.docker.com/r/bcgdesign/aspnet) - [bcg|design ecosystem](https://github.com/bencgreen/docker)
 
