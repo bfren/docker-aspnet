@@ -72,7 +72,7 @@ bcg-debug ".NET version ${V}."
 DOTNET=/usr/share/dotnet
 
 if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
-    V="6.0.0-preview.3.21201.4"
+    V="6.0.0-preview.4.21253.7"
     bcg-debug "Changing version to ${V}."
 fi
 
@@ -95,7 +95,7 @@ mkdir -p ${DOTNET} \
 #======================================================================================================================
 
 if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
-    V="6.0.0-preview.3.21201.13"
+    V="6.0.0-preview.4.21253.5"
     bcg-debug "Changing version to ${V}."
 fi
 
