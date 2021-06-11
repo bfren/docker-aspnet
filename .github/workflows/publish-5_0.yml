@@ -14,13 +14,13 @@ jobs:
         uses: actions/checkout@v2
       -
         name: Read .NET version - revision
-        uses: bencgreen/read-file-action@v1
+        uses: bfren/read-file-action@v1
         with:
           path: ./5.0/DOTNET_REVISION
         id: dotnet_revision
       -
         name: Read image version
-        uses: bencgreen/read-file-action@v1
+        uses: bfren/read-file-action@v1
         with:
           path: ./VERSION
         id: version
