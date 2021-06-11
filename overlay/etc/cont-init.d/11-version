@@ -8,13 +8,17 @@ export BF_E=`basename ${0}`
 # Output .NET Version.
 #======================================================================================================================
 
-# get version from list of installed runtimes
-VERSION=`dotnet --list-runtimes \
+VERSION=\
+    # get list of installed runtimes
+    `dotnet --list-runtimes \
+    # get the line with the versio non
     | grep "Microsoft.NETCore.App" \
+    # strip out everything except numbers and full stops
     | sed 's/[^0-9\.]*//g' \
+    # trim full stops from start of string
     | sed 's/^\.*//g' \
-    | sed 's/\.*$//g' \
-    | xargs`
+    # trim full stops from end of string
+    | sed 's/\.*$//g'
 
 # output nicely
 bf-echo ".NET ${VERSION} installed."
