@@ -51,6 +51,11 @@ jobs:
             bcgdesign/aspnet:net3.1
             bcgdesign/aspnet:net3.1-${{ steps.version.outputs.content }}
             bcgdesign/aspnet:net${{ steps.dotnet_revision.outputs.content }}
+            bfren/aspnet:net3
+            bfren/aspnet:net3-${{ steps.version.outputs.content }}
+            bfren/aspnet:net3.1
+            bfren/aspnet:net3.1-${{ steps.version.outputs.content }}
+            bfren/aspnet:net${{ steps.dotnet_revision.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

@@ -53,6 +53,13 @@ jobs:
             bcgdesign/aspnet:net5.0
             bcgdesign/aspnet:net5.0-${{ steps.version.outputs.content }}
             bcgdesign/aspnet:net${{ steps.dotnet_revision.outputs.content }}
+            bfren/aspnet:latest
+            bfren/aspnet:${{ steps.version.outputs.content }}
+            bfren/aspnet:net5
+            bfren/aspnet:net5-${{ steps.version.outputs.content }}
+            bfren/aspnet:net5.0
+            bfren/aspnet:net5.0-${{ steps.version.outputs.content }}
+            bfren/aspnet:net${{ steps.dotnet_revision.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
