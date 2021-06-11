@@ -8,4 +8,4 @@ export BCG_E=`basename ${0}`
 # Test site.
 #======================================================================================================================
 
-bcg-test-url ${ASPNETCORE_URLS//[+]/localhost}
+bf-test-url ${ASPNETCORE_URLS//[+]/localhost}

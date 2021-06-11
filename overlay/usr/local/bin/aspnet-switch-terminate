@@ -15,4 +15,4 @@ ${ASPNET_LIB}/switch
 # Terminate container to force Kestrel to restart using the new code.
 #======================================================================================================================
 
-bcg-svc-terminate
+bf-svc-terminate

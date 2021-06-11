@@ -33,6 +33,6 @@ ENV \
 COPY ./overlay /
 COPY ./3.1/DOTNET_REVISION /tmp/VERSION
 
-RUN bcg-install
+RUN bf-install
 
 VOLUME [ "/app/live", "/app/publish" ]

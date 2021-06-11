@@ -8,5 +8,5 @@ export BCG_E=`basename ${0}`
 # Restart the aspnet service.
 #======================================================================================================================
 
-bcg-debug "Restarting application."
-bcg-svc restart aspnet
+bf-debug "Restarting application."
+bf-svc restart aspnet

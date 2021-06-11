@@ -8,4 +8,4 @@ export BCG_E=`basename ${0}`
 # Stop the aspnet service.
 #======================================================================================================================
 
-bcg-svc disable aspnet
+bf-svc disable aspnet
