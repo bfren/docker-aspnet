@@ -1,0 +1,21 @@
+#!/usr/bin/with-contenv sh
+
+set -euo pipefail
+export BF_E=`basename ${0}`
+
+
+#======================================================================================================================
+# Output .NET Version.
+#======================================================================================================================
+
+# Get version:
+#   - get list of installed runtimes
+#   - get the line with the version on
+#   - strip out everything except numbers and full stops
+#   - trim full stops from start of string
+#   - trim full stops from end of string
+
+VERSION=`dotnet --list-runtimes | grep "NETCore.App" | sed 's/[^0-9\.]*//g' | sed 's/^\.*//g' | sed 's/\.*$//g'`
+
+# output nicely
+bf-echo ".NET ${VERSION} installed."

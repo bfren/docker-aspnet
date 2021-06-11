@@ -1,21 +1,21 @@
 #!/usr/bin/with-contenv sh
 
 set -euo pipefail
-export BCG_E=`basename ${0}`
+export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
 # Verify ASPNET_ASSEMBLY is set.
 #======================================================================================================================
 
-[[ -z "${ASPNET_ASSEMBLY}" ]] && bcg-error "ASPNET_ASSEMBLY environment variable must be set."
+[[ -z "${ASPNET_ASSEMBLY}" ]] && bf-error "ASPNET_ASSEMBLY environment variable must be set."
 
 
 #======================================================================================================================
 # Reset ASPNET_SLEEP variable.
 #======================================================================================================================
 
-bcg-env ASPNET_SLEEP 0 > /dev/null 2>&1
+bf-env ASPNET_SLEEP 0 > /dev/null 2>&1
 
 
 #======================================================================================================================
@@ -28,8 +28,8 @@ bcg-env ASPNET_SLEEP 0 > /dev/null 2>&1
 go_to_sleep() {
 
     SLEEP=${1}
-    bcg-debug "Sleeping for ${SLEEP}s."
-    bcg-env ASPNET_SLEEP ${SLEEP} > /dev/null 2>&1
+    bf-debug "Sleeping for ${SLEEP}s."
+    bf-env ASPNET_SLEEP ${SLEEP} > /dev/null 2>&1
     sleep ${SLEEP}
 
 }
@@ -42,14 +42,14 @@ go_to_sleep() {
 ASSEMBLY_PATH=${ASPNET_APP_LIVE}/${ASPNET_ASSEMBLY}
 if [ -f "${ASSEMBLY_PATH}" ] ; then
 
-    bcg-echo "Starting ASP.NET application."
-    bcg-debug " .. ${ASSEMBLY_PATH}."
+    bf-echo "Starting ASP.NET application."
+    bf-debug " .. ${ASSEMBLY_PATH}."
 
     s6-setuidgid www /usr/bin/dotnet "${ASSEMBLY_PATH}"
 
 else
 
-    bcg-notok "${ASSEMBLY_PATH} not found."
+    bf-notok "${ASSEMBLY_PATH} not found."
     go_to_sleep 30
 
 fi

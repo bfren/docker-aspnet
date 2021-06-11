@@ -1,11 +1,11 @@
 #!/usr/bin/with-contenv sh
 
 set -euo pipefail
-export BCG_E=`basename ${0}`
+export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
 # Stop the aspnet service.
 #======================================================================================================================
 
-bcg-svc disable aspnet
+bf-svc disable aspnet

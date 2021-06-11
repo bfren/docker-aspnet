@@ -1,14 +1,14 @@
 #!/bin/sh
 
 set -euo pipefail
-export BCG_E=`basename ${0}`
+export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
 # Add www user.
 #======================================================================================================================
 
-bcg-adduser www
+bf-adduser www
 
 
 #======================================================================================================================
@@ -29,7 +29,7 @@ apk add --no-cache \
 # Ensure target platform is set.
 #======================================================================================================================
 
-[[ -z "${TARGETPLATFORM-}" ]] && bcg-error "Target platform not set."
+[[ -z "${TARGETPLATFORM-}" ]] && bf-error "Target platform not set."
 
 
 #======================================================================================================================
@@ -47,12 +47,12 @@ case "${TARGETPLATFORM}" in
         ;;
 
     *)
-        bcg-error "Unsupported target platform: ${TARGETPLATFORM}."
+        bf-error "Unsupported target platform: ${TARGETPLATFORM}."
         ;;
 
 esac
 
-bcg-debug "Platform architecture ${ARCH}."
+bf-debug "Platform architecture ${ARCH}."
 
 
 #======================================================================================================================
@@ -62,7 +62,7 @@ bcg-debug "Platform architecture ${ARCH}."
 cd /tmp
 
 V=$(cat VERSION)
-bcg-debug ".NET version ${V}."
+bf-debug ".NET version ${V}."
 
 
 #======================================================================================================================
@@ -73,21 +73,21 @@ DOTNET=/usr/share/dotnet
 
 if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
     V="6.0.0-preview.4.21253.7"
-    bcg-debug "Changing version to ${V}."
+    bf-debug "Changing version to ${V}."
 fi
 
 RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${V}/dotnet-runtime-${V}-linux-musl-${ARCH}.tar.gz"
-bcg-echo "Downloading ${RUNTIME_URL}..."
+bf-echo "Downloading ${RUNTIME_URL}..."
 wget -O dotnet.tar.gz ${RUNTIME_URL}
-bcg-done
+bf-done
 
-bcg-echo "Installing .NET runtime..."
+bf-echo "Installing .NET runtime..."
 mkdir -p ${DOTNET} \
     && tar -C ${DOTNET} -oxzf dotnet.tar.gz \
     && ln -s ${DOTNET}/dotnet /usr/bin/dotnet
 
-[[ -d ${DOTNET} ]] && bcg-done \
-    || bcg-error ".NET runtime not installed."
+[[ -d ${DOTNET} ]] && bf-done \
+    || bf-error ".NET runtime not installed."
 
 
 #======================================================================================================================
@@ -96,25 +96,25 @@ mkdir -p ${DOTNET} \
 
 if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
     V="6.0.0-preview.4.21253.5"
-    bcg-debug "Changing version to ${V}."
+    bf-debug "Changing version to ${V}."
 fi
 
 ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${V}/aspnetcore-runtime-${V}-linux-musl-${ARCH}.tar.gz"
-bcg-echo "Downloading ${ASPNET_URL}..."
+bf-echo "Downloading ${ASPNET_URL}..."
 wget -O aspnetcore.tar.gz ${ASPNET_URL}
-bcg-done
+bf-done
 
-bcg-echo "Installing ASP.NET..."
+bf-echo "Installing ASP.NET..."
 tar -ozxf aspnetcore.tar.gz -C ${DOTNET} ./shared/Microsoft.AspNetCore.App
 
-[[ -d ${DOTNET}/shared/Microsoft.AspNetCore.App/${V} ]] && bcg-done \
-    || bcg-error "ASP.NET runtime not installed."
+[[ -d ${DOTNET}/shared/Microsoft.AspNetCore.App/${V} ]] && bf-done \
+    || bf-error "ASP.NET runtime not installed."
 
 
 #======================================================================================================================
 # Make app directories.
 #======================================================================================================================
 
-bcg-debug "Creating /app directories."
+bf-debug "Creating /app directories."
 mkdir -p /app/live
 mkdir /app/publish

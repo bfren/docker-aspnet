@@ -1,12 +1,6 @@
-FROM bcgdesign/alpine-s6:auto
+FROM bfren/alpine-s6:auto
 
 ARG TARGETPLATFORM="linux/amd64"
-
-LABEL maintainer="Ben Green <ben@bcgdesign.com>" \
-    org.label-schema.name=".NET" \
-    org.label-schema.version="latest" \
-    org.label-schema.vendor="Ben Green" \
-    org.label-schema.schema-version="1.0"
 
 EXPOSE 5000
 
@@ -25,6 +19,6 @@ ENV \
 COPY ./overlay /
 COPY ./5.0/DOTNET_REVISION /tmp/VERSION
 
-RUN bcg-install
+RUN bf-install
 
 VOLUME [ "/app/live", "/app/publish" ]

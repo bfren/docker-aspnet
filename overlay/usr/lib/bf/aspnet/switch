@@ -1,56 +1,56 @@
 #!/usr/bin/with-contenv sh
 
 set -euo pipefail
-export BCG_E=`basename ${0}`
+export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
 # Check for staging files.
 #======================================================================================================================
 
-[[ -z "$(ls -A ${ASPNET_APP_PUBLISH})" ]] && bcg-error "Please publish source files first."
+[[ -z "$(ls -A ${ASPNET_APP_PUBLISH})" ]] && bf-error "Please publish source files first."
 
 
 #======================================================================================================================
 # Set permissions of published code.
 #======================================================================================================================
 
-#bcg-ch -o www:www -m 0400 -t f ${ASPNET_APP_PUBLISH}
-#bcg-ch -o www:www -m 0500 -t d ${ASPNET_APP_PUBLISH}
+#bf-ch -o www:www -m 0400 -t f ${ASPNET_APP_PUBLISH}
+#bf-ch -o www:www -m 0500 -t d ${ASPNET_APP_PUBLISH}
 
 
 #======================================================================================================================
 # Disable application (so it won't try to restart before we're ready).
 #======================================================================================================================
 
-bcg-svc disable aspnet
+bf-svc disable aspnet
 
 
 #======================================================================================================================
 # Switch code from staging to live.
 #======================================================================================================================
 
-bcg-echo "Switching code..."
+bf-echo "Switching code..."
 
-TEMP=$(mktemp -d src.XXXXXX) || bcg-error "Unable to create temporary source directory."
+TEMP=$(mktemp -d src.XXXXXX) || bf-error "Unable to create temporary source directory."
 
 if [ "$(ls -A ${ASPNET_APP_LIVE})" ] ; then
-    bcg-debug " .. moving live files to ${TEMP}"
+    bf-debug " .. moving live files to ${TEMP}"
     mv ${ASPNET_APP_LIVE}/* ${TEMP}
 fi
 
-bcg-debug " .. moving published files to ${ASPNET_APP_LIVE}"
+bf-debug " .. moving published files to ${ASPNET_APP_LIVE}"
 mv ${ASPNET_APP_PUBLISH}/* ${ASPNET_APP_LIVE}
 
 if [ "$(ls -A ${TEMP})" ] ; then
-    bcg-debug " .. moving live files to ${ASPNET_APP_PUBLISH}"
+    bf-debug " .. moving live files to ${ASPNET_APP_PUBLISH}"
     mv ${TEMP}/* ${ASPNET_APP_PUBLISH}
 
-#bcg-ch -m 0500 -t d ${ASPNET_APP_LIVE}
+#bf-ch -m 0500 -t d ${ASPNET_APP_LIVE}
 
-#bcg-ch -m 0600 -t f ${ASPNET_APP_PUBLISH}
-#bcg-ch -m 0700 -t d ${ASPNET_APP_PUBLISH}
+#bf-ch -m 0600 -t f ${ASPNET_APP_PUBLISH}
+#bf-ch -m 0700 -t d ${ASPNET_APP_PUBLISH}
 
 fi
 
-bcg-done
+bf-done

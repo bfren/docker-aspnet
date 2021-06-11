@@ -1,9 +1,9 @@
 # Docker ASP.NET
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/bencgreen/docker-aspnet) ![Docker Pulls](https://img.shields.io/docker/pulls/bcgdesign/aspnet?label=pulls) ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/bcgdesign/aspnet/latest?label=size)<br/>
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bencgreen/docker-aspnet/dev-3_1?label=.NET+Core+3.1) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bencgreen/docker-aspnet/dev-5_0?label=.NET+Core+5.0) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bencgreen/docker-aspnet/dev-6_0?label=.NET+6.0)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/bfren/docker-aspnet) ![Docker Pulls](https://img.shields.io/docker/pulls/bfren/aspnet?label=pulls) ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/bfren/aspnet/latest?label=size)<br/>
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bfren/docker-aspnet/dev-3_1?label=.NET+Core+3.1) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bfren/docker-aspnet/dev-5_0?label=.NET+Core+5.0) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bfren/docker-aspnet/dev-6_0?label=.NET+6.0)
 
-[Docker Repository](https://hub.docker.com/r/bcgdesign/aspnet) - [bcg|design ecosystem](https://github.com/bencgreen/docker)
+[Docker Repository](https://hub.docker.com/r/bfren/aspnet) - [bfren ecosystem](https://github.com/bfren/docker)
 
 Comes pre-installed with the ASP.NET runtime and all dependencies.
 
@@ -13,7 +13,7 @@ Comes pre-installed with the ASP.NET runtime and all dependencies.
 * [Volumes](#volumes)
 * [Environment Variables](#environment-variables)
 * [Helper Functions](#helper-functions)
-* [Authors / Licence / Copyright](#authors)
+* [Licence / Copyright](#licence)
 
 ## Ports
 
@@ -40,15 +40,11 @@ Comes pre-installed with the ASP.NET runtime and all dependencies.
 | ------------ | --------- | --------------------------------------------------------------------------------------- |
 | `dotnet-run` | *None*    | Checks that the `DOTNET_RUN_ASSEMBLY` environment variable is set and then executes it. |
 
-## Authors
+## Licence
 
-* [Ben Green](https://github.com/bencgreen)
-
-## License
-
-> [MIT](https://bcg.mit-license.org/2020)
+> [MIT](https://mit.bfren.uk/2020)
 
 ## Copyright
 
-> Copyright (c) 2021 Ben Green <https://bcgdesign.com>
+> Copyright (c) 2021 bfren.uk
 > Unless otherwise stated

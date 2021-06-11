@@ -14,13 +14,13 @@ jobs:
         uses: actions/checkout@v2
       -
         name: Read .NET version - revision
-        uses: bencgreen/read-file-action@v1
+        uses: bfren/read-file-action@v1
         with:
           path: ./5.0/DOTNET_REVISION
         id: dotnet_revision
       -
         name: Read image version
-        uses: bencgreen/read-file-action@v1
+        uses: bfren/read-file-action@v1
         with:
           path: ./VERSION
         id: version
@@ -46,13 +46,13 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bcgdesign/aspnet:latest
-            bcgdesign/aspnet:${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:net5
-            bcgdesign/aspnet:net5-${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:net5.0
-            bcgdesign/aspnet:net5.0-${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:net${{ steps.dotnet_revision.outputs.content }}
+            bfren/aspnet:latest
+            bfren/aspnet:${{ steps.version.outputs.content }}
+            bfren/aspnet:net5
+            bfren/aspnet:net5-${{ steps.version.outputs.content }}
+            bfren/aspnet:net5.0
+            bfren/aspnet:net5.0-${{ steps.version.outputs.content }}
+            bfren/aspnet:net${{ steps.dotnet_revision.outputs.content }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

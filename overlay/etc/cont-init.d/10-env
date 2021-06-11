@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 set -euo pipefail
-export BCG_E=`basename ${0}`
+export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
@@ -9,10 +9,10 @@ export BCG_E=`basename ${0}`
 #======================================================================================================================
 
 # Library configuration
-bcg-env "ASPNET_LIB" "${BCG_LIB}/aspnet"
+bf-env "ASPNET_LIB" "${BF_LIB}/aspnet"
 
 # app directories
 ASPNET_APP=/app
-bcg-env "ASPNET_APP" "${ASPNET_APP}"
-bcg-env "ASPNET_APP_LIVE" "${ASPNET_APP}/live"
-bcg-env "ASPNET_APP_PUBLISH" "${ASPNET_APP}/publish"
+bf-env "ASPNET_APP" "${ASPNET_APP}"
+bf-env "ASPNET_APP_LIVE" "${ASPNET_APP}/live"
+bf-env "ASPNET_APP_PUBLISH" "${ASPNET_APP}/publish"
