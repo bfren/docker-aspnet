@@ -46,13 +46,6 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bcgdesign/aspnet:latest
-            bcgdesign/aspnet:${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:net5
-            bcgdesign/aspnet:net5-${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:net5.0
-            bcgdesign/aspnet:net5.0-${{ steps.version.outputs.content }}
-            bcgdesign/aspnet:net${{ steps.dotnet_revision.outputs.content }}
             bfren/aspnet:latest
             bfren/aspnet:${{ steps.version.outputs.content }}
             bfren/aspnet:net5

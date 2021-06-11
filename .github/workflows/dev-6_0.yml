@@ -49,10 +49,6 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bcgdesign/aspnet:net6-dev
-            bcgdesign/aspnet:net6.0-dev
-            bcgdesign/aspnet:net6-${{ steps.version.outputs.content }}-beta
-            bcgdesign/aspnet:net6.0-${{ steps.version.outputs.content }}-beta
             bfren/aspnet:net6-dev
             bfren/aspnet:net6.0-dev
             bfren/aspnet:net6-${{ steps.version.outputs.content }}-beta
