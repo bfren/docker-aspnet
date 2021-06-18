@@ -72,7 +72,7 @@ bf-debug ".NET version ${V}."
 DOTNET=/usr/share/dotnet
 
 if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
-    V="6.0.0-preview.4.21253.7"
+    V="6.0.0-preview.5.21301.5"
     bf-debug "Changing version to ${V}."
 fi
 
@@ -95,7 +95,7 @@ mkdir -p ${DOTNET} \
 #======================================================================================================================
 
 if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
-    V="6.0.0-preview.4.21253.5"
+    V="6.0.0-preview.5.21301.17"
     bf-debug "Changing version to ${V}."
 fi
 
