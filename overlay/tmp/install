@@ -5,42 +5,6 @@ export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Verify checksum of a dotnet download.
-#   1   Either 'runtime' or 'aspnet'
-#======================================================================================================================
-
-function verify-download () {
-
-    DL="${ASPNET_VERSION_MINOR}-${ARCH}-${1}"
-
-    case "${DL}" in
-
-        3.1-x64-runtime)    HASH="1863a63652f9530ca26c82d715906023be6e2a67e6c7b50368f006e0b115b724f8a50298c3084dfeb14e4e4db9d52eab30086ede210f938b395de2ac7d69d046" ;;
-        3.1-arm64-runtime)  HASH="def354b929cdc2b8432292727d54d765181e0892b7c357b075430d2f8690b615a7ad46dfa34389d4ae95233c073f36717eff744c76b1f1a317e02a00db33ed37" ;;
-        5.0-x64-runtime)    HASH="0b6e7ada8b07e09d2bbf2cae0d8667c0a0876e3d77876958dae3f95e2c98e74c078c663a1fdb326f9bc46abc3c2d86c518cce4a170ad1128e3f20702410eabca" ;;
-        5.0-arm64-runtime)  HASH="20c98d01415966476c3d8187625b9a44ab329dfa9d8b7db6540e62924c0e75ee610839a67efba3667f03e7f37962c08b2914561ec1c8d63b4b8d9e4245aad4c5" ;;
-        6.0-x64-runtime)    HASH="060be1fe4d0b7fb5618d5a1f9482767667c96794111188678c5a9004a5961381f0856f57a6cd77f4ea1883a3e523f1f5c35ec6c72fcab67c9aa725ad8e5b0e6b" ;;
-        6.0-arm64-runtime)  HASH="23fcb52f7bae7fab181eeca125519bcabf1acc118804e93fa88566e5f588000e9f910152cd8655c6f02604f0b4e50ed19ec2afb92062fd26b671b00e5b9c2929" ;;
-
-        3.1-x64-aspnet)     HASH="6288002d8281594d6b928f887b7a24c221acc52d584155fada7198e0cb53c77357867df6e23331b71bc7c3150ed71632e16503b0639ad5c72acf59959fcf6cb3" ;;
-        3.1-arm64-aspnet)   HASH="d02a694ba0c480911c65d471efdce6a999ac374bd38802f644d2a31382f6aff2e0ae9714a3140c5529b554f8f7060d5f43f99efa5f3e62419d1f32cf0c1f59c4" ;;
-        5.0-x64-aspnet)     HASH="a143033b6dcc3de5f4ca44fa0f64bd72b93ae09184fb773d6e8d809fecd495b64040a15d9888f1209dab825adf21e76a741271ba16dd84312ca0640ae3683085" ;;
-        5.0-arm64-aspnet)   HASH="d3145d3500747b39c7b1934cbc352420a0df9142bcb11dcac8b7144273c2e4dbb8d997d086b4fadd741239bde74062afd41539f7d75a57c1daf5d373e02e0e1e" ;;
-        6.0-x64-aspnet)     HASH="9c26f6ab72569d347eed4772997ce3df5598ed0f2b21f5042f4da321d07ba97e6c1d1b73617ea26ac1d846a96119c5038eecbf3874ac21bb3a2b5f04daeca8a2" ;;
-        6.0-arm64-aspnet)   HASH="a59295332736d732fb18dc1a49727eff7c09d3770cea93c1f326d9e1e7dde3afd42d7c72d8e1ea5c4eec070ca9fc6139ada31a515ec56f74aca0c9000eadafc7" ;;
-
-        *)                  bf-error "Unsupported download ${DL}." ;;
-
-    esac
-
-    bf-echo "Verifying ${1} download..."
-    echo "${HASH}  ${1}.tar.gz" | sha512sum -c -
-    bf-done
-
-}
-
-
-#======================================================================================================================
 # Add www user.
 #======================================================================================================================
 
@@ -99,6 +63,42 @@ cd /tmp
 
 V=$(cat VERSION)
 bf-debug ".NET version ${V}."
+
+
+#======================================================================================================================
+# Verify checksum of a dotnet download.
+#   1   Either 'runtime' or 'aspnet'
+#======================================================================================================================
+
+verify-download () {
+
+    DL="${ASPNET_VERSION_MINOR}-${ARCH}-${1}"
+
+    case "${DL}" in
+
+        3.1-x64-runtime)    HASH="1863a63652f9530ca26c82d715906023be6e2a67e6c7b50368f006e0b115b724f8a50298c3084dfeb14e4e4db9d52eab30086ede210f938b395de2ac7d69d046" ;;
+        3.1-arm64-runtime)  HASH="def354b929cdc2b8432292727d54d765181e0892b7c357b075430d2f8690b615a7ad46dfa34389d4ae95233c073f36717eff744c76b1f1a317e02a00db33ed37" ;;
+        5.0-x64-runtime)    HASH="0b6e7ada8b07e09d2bbf2cae0d8667c0a0876e3d77876958dae3f95e2c98e74c078c663a1fdb326f9bc46abc3c2d86c518cce4a170ad1128e3f20702410eabca" ;;
+        5.0-arm64-runtime)  HASH="20c98d01415966476c3d8187625b9a44ab329dfa9d8b7db6540e62924c0e75ee610839a67efba3667f03e7f37962c08b2914561ec1c8d63b4b8d9e4245aad4c5" ;;
+        6.0-x64-runtime)    HASH="060be1fe4d0b7fb5618d5a1f9482767667c96794111188678c5a9004a5961381f0856f57a6cd77f4ea1883a3e523f1f5c35ec6c72fcab67c9aa725ad8e5b0e6b" ;;
+        6.0-arm64-runtime)  HASH="23fcb52f7bae7fab181eeca125519bcabf1acc118804e93fa88566e5f588000e9f910152cd8655c6f02604f0b4e50ed19ec2afb92062fd26b671b00e5b9c2929" ;;
+
+        3.1-x64-aspnet)     HASH="6288002d8281594d6b928f887b7a24c221acc52d584155fada7198e0cb53c77357867df6e23331b71bc7c3150ed71632e16503b0639ad5c72acf59959fcf6cb3" ;;
+        3.1-arm64-aspnet)   HASH="d02a694ba0c480911c65d471efdce6a999ac374bd38802f644d2a31382f6aff2e0ae9714a3140c5529b554f8f7060d5f43f99efa5f3e62419d1f32cf0c1f59c4" ;;
+        5.0-x64-aspnet)     HASH="a143033b6dcc3de5f4ca44fa0f64bd72b93ae09184fb773d6e8d809fecd495b64040a15d9888f1209dab825adf21e76a741271ba16dd84312ca0640ae3683085" ;;
+        5.0-arm64-aspnet)   HASH="d3145d3500747b39c7b1934cbc352420a0df9142bcb11dcac8b7144273c2e4dbb8d997d086b4fadd741239bde74062afd41539f7d75a57c1daf5d373e02e0e1e" ;;
+        6.0-x64-aspnet)     HASH="9c26f6ab72569d347eed4772997ce3df5598ed0f2b21f5042f4da321d07ba97e6c1d1b73617ea26ac1d846a96119c5038eecbf3874ac21bb3a2b5f04daeca8a2" ;;
+        6.0-arm64-aspnet)   HASH="a59295332736d732fb18dc1a49727eff7c09d3770cea93c1f326d9e1e7dde3afd42d7c72d8e1ea5c4eec070ca9fc6139ada31a515ec56f74aca0c9000eadafc7" ;;
+
+        *)                  bf-error "Unsupported download ${DL}." ;;
+
+    esac
+
+    bf-echo "Verifying ${1} download..."
+    echo "${HASH}  ${1}.tar.gz" | sha512sum -c -
+    bf-done
+
+}
 
 
 #======================================================================================================================
