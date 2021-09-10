@@ -116,8 +116,9 @@ RUNTIME="runtime"
 RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${V}/dotnet-runtime-${V}-linux-musl-${ARCH}.tar.gz"
 bf-echo "Downloading ${RUNTIME_URL}..."
 wget -O ${RUNTIME}.tar.gz ${RUNTIME_URL}
-verify ${RUNTIME}
 bf-done
+
+verify ${RUNTIME}
 
 bf-echo "Installing .NET runtime..."
 mkdir -p ${DOTNET} \
@@ -141,8 +142,9 @@ ASPNET="aspnet"
 ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${V}/aspnetcore-runtime-${V}-linux-musl-${ARCH}.tar.gz"
 bf-echo "Downloading ${ASPNET_URL}..."
 wget -O ${ASPNET}.tar.gz ${ASPNET_URL}
-verify ${ASPNET}
 bf-done
+
+verify ${ASPNET}
 
 bf-echo "Installing ASP.NET..."
 tar -ozxf ${ASPNET}.tar.gz -C ${DOTNET} ./shared/Microsoft.AspNetCore.App
