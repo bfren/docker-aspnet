@@ -70,7 +70,7 @@ bf-debug ".NET version ${V}."
 #   1   Either 'runtime' or 'aspnet'
 #======================================================================================================================
 
-verify-download () {
+verify () {
 
     DL="${ASPNET_VERSION_MINOR}-${ARCH}-${1}"
 
@@ -90,7 +90,7 @@ verify-download () {
         6.0-x64-aspnet)     HASH="9c26f6ab72569d347eed4772997ce3df5598ed0f2b21f5042f4da321d07ba97e6c1d1b73617ea26ac1d846a96119c5038eecbf3874ac21bb3a2b5f04daeca8a2" ;;
         6.0-arm64-aspnet)   HASH="a59295332736d732fb18dc1a49727eff7c09d3770cea93c1f326d9e1e7dde3afd42d7c72d8e1ea5c4eec070ca9fc6139ada31a515ec56f74aca0c9000eadafc7" ;;
 
-        *)                  bf-error "Unsupported download ${DL}." ;;
+        *)                  bf-error "Unsupported dotnet download: ${DL}." ;;
 
     esac
 
@@ -116,7 +116,7 @@ RUNTIME="runtime"
 RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${V}/dotnet-runtime-${V}-linux-musl-${ARCH}.tar.gz"
 bf-echo "Downloading ${RUNTIME_URL}..."
 wget -O ${RUNTIME}.tar.gz ${RUNTIME_URL}
-verify-download ${RUNTIME}
+verify ${RUNTIME}
 bf-done
 
 bf-echo "Installing .NET runtime..."
@@ -141,7 +141,7 @@ ASPNET="aspnet"
 ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${V}/aspnetcore-runtime-${V}-linux-musl-${ARCH}.tar.gz"
 bf-echo "Downloading ${ASPNET_URL}..."
 wget -O ${ASPNET}.tar.gz ${ASPNET_URL}
-verify-download ${ASPNET}
+verify ${ASPNET}
 bf-done
 
 bf-echo "Installing ASP.NET..."
