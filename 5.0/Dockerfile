@@ -5,7 +5,7 @@ ARG BUILDPLATFORM
 
 RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
 
-FROM bfren/alpine-s6:alpine3.14-2.2.7
+FROM bfren/alpine-s6:alpine3.14-2.2.8
 COPY --from=build /log /log
 
 ARG TARGETPLATFORM
@@ -13,6 +13,8 @@ ARG TARGETPLATFORM
 EXPOSE 5000
 
 ENV \
+    # The minor version - used to assist in calculating checksums
+    ASPNET_VERSION_MINOR=5.0 \
     # Must be defined so the service can run the application
     ASPNET_ASSEMBLY= \
     # Configure web servers to bind to port 5000

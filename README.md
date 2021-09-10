@@ -42,9 +42,9 @@ Comes pre-installed with the ASP.NET runtime and all dependencies.
 
 ## Licence
 
-> [MIT](https://mit.bfren.uk/2020)
+> [MIT](https://mit.bfren.dev/2020)
 
 ## Copyright
 
-> Copyright (c) 2021 bfren.uk
+> Copyright (c) 2021 bfren
 > Unless otherwise stated
