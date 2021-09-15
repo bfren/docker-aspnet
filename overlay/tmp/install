@@ -76,19 +76,19 @@ verify () {
 
     case "${DL}" in
 
-        3.1-x64-runtime)    HASH="1863a63652f9530ca26c82d715906023be6e2a67e6c7b50368f006e0b115b724f8a50298c3084dfeb14e4e4db9d52eab30086ede210f938b395de2ac7d69d046" ;;
-        3.1-arm64-runtime)  HASH="def354b929cdc2b8432292727d54d765181e0892b7c357b075430d2f8690b615a7ad46dfa34389d4ae95233c073f36717eff744c76b1f1a317e02a00db33ed37" ;;
-        5.0-x64-runtime)    HASH="0b6e7ada8b07e09d2bbf2cae0d8667c0a0876e3d77876958dae3f95e2c98e74c078c663a1fdb326f9bc46abc3c2d86c518cce4a170ad1128e3f20702410eabca" ;;
-        5.0-arm64-runtime)  HASH="20c98d01415966476c3d8187625b9a44ab329dfa9d8b7db6540e62924c0e75ee610839a67efba3667f03e7f37962c08b2914561ec1c8d63b4b8d9e4245aad4c5" ;;
-        6.0-x64-runtime)    HASH="060be1fe4d0b7fb5618d5a1f9482767667c96794111188678c5a9004a5961381f0856f57a6cd77f4ea1883a3e523f1f5c35ec6c72fcab67c9aa725ad8e5b0e6b" ;;
-        6.0-arm64-runtime)  HASH="23fcb52f7bae7fab181eeca125519bcabf1acc118804e93fa88566e5f588000e9f910152cd8655c6f02604f0b4e50ed19ec2afb92062fd26b671b00e5b9c2929" ;;
+        3.1-x64-runtime)    HASH="dcee0837238f292b127b123cf774c7544f3fa2f509114b141198f84ac06fdb3a9d91af6d5829b16866bf654dbcf829de61b13d16677af67318795e2d93dbff7d" ;;
+        3.1-arm64-runtime)  HASH="7e1609c05925f84990a609b58f951adab5bb8fd7513db592984cad6a7a427ff8bcbd14073ebd55d903aff5b6b31ae9926393194fab158dade4e2f5bd7f3e1a69" ;;
+        5.0-x64-runtime)    HASH="d0ca3aef030a575daf09fcfb8abc3056dcb6567da661c8c18162882a8ae9af3de013053ada82e0ee3042a806cb10dd234f59aa5bbdcd229d5ead582464ad4154" ;;
+        5.0-arm64-runtime)  HASH="c392afbee253e1bf98a83c543fb7416508ad3655add357fd03d2333f8e3b62321241374ba988a5cfacf4d0ff531bd7b15bd37f5d67b79a104d3b649b2f28c5f0" ;;
+        6.0-x64-runtime)    HASH="41d6b4f68a7bdef7e91b5a153106f7767afa9a0a76e8e5f724a2a44aaf3d7cb6eba8981fbb2426dd4cb669cbd5f071901d4893b4f22760641c94e2dae9ea74cd" ;;
+        6.0-arm64-runtime)  HASH="5a718a94e065d105f2e056672f8a0a7f3486626f253360ca0945dd468d9276e0c33c5a28b82dda9f3928b86967777af780bc2932d07ccea9b7a497dd9d90356c" ;;
 
-        3.1-x64-aspnet)     HASH="6288002d8281594d6b928f887b7a24c221acc52d584155fada7198e0cb53c77357867df6e23331b71bc7c3150ed71632e16503b0639ad5c72acf59959fcf6cb3" ;;
-        3.1-arm64-aspnet)   HASH="d02a694ba0c480911c65d471efdce6a999ac374bd38802f644d2a31382f6aff2e0ae9714a3140c5529b554f8f7060d5f43f99efa5f3e62419d1f32cf0c1f59c4" ;;
-        5.0-x64-aspnet)     HASH="a143033b6dcc3de5f4ca44fa0f64bd72b93ae09184fb773d6e8d809fecd495b64040a15d9888f1209dab825adf21e76a741271ba16dd84312ca0640ae3683085" ;;
-        5.0-arm64-aspnet)   HASH="d3145d3500747b39c7b1934cbc352420a0df9142bcb11dcac8b7144273c2e4dbb8d997d086b4fadd741239bde74062afd41539f7d75a57c1daf5d373e02e0e1e" ;;
-        6.0-x64-aspnet)     HASH="9c26f6ab72569d347eed4772997ce3df5598ed0f2b21f5042f4da321d07ba97e6c1d1b73617ea26ac1d846a96119c5038eecbf3874ac21bb3a2b5f04daeca8a2" ;;
-        6.0-arm64-aspnet)   HASH="a59295332736d732fb18dc1a49727eff7c09d3770cea93c1f326d9e1e7dde3afd42d7c72d8e1ea5c4eec070ca9fc6139ada31a515ec56f74aca0c9000eadafc7" ;;
+        3.1-x64-aspnet)     HASH="f90e83939d947e45d1f50647a77b90cfc8f91fe4295921736b4a57130d92434e463ae28885a1fb1b6455bdfeb478a665c5f5bc4e943c27a1eff08f1da2a4dec2" ;;
+        3.1-arm64-aspnet)   HASH="dc798bb2ddb6d8ce22cc4b4d3c197c05b69c4b8c04b11c9c585f1a4fa50860c75627d8478f63ad5bd30f00f77f20f4ccb9ae0f405c65c3b5fda838932154a40d" ;;
+        5.0-x64-aspnet)     HASH="0e995f892eca8893e211e9965b2378da263233ad92c5f32624c4dfbdaec1ad7b8b3c5496a27a81891b321eb12d7a08445cd86832e219584a31cad4baef18b9d2" ;;
+        5.0-arm64-aspnet)   HASH="bdcd08174f9813b73d21c433cd6de76487167d3890953aea961c0275c16a70c1d871cfdfdd9cb4b46b446e638810c288ab3fc79fbdf4979367624dfdaf3f95ec" ;;
+        6.0-x64-aspnet)     HASH="c34e939169faafd9ffc2189695f7e5e134170b131850606c781b80801aab3f8b73a6c4bdb0dbe9b104b065e0585339deec97da367662ed0cf1f0e7dcd009cee1" ;;
+        6.0-arm64-aspnet)   HASH="d1fc927a9ef473080e500ff250f26c5020e3a60f0303570eb5e37f7adaa12812b139472d00f7d260463789b8f0c103e4eceb65e8764344b9c390fa9a8cfccd21" ;;
 
         *)                  bf-error "Unsupported dotnet download: ${DL}." ;;
 
@@ -108,7 +108,7 @@ verify () {
 DOTNET=/usr/share/dotnet
 
 if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
-    V="6.0.0-preview.7.21377.19"
+    V="6.0.0-rc.1.21451.13"
     bf-debug "Changing version to ${V}."
 fi
 
@@ -134,7 +134,7 @@ mkdir -p ${DOTNET} \
 #======================================================================================================================
 
 if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
-    V="6.0.0-preview.7.21378.6"
+    V="6.0.0-rc.1.21452.15"
     bf-debug "Changing version to ${V}."
 fi
 
