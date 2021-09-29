@@ -23,9 +23,9 @@ jobs:
         uses: actions/checkout@v2
       -
         name: Read image version
-        uses: bfren/read-file-action@v1
+        uses: bfren/read-file@v1
         with:
-          path: ./VERSION
+          file: ./VERSION
         id: version
       -
         name: Set up QEMU
@@ -49,12 +49,12 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bfren/aspnet:${{ steps.version.outputs.content }}-beta
+            bfren/aspnet:${{ steps.version.outputs.contents }}-beta
             bfren/aspnet:dev
             bfren/aspnet:net5-dev
             bfren/aspnet:net5.0-dev
-            bfren/aspnet:net5-${{ steps.version.outputs.content }}-beta
-            bfren/aspnet:net5.0-${{ steps.version.outputs.content }}-beta
+            bfren/aspnet:net5-${{ steps.version.outputs.contents }}-beta
+            bfren/aspnet:net5.0-${{ steps.version.outputs.contents }}-beta
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
