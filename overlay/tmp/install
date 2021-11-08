@@ -107,10 +107,10 @@ verify () {
 
 DOTNET=/usr/share/dotnet
 
-if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
-    V="6.0.0-rc.2.21480.5"
-    bf-debug "Changing version to ${V}."
-fi
+#if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
+#    V="6.0.0-rc.2.21480.5"
+#    bf-debug "Changing version to ${V}."
+#fi
 
 RUNTIME="runtime"
 RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${V}/dotnet-runtime-${V}-linux-musl-${ARCH}.tar.gz"
@@ -133,10 +133,10 @@ mkdir -p ${DOTNET} \
 # Download and install ASP.NET Runtime.
 #======================================================================================================================
 
-if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
-    V="6.0.0-rc.2.21480.10"
-    bf-debug "Changing version to ${V}."
-fi
+#if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
+#    V="6.0.0-rc.2.21480.10"
+#    bf-debug "Changing version to ${V}."
+#fi
 
 ASPNET="aspnet"
 ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${V}/aspnetcore-runtime-${V}-linux-musl-${ARCH}.tar.gz"
