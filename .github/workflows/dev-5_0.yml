@@ -49,8 +49,6 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bfren/aspnet:${{ steps.version.outputs.contents }}-beta
-            bfren/aspnet:dev
             bfren/aspnet:net5-dev
             bfren/aspnet:net5.0-dev
             bfren/aspnet:net5-${{ steps.version.outputs.contents }}-beta

@@ -46,6 +46,8 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
+            bfren/aspnet:latest
+            bfren/aspnet:${{ steps.version.outputs.contents }}
             bfren/aspnet:net6
             bfren/aspnet:net6-${{ steps.version.outputs.contents }}
             bfren/aspnet:net6.0
