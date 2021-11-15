@@ -46,5 +46,4 @@ Comes pre-installed with the ASP.NET runtime and all dependencies.
 
 ## Copyright
 
-> Copyright (c) 2021 bfren
-> Unless otherwise stated
+> Copyright (c) 2021 [bfren](https://bfren.dev) (unless otherwise stated)
