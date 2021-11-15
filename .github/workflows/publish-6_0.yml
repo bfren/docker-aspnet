@@ -22,6 +22,18 @@ jobs:
         name: Read image version
         uses: bfren/read-file@v1
         with:
+          file: ./VERSION_MAJOR
+        id: version_major
+      -
+        name: Read image version
+        uses: bfren/read-file@v1
+        with:
+          file: ./VERSION_MINOR
+        id: version_minor
+      -
+        name: Read image version
+        uses: bfren/read-file@v1
+        with:
           file: ./VERSION
         id: version
       -
@@ -47,10 +59,16 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             bfren/aspnet:latest
+            bfren/aspnet:${{ steps.version_major.outputs.contents }}
+            bfren/aspnet:${{ steps.version_minor.outputs.contents }}
             bfren/aspnet:${{ steps.version.outputs.contents }}
             bfren/aspnet:net6
+            bfren/aspnet:net6-${{ steps.version_major.outputs.contents }}
+            bfren/aspnet:net6-${{ steps.version_minor.outputs.contents }}
             bfren/aspnet:net6-${{ steps.version.outputs.contents }}
             bfren/aspnet:net6.0
+            bfren/aspnet:net6.0-${{ steps.version_major.outputs.contents }}
+            bfren/aspnet:net6.0-${{ steps.version_minor.outputs.contents }}
             bfren/aspnet:net6.0-${{ steps.version.outputs.contents }}
             bfren/aspnet:net${{ steps.dotnet_revision.outputs.contents }}
       -
