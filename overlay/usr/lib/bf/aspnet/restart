@@ -8,5 +8,5 @@ export BF_E=`basename ${0}`
 # Restart the aspnet service.
 #======================================================================================================================
 
-bf-debug "Restarting application."
+bf-echo "Restarting application."
 bf-svc restart aspnet

@@ -12,14 +12,6 @@ export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Set permissions of published code.
-#======================================================================================================================
-
-#bf-ch -o www:www -m 0400 -t f ${ASPNET_APP_PUBLISH}
-#bf-ch -o www:www -m 0500 -t d ${ASPNET_APP_PUBLISH}
-
-
-#======================================================================================================================
 # Disable application (so it won't try to restart before we're ready).
 #======================================================================================================================
 
@@ -45,12 +37,6 @@ mv ${ASPNET_APP_PUBLISH}/* ${ASPNET_APP_LIVE}
 if [ "$(ls -A ${TEMP})" ] ; then
     bf-debug " .. moving live files to ${ASPNET_APP_PUBLISH}"
     mv ${TEMP}/* ${ASPNET_APP_PUBLISH}
-
-#bf-ch -m 0500 -t d ${ASPNET_APP_LIVE}
-
-#bf-ch -m 0600 -t f ${ASPNET_APP_PUBLISH}
-#bf-ch -m 0700 -t d ${ASPNET_APP_PUBLISH}
-
 fi
 
 bf-done
