@@ -5,7 +5,7 @@ ARG BUILDPLATFORM
 
 RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
 
-FROM bfren/alpine-s6:alpine3.14-3.2.3
+FROM bfren/alpine-s6:alpine3.14-4.0.0
 COPY --from=build /log /log
 
 ARG TARGETPLATFORM
@@ -30,7 +30,7 @@ ENV \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
 COPY ./overlay /
-COPY ./5.0/DOTNET_REVISION /tmp/VERSION
+COPY ./5.0/DOTNET_REVISION /tmp/
 
 RUN bf-install
 

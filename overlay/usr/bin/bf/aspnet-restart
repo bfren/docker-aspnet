@@ -1,18 +1,11 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 set -euo pipefail
 export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Add environment variables.
+# Run restart executable.
 #======================================================================================================================
 
-# Library configuration
-bf-env "ASPNET_LIB" "${BF_LIB}/aspnet"
-
-# app directories
-ASPNET_APP=/app
-bf-env "ASPNET_APP" "${ASPNET_APP}"
-bf-env "ASPNET_APP_LIVE" "${ASPNET_APP}/live"
-bf-env "ASPNET_APP_PUBLISH" "${ASPNET_APP}/publish"
+${ASPNET_LIB}/restart

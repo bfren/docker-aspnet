@@ -1,11 +1,11 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 set -euo pipefail
 export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Run restart executable.
+# Run start executable.
 #======================================================================================================================
 
-${ASPNET_LIB}/restart
+${ASPNET_LIB}/start
