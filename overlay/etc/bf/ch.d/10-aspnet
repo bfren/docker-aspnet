@@ -1,0 +1,3 @@
+/app/live www:www 0400 0500
+/app/publish www:www 0600 0700
+/usr/local/bin/aspnet-* root:root 0500
