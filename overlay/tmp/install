@@ -61,7 +61,7 @@ bf-debug "Platform architecture ${ARCH}."
 
 cd /tmp
 
-V=$(cat VERSION)
+V=$(cat DOTNET_REVISION)
 bf-debug ".NET version ${V}."
 
 

@@ -1,5 +1,5 @@
-[1;30m[bf] 2022-02-10 16:26:51 | [1;30mbf-init: Initialising container.[0;39m
-[1;30m[bf] 2022-02-10 16:26:51 | [1;30mbf-init: Done.[0;39m
+[1;30m[bf] 2022-02-10 16:28:09 | [1;30mbf-init: Initialising container.[0;39m
+[1;30m[bf] 2022-02-10 16:28:09 | [1;30mbf-init: Done.[0;39m
 FROM --platform=$BUILDPLATFORM golang:alpine AS build
 
 ARG TARGETPLATFORM
@@ -32,7 +32,7 @@ ENV \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
 COPY ./overlay /
-COPY ./3.1/DOTNET_REVISION /tmp/VERSION
+COPY ./3.1/DOTNET_REVISION /tmp/
 
 RUN bf-install
 
