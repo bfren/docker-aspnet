@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/command/with-contenv sh
 
 set -euo pipefail
 export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Test site.
+# Run start executable.
 #======================================================================================================================
 
-bf-test-url ${ASPNETCORE_URLS//[+]/localhost}
+${ASPNET_LIB}/start
