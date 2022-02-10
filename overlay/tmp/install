@@ -154,9 +154,10 @@ tar -ozxf ${ASPNET}.tar.gz -C ${DOTNET} ./shared/Microsoft.AspNetCore.App
 
 
 #======================================================================================================================
-# Make app directories.
+# Cleanup.
 #======================================================================================================================
 
-bf-debug "Creating /app directories."
-mkdir -p /app/live
-mkdir /app/publish
+bf-echo "Removing .empty files..."
+rm /app/live/.empty
+rm /app/publish/.empty
+bf-done
