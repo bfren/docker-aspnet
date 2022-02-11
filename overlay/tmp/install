@@ -52,7 +52,7 @@ case "${TARGETPLATFORM}" in
 
 esac
 
-bf-debug "Platform architecture ${ARCH}."
+bf-echo "Platform architecture ${ARCH}."
 
 
 #======================================================================================================================
@@ -62,7 +62,7 @@ bf-debug "Platform architecture ${ARCH}."
 cd /tmp
 
 V=$(cat DOTNET_REVISION)
-bf-debug ".NET version ${V}."
+bf-echo ".NET version ${V}."
 
 
 #======================================================================================================================
@@ -109,7 +109,7 @@ DOTNET=/usr/share/dotnet
 
 #if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
 #    V="6.0.0-rc.2.21480.5"
-#    bf-debug "Changing version to ${V}."
+#    bf-echo "Changing version to ${V}."
 #fi
 
 RUNTIME="runtime"
@@ -135,7 +135,7 @@ mkdir -p ${DOTNET} \
 
 #if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
 #    V="6.0.0-rc.2.21480.10"
-#    bf-debug "Changing version to ${V}."
+#    bf-echo "Changing version to ${V}."
 #fi
 
 ASPNET="aspnet"

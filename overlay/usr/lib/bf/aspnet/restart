@@ -8,5 +8,7 @@ export BF_E=`basename ${0}`
 # Restart the aspnet service.
 #======================================================================================================================
 
-bf-echo "Restarting application."
-bf-svc restart aspnet
+${ASPNET_LIB}/disable
+
+bf-echo "Restarting ASP.NET application."
+s6-rc -u change aspnet
