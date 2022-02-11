@@ -5,8 +5,9 @@ export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Stop the aspnet service.
+# Stop the aspnet service and then kill the remaining process.
 #======================================================================================================================
 
+bf-echo "Disabling ASP.NET application."
 s6-rc -d change aspnet
-kill $(ps aux | grep ${ASPNET_ASSEMBLY} | grep -v 'grep' | awk '{print $1}')
+kill $(ps aux | grep ${ASPNET_ASSEMBLY} | grep -v 'grep' | awk '{print $1}') &> /dev/null || true
