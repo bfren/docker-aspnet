@@ -9,3 +9,4 @@ export BF_E=`basename ${0}`
 #======================================================================================================================
 
 s6-rc -d change aspnet
+kill $(ps aux | grep ${ASPNET_ASSEMBLY} | grep -v 'grep' | awk '{print $1}')
