@@ -5,7 +5,51 @@ export BF_E="${PWD##*/}/$(basename ${0})"
 
 
 #======================================================================================================================
-# Run /usr/local/bin/aspnet-start executable.
+# Verify ASPNET_ASSEMBLY is set.
 #======================================================================================================================
 
-aspnet-start
+[[ -z "${ASPNET_ASSEMBLY}" ]] && bf-error "ASPNET_ASSEMBLY environment variable must be set."
+
+
+#======================================================================================================================
+# Reset ASPNET_SLEEP variable.
+#======================================================================================================================
+
+bf-env ASPNET_SLEEP 0 > /dev/null 2>&1
+
+
+#======================================================================================================================
+# Sleep thread.
+#
+# Arguments
+#   1   The number of seconds to sleep for
+#======================================================================================================================
+
+go_to_sleep() {
+
+    SLEEP=${1}
+    bf-debug "Sleeping for ${SLEEP}s."
+    bf-env ASPNET_SLEEP ${SLEEP} > /dev/null 2>&1
+    sleep ${SLEEP}
+
+}
+
+
+#======================================================================================================================
+# Verify assembly exists before running it.
+#======================================================================================================================
+
+ASSEMBLY_PATH=${ASPNET_APP_LIVE}/${ASPNET_ASSEMBLY}
+if [ -f "${ASSEMBLY_PATH}" ] ; then
+
+    bf-echo "Starting ASP.NET application."
+    bf-debug " .. ${ASSEMBLY_PATH}."
+
+    s6-setuidgid www /usr/bin/dotnet "${ASSEMBLY_PATH}"
+
+else
+
+    bf-notok "${ASSEMBLY_PATH} not found."
+    go_to_sleep 30
+
+fi
