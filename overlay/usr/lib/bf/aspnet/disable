@@ -8,4 +8,4 @@ export BF_E=`basename ${0}`
 # Stop the aspnet service.
 #======================================================================================================================
 
-bf-svc disable aspnet
+s6-rc -d change aspnet

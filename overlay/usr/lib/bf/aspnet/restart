@@ -1,4 +1,4 @@
-#!/command/with-contenv sh
+#!/usr/bin/with-contenv sh
 
 set -euo pipefail
 export BF_E=`basename ${0}`
@@ -9,4 +9,4 @@ export BF_E=`basename ${0}`
 #======================================================================================================================
 
 bf-echo "Restarting application."
-bf-svc restart aspnet
+s6-rc -d change aspnet && s6-rc -u change aspnet
