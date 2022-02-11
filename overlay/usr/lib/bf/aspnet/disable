@@ -8,7 +8,7 @@ export BF_E=`basename ${0}`
 # Stop the aspnet service (if it is up) and then kill the remaining process.
 #======================================================================================================================
 
-if s6-svstat -u ${S6_SERVICES}/aspnet ; then
+if [ s6-svstat -u ${S6_SERVICES}/aspnet > /dev/null 2>&1 ] ; then
 
     bf-echo "Disabling ASP.NET application."
     bf-svc-down aspnet
