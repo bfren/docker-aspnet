@@ -16,4 +16,8 @@ if [ s6-svstat -u ${S6_SERVICES}/aspnet > /dev/null 2>&1 ] ; then
     bf-debug "Killing process ${PID}." "aspnet/disable"
     kill ${PID} > /dev/null 2>&1 || true
 
+else
+
+    bf-echo "ASP.NET application is not running." "aspnet/disable"
+
 fi
