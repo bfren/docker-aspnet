@@ -1,7 +1,6 @@
 #!/command/with-contenv sh
 
 set -euo pipefail
-export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
@@ -10,5 +9,5 @@ export BF_E=`basename ${0}`
 
 ${ASPNET_LIB}/disable
 
-bf-echo "Restarting ASP.NET application."
+bf-echo "Restarting ASP.NET application." "aspnet/restart"
 s6-rc -u change aspnet
