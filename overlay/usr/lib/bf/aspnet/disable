@@ -7,13 +7,13 @@ set -euo pipefail
 # Stop the aspnet service (if it is up) and then kill the remaining process.
 #======================================================================================================================
 
-if [ s6-svstat -u ${S6_SERVICES}/aspnet > /dev/null 2>&1 ] ; then
+if [ `s6-svstat -u ${S6_SERVICES}/aspnet` = "true" ] ; then
 
     bf-echo "Disabling ASP.NET application." "aspnet/disable"
     bf-svc-down aspnet
 
     PID=`ps aux | grep ${ASPNET_ASSEMBLY} | grep -v 'grep' | awk '{print $1}'`
-    bf-debug "Killing process ${PID}." "aspnet/disable"
+    bf-echo "Killing process ${PID}." "aspnet/disable"
     kill ${PID} > /dev/null 2>&1 || true
 
 else
