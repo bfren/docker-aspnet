@@ -9,5 +9,5 @@ set -euo pipefail
 
 ${ASPNET_LIB}/disable
 
-bf-echo "Restarting ASP.NET application." "aspnet/restart"
+bf-echo "Restarting ${ASPNET_ASSEMBLY} application." "aspnet/restart"
 s6-rc -u change aspnet

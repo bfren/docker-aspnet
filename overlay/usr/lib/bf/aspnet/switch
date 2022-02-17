@@ -38,4 +38,4 @@ if [ "$(ls -A ${TEMP})" ] ; then
     mv ${TEMP}/* ${ASPNET_APP_PUBLISH}
 fi
 
-bf-done
+bf-done "aspnet/switch"
