@@ -1,17 +1,37 @@
 #!/command/with-contenv sh
 
 set -euo pipefail
-export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Stop the aspnet service (if it is up) and then kill the remaining process.
+# Stop the aspnet service (if it is up).
 #======================================================================================================================
 
-if [ s6-svstat -u ${S6_SERVICES}/aspnet > /dev/null 2>&1 ] ; then
+UP=`s6-svstat -u ${S6_SERVICES}/aspnet`
+if [ "${UP}" = "true" ] ; then
 
-    bf-echo "Disabling ASP.NET application."
+    bf-echo "Disabling ASP.NET service." "aspnet/disable"
     bf-svc-down aspnet
-    kill $(ps aux | grep ${ASPNET_ASSEMBLY} | grep -v 'grep' | awk '{print $1}') &> /dev/null || true
+
+else
+
+    bf-debug "No need to disable ASP.NET service - it is down." "aspnet/disable"
+
+fi
+
+
+#======================================================================================================================
+# Kill the remaining process (if it is running).
+#======================================================================================================================
+
+PID=`ps aux | grep ${ASPNET_ASSEMBLY} | grep -v 'grep' | awk '{print $1}'`
+if [ -n "${PID}" ] ; then
+
+    bf-echo "Killing ${ASPNET_ASSEMBLY} process." "aspnet/disable"
+    kill ${PID} > /dev/null 2>&1 || true
+
+else
+
+    bf-debug "No need to kill ${ASPNET_ASSEMBLY} process - it is not running." "aspnet/disable"
 
 fi
