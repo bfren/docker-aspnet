@@ -82,6 +82,8 @@ verify () {
         5.0-arm64-runtime)  HASH="e45f6f1442503cf8ec1d0647be1ab444dec81884f0ba2d45046eb5b3ee9095f35fda8e9f6efff2d8813bf6d4b22b87b9298c6f3af7d6618c984d55835f636288" ;;
         6.0-x64-runtime)    HASH="fd298bb310f86969f88807ea907cb20a38d6ab4b24493800bdf026933634a5145aff076dbfe9acb3ab6aa3a48747eca3149e05334847871889a8312e6e8d706f" ;;
         6.0-arm64-runtime)  HASH="3b2943a5d0c416814cf4427515638f9abe0e09444d34c8535a4dd3caeb10900c332ebdf128153c1fc8448f77190b0670c40566d2564192732f21accf180fe546" ;;
+        7.0-x64-runtime)    HASH="74cdf90223f293adc5fc884910be9f8c26f8d476269df5d86ad022c6449a9376f3bf2a8c251ddd3bda7f11a8be1ae6a0876e988ed445e0baeeaff8d4e9456948" ;;
+        7.0-arm64-runtime)  HASH="642bee46020fc51b4710d542570cae2facbecddcd7ed36919ee11cd419fd1a933bbf489870594182ff40ed6fc273d6ee8721f40f4ab8ca447e21909e902b6f99" ;;
 
         3.1-x64-aspnet)     HASH="36fd0f7d1922f3da4eb5b6624a4c58aee01c7a74c9727e27f1efcb39459ca9cf9cbcbdbb8253ae9bb713f84448622dc2e8d7e1a7bf6b86cf602be41aa325feb4" ;;
         3.1-arm64-aspnet)   HASH="137758a409afffdb6bfc9a696e35dd78717222c8585cf2ea2f5a24bcc2f3b1dd23bd1413b8d854265511ca37054cb9ed022faa19b6a2b30e20000c719f7cf7b7" ;;
@@ -89,6 +91,8 @@ verify () {
         5.0-arm64-aspnet)   HASH="7be064ecc76dbb2c39b8821c6525d7726424ed5ebff9dc2352b13720bac4617511164e4308d0d6292748d77de03df7dc3f8e573de4f740ceb47c3fd8868a7319" ;;
         6.0-x64-aspnet)     HASH="8fb985bf79039cb1848604f08976ad82ff9582b0379cc7047f5bc95fa9e2a50f88b608efdb1b39d626b5e2a4615e38bee720a83f2d263f4dfb6716e65c74fa73" ;;
         6.0-arm64-aspnet)   HASH="c1009ef634f1103bbb89427bf25b541f50670c9817cc0d36fbf854de91291a5360abe338e0f627cb05ec377f792876a8e7c39a5585ec47892024fc0b12c9d295" ;;
+        7.0-x64-aspnet)     HASH="687488c28de26201710c403bb8b9405aeb4afe633e7cb093a0ea004aaa0f1c730f29cb9a630dde81cb2c64853833bc0f174c7ab00840e95de5bb76a9daaf68a2" ;;
+        7.0-arm64-aspnet)   HASH="7fe85e4f21612393e32a632c5f5747696cd86456d9b7ca6eef65d36631c27aa5bebbb5ce45d004090978b7fb87ba5c961263179a61f97b0105f105d3e460e001" ;;
 
         *)                  bf-error "Unsupported dotnet download: ${DL}." ;;
 
@@ -107,10 +111,10 @@ verify () {
 
 DOTNET=/usr/share/dotnet
 
-#if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
-#    V="6.0.0-rc.2.21480.5"
-#    bf-echo "Changing version to ${V}."
-#fi
+if [ "$(echo ${V} | cut -c 1)" == "7" ] ; then
+    V="7.0.0-preview.1.22076.8"
+    bf-echo "Changing version to ${V}."
+fi
 
 RUNTIME="runtime"
 RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${V}/dotnet-runtime-${V}-linux-musl-${ARCH}.tar.gz"
@@ -133,10 +137,10 @@ mkdir -p ${DOTNET} \
 # Download and install ASP.NET Runtime.
 #======================================================================================================================
 
-#if [ "$(echo ${V} | cut -c 1)" == "6" ] ; then
-#    V="6.0.0-rc.2.21480.10"
-#    bf-echo "Changing version to ${V}."
-#fi
+if [ "$(echo ${V} | cut -c 1)" == "7" ] ; then
+    V="7.0.0-preview.1.22109.13"
+    bf-echo "Changing version to ${V}."
+fi
 
 ASPNET="aspnet"
 ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${V}/aspnetcore-runtime-${V}-linux-musl-${ARCH}.tar.gz"
