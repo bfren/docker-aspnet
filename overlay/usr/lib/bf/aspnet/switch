@@ -4,7 +4,7 @@ set -euo pipefail
 
 
 #======================================================================================================================
-# Check for staging files.
+# Check for published files.
 #======================================================================================================================
 
 [[ -z "$(ls -A ${ASPNET_APP_PUBLISH})" ]] && bf-error "Please publish source files first." "aspnet/switch"
@@ -18,7 +18,7 @@ ${ASPNET_LIB}/disable
 
 
 #======================================================================================================================
-# Switch code from staging to live.
+# Switch code from publish to live.
 #======================================================================================================================
 
 bf-echo "Switching code..." "aspnet/switch"
@@ -37,5 +37,8 @@ if [ "$(ls -A ${TEMP})" ] ; then
     bf-debug " .. moving live files to ${ASPNET_APP_PUBLISH}" "aspnet/switch"
     mv ${TEMP}/* ${ASPNET_APP_PUBLISH}
 fi
+
+bf-debug " .. reapplying permissions" "aspnet/switch"
+bf-ch-apply "${BF_CH_D}/10-aspnet"
 
 bf-done "aspnet/switch"
