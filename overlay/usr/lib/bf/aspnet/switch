@@ -38,4 +38,7 @@ if [ "$(ls -A ${TEMP})" ] ; then
     mv ${TEMP}/* ${ASPNET_APP_PUBLISH}
 fi
 
+bf-debug " .. reapplying permissions" "aspnet/switch"
+bf-ch-apply "${BF_CH_D}/10-aspnet"
+
 bf-done "aspnet/switch"
