@@ -20,7 +20,7 @@ jobs:
         name: Read .NET version - revision
         uses: bfren/read-file@v1
         with:
-          file: ./6.0/DOTNET_REVISION
+          file: ./6.0/overlay/tmp/DOTNET_REVISION
         id: dotnet_revision
       -
         name: Read image version
