@@ -30,7 +30,7 @@ ENV \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
 COPY ./overlay /
-COPY ./<%= ${ASPNET_MINOR} %>/DOTNET_REVISION /tmp/
+COPY ./<%= ${ASPNET_MINOR} %>/overlay /
 
 RUN bf-install
 
