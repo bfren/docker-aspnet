@@ -30,7 +30,7 @@ ENV \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
 COPY ./overlay /
-COPY ./3.1/DOTNET_REVISION /tmp/
+COPY ./3.1/overlay /
 
 RUN bf-install
 
