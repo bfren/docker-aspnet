@@ -1,7 +1,8 @@
 #!/command/with-contenv sh
 
 set -euo pipefail
-bf-env "BF_E" `basename ${0}`
+export BF_E=`basename ${0}`
+#bf-env "BF_E" `basename ${0}`
 
 
 #======================================================================================================================
