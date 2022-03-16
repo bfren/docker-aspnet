@@ -112,7 +112,7 @@ verify () {
 DOTNET=/usr/share/dotnet
 
 if [ "$(echo ${V} | cut -c 1)" == "7" ] ; then
-    V="7.0.0-preview.1.22076.8"
+    V="7.0.0-preview.2.22153.17"
     bf-echo "Changing version to ${V}."
 fi
 
@@ -138,7 +138,7 @@ mkdir -p ${DOTNET} \
 #======================================================================================================================
 
 if [ "$(echo ${V} | cut -c 1)" == "7" ] ; then
-    V="7.0.0-preview.1.22109.13"
+    V="7.0.0-preview.2.22153.2"
     bf-echo "Changing version to ${V}."
 fi
 
