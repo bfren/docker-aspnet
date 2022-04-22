@@ -17,6 +17,7 @@ bf-adduser www
 
 apk add --no-cache \
     ca-certificates \
+    icu \
     krb5-libs \
     libgcc \
     libintl \
