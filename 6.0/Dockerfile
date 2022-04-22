@@ -28,8 +28,8 @@ ENV \
     ASPNETCORE_CONTENTROOT="/app/live" \
     # Enable detection of running in a container
     DOTNET_RUNNING_IN_CONTAINER=true \
-    # Set the invariant mode since icu_libs isn't included (see https://github.com/dotnet/announcements/issues/20)
-    DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+    # Set the invariant mode to false so CultureInfo can be used
+    DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
 COPY ./overlay /
 COPY ./6.0/overlay /
