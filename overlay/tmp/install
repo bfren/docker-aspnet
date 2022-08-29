@@ -152,13 +152,3 @@ tar -ozxf ${ASPNET}.tar.gz -C ${DOTNET} ./shared/Microsoft.AspNetCore.App
 
 [[ -d ${DOTNET}/shared/Microsoft.AspNetCore.App/${V} ]] && bf-done \
     || bf-error "ASP.NET runtime not installed."
-
-
-#======================================================================================================================
-# Cleanup.
-#======================================================================================================================
-
-bf-echo "Removing .empty files..."
-rm /app/live/.empty
-rm /app/publish/.empty
-bf-done
