@@ -25,7 +25,7 @@ ENV \
     # Configure web servers to bind to port 5000
     ASPNETCORE_URLS="http://+:5000" \
     # Otherwise it is set incorrectly to the S6 service directory
-    ASPNETCORE_CONTENTROOT="/app/live" \
+    DOTNET_CONTENTROOT="/app/live" \
     # Enable detection of running in a container
     DOTNET_RUNNING_IN_CONTAINER=true \
     # Set the invariant mode to false so CultureInfo can be used
