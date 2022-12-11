@@ -5,7 +5,7 @@ ARG BUILDPLATFORM
 
 RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
 
-FROM bfren/alpine-s6:alpine3.16-4.4.1
+FROM bfren/alpine-s6:alpine3.17-4.4.2
 COPY --from=build /log /log
 
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-aspnet"
@@ -18,8 +18,8 @@ ARG BF_VERSION
 EXPOSE 5000
 
 ENV \
-    # The minor version - used to assist in calculating checksums
-    ASPNET_VERSION_MINOR=7.0 \
+    # The ASP.NET version - used to assist in calculating checksums
+    ASPNET_VERSION=7 \
     # Must be defined so the service can run the application
     ASPNET_ASSEMBLY= \
     # Configure web servers to bind to port 5000
@@ -32,7 +32,7 @@ ENV \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
 COPY ./overlay /
-COPY ./7.0/overlay /
+COPY ./7/overlay /
 
 RUN bf-install
 

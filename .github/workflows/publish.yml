@@ -1,4 +1,4 @@
-name: publish-3_1
+name: publish
 
 on:
   release:
@@ -6,7 +6,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish-3_1:
+  publish:
+    strategy:
+      matrix:
+        dotnet: [ "3.1", "6", "7" ]
     runs-on: ubuntu-latest
     steps:
       -
@@ -20,7 +23,7 @@ jobs:
         name: Read .NET version - revision
         uses: bfren/read-file@v2
         with:
-          file: ./3.1/overlay/tmp/DOTNET_REVISION
+          file: ./${{ matrix.dotnet }}/overlay/tmp/DOTNET_REVISION
         id: dotnet_revision
       -
         name: Read image version
@@ -65,30 +68,22 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./3.1/Dockerfile
+          file: ./${{ matrix.dotnet }}/Dockerfile
           build-args: |
             BF_IMAGE=${{ env.REPOSITORY_NAME }}
             BF_VERSION=${{ steps.version.outputs.contents }}
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bfren/aspnet:net3
-            bfren/aspnet:net3-${{ steps.version_major.outputs.contents }}
-            bfren/aspnet:net3-${{ steps.version_minor.outputs.contents }}
-            bfren/aspnet:net3-${{ steps.version.outputs.contents }}
-            bfren/aspnet:net3.1
-            bfren/aspnet:net3.1-${{ steps.version_major.outputs.contents }}
-            bfren/aspnet:net3.1-${{ steps.version_minor.outputs.contents }}
-            bfren/aspnet:net3.1-${{ steps.version.outputs.contents }}
+            bfren/aspnet:net${{ matrix.dotnet }}
+            bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version_major.outputs.contents }}
+            bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version_minor.outputs.contents }}
+            bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}
             bfren/aspnet:net${{ steps.dotnet_revision.outputs.contents }}
-            ghcr.io/bfren/aspnet:net3
-            ghcr.io/bfren/aspnet:net3-${{ steps.version_major.outputs.contents }}
-            ghcr.io/bfren/aspnet:net3-${{ steps.version_minor.outputs.contents }}
-            ghcr.io/bfren/aspnet:net3-${{ steps.version.outputs.contents }}
-            ghcr.io/bfren/aspnet:net3.1
-            ghcr.io/bfren/aspnet:net3.1-${{ steps.version_major.outputs.contents }}
-            ghcr.io/bfren/aspnet:net3.1-${{ steps.version_minor.outputs.contents }}
-            ghcr.io/bfren/aspnet:net3.1-${{ steps.version.outputs.contents }}
+            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}
+            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version_major.outputs.contents }}
+            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version_minor.outputs.contents }}
+            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}
             ghcr.io/bfren/aspnet:net${{ steps.dotnet_revision.outputs.contents }}
       -
         name: Image digest

@@ -1,4 +1,4 @@
-name: dev-3_1
+name: dev
 
 on:
   push:
@@ -7,13 +7,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-3_1:
+  test:
     runs-on: ubuntu-latest
     steps:
       -
         name: Checkout code
         uses: actions/checkout@v3
-  build-3_1:
+  build:
+    strategy:
+      matrix:
+        dotnet: [ "3.1", "6", "7" ]
     runs-on: ubuntu-latest
     steps:
       -
@@ -54,21 +57,17 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./3.1/Dockerfile
+          file: ./${{ matrix.dotnet }}/Dockerfile
           build-args: |
             BF_IMAGE=${{ env.REPOSITORY_NAME }}
             BF_VERSION=${{ steps.version.outputs.contents }}
           push: ${{ startsWith(github.ref, 'refs/heads/') }}
           platforms: linux/amd64,linux/arm64
           tags: |
-            bfren/aspnet:net3-dev
-            bfren/aspnet:net3.1-dev
-            bfren/aspnet:net3-${{ steps.version.outputs.contents }}-beta
-            bfren/aspnet:net3.1-${{ steps.version.outputs.contents }}-beta
-            ghcr.io/bfren/aspnet:net3-dev
-            ghcr.io/bfren/aspnet:net3.1-dev
-            ghcr.io/bfren/aspnet:net3-${{ steps.version.outputs.contents }}-beta
-            ghcr.io/bfren/aspnet:net3.1-${{ steps.version.outputs.contents }}-beta
+            bfren/aspnet:net${{ matrix.dotnet }}-dev
+            bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}-beta
+            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}-dev
+            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}-beta
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
