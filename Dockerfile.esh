@@ -18,8 +18,8 @@ ARG BF_VERSION
 EXPOSE 5000
 
 ENV \
-    # The minor version - used to assist in calculating checksums
-    ASPNET_VERSION_MINOR=<%= ${ASPNET_MINOR} %> \
+    # The ASP.NET version - used to assist in calculating checksums
+    ASPNET_VERSION=<%= ${ASPNET_VERSION} %> \
     # Must be defined so the service can run the application
     ASPNET_ASSEMBLY= \
     # Configure web servers to bind to port 5000
@@ -32,7 +32,7 @@ ENV \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
 COPY ./overlay /
-COPY ./<%= ${ASPNET_MINOR} %>/overlay /
+COPY ./<%= ${ASPNET_VERSION} %>/overlay /
 
 RUN bf-install
 
