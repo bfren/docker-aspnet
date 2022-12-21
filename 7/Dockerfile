@@ -5,7 +5,7 @@ ARG BUILDPLATFORM
 
 RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
 
-FROM bfren/alpine-s6:alpine3.17-4.4.2
+FROM bfren/alpine-s6:alpine3.17-4.4.3
 COPY --from=build /log /log
 
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-aspnet"
