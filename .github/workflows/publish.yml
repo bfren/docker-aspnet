@@ -9,7 +9,7 @@ jobs:
   publish:
     strategy:
       matrix:
-        dotnet: [ "3.1", "6", "7" ]
+        dotnet: [ "6", "7" ]
     runs-on: ubuntu-latest
     steps:
       -
