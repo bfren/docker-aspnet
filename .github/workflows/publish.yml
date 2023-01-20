@@ -8,6 +8,7 @@ on:
 jobs:
   publish:
     strategy:
+      fail-fast: false
       matrix:
         dotnet: [ "6", "7" ]
     runs-on: ubuntu-latest
