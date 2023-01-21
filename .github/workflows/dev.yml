@@ -67,8 +67,6 @@ jobs:
           tags: |
             bfren/aspnet:net${{ matrix.dotnet }}-dev
             bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}-beta
-            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}-dev
-            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}-beta
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

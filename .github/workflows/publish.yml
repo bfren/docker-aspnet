@@ -81,11 +81,6 @@ jobs:
             bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version_minor.outputs.contents }}
             bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}
             bfren/aspnet:net${{ steps.dotnet_revision.outputs.contents }}
-            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}
-            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version_major.outputs.contents }}
-            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version_minor.outputs.contents }}
-            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}
-            ghcr.io/bfren/aspnet:net${{ steps.dotnet_revision.outputs.contents }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
