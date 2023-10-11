@@ -110,7 +110,7 @@ DOTNET=/usr/share/dotnet
 
 if [ "$(echo ${V} | cut -c 1)" == "8" ] ; then
     bf-echo "Changing version to ${V}."
-    V="8.0.0-rc.1.23419.4" # https://github.com/dotnet/dotnet-docker/blob/main/src/runtime/8.0/alpine3.18/arm64v8/Dockerfile
+    V="8.0.0-rc.2.23479.6" # https://github.com/dotnet/dotnet-docker/blob/main/src/runtime/8.0/alpine3.18/arm64v8/Dockerfile
 fi
 
 RUNTIME="runtime"
@@ -136,7 +136,7 @@ mkdir -p ${DOTNET} \
 
 if [ "$(echo ${V} | cut -c 1)" == "8" ] ; then
     bf-echo "Changing version to ${V}."
-    V="8.0.0-rc.1.23421.29" # https://github.com/dotnet/dotnet-docker/blob/main/src/aspnet/8.0/alpine3.18/arm64v8/Dockerfile
+    V="8.0.0-rc.2.23480.2" # https://github.com/dotnet/dotnet-docker/blob/main/src/aspnet/8.0/alpine3.18/arm64v8/Dockerfile
 fi
 
 ASPNET="aspnet"
