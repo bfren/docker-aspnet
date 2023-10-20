@@ -1,11 +1,8 @@
-#!/command/with-contenv sh
+#!/usr/bin/nu
 
-set -euo pipefail
-export BF_E=`basename ${0}`
+use bf
+use bf-aspnet
+bf env load -x
 
-
-#======================================================================================================================
-# Run restart script.
-#======================================================================================================================
-
-${ASPNET_LIB}/restart
+# Restart ASP.NET application
+def main [] { bf-aspnet app restart }

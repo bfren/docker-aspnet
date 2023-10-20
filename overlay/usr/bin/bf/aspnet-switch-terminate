@@ -1,18 +1,8 @@
-#!/command/with-contenv sh
+#!/usr/bin/nu
 
-set -euo pipefail
-export BF_E=`basename ${0}`
+use bf
+use bf-aspnet
+bf env load -x
 
-
-#======================================================================================================================
-# Run switch executable.
-#======================================================================================================================
-
-${ASPNET_LIB}/switch
-
-
-#======================================================================================================================
-# Terminate container to force Kestrel to restart using the new code.
-#======================================================================================================================
-
-bf-cont-terminate
+# Switch publish and live application directories, and then terminate the container
+def main [] { bf-aspnet app switch_terminate }

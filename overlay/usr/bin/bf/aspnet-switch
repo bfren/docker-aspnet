@@ -1,18 +1,11 @@
-#!/command/with-contenv sh
+#!/usr/bin/nu
 
-set -euo pipefail
-export BF_E=`basename ${0}`
+use bf
+use bf-aspnet
+bf env load -x
 
-
-#======================================================================================================================
-# Run switch executable.
-#======================================================================================================================
-
-${ASPNET_LIB}/switch
-
-
-#======================================================================================================================
-# Restart the service (it is disabled as part of the switch process).
-#======================================================================================================================
-
-${ASPNET_LIB}/restart
+# Switch and then restart ASP.NET application
+def main [] {
+    bf-aspnet app switch
+    bf-aspnet app restart
+}
