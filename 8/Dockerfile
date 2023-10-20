@@ -20,10 +20,10 @@ EXPOSE 5000
 ENV \
     # The ASP.NET version - used to assist in calculating checksums
     ASPNET_VERSION=8 \
-    # Must be defined so the service can run the application
-    ASPNET_ASSEMBLY= \
     # Configure web servers to bind to port 5000
     ASPNETCORE_URLS="http://+:5000" \
+    # Must be defined so the service can run the application
+    BF_ASPNET_ASSEMBLY= \
     # Otherwise it is set incorrectly to the S6 service directory
     DOTNET_CONTENTROOT="/app/live" \
     # Enable detection of running in a container
