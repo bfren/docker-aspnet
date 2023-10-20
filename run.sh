@@ -13,4 +13,4 @@ docker buildx build \
     -t aspnet${ASPNET}-dev \
     . \
     && \
-    docker run -it -e BF_ASPNET_ASSEMBLY=/tmp/null aspnet${ASPNET}-dev sh
+    docker run -it -e BF_ASPNET_ASSEMBLY=does/not/exist.dll aspnet${ASPNET}-dev sh
