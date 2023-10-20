@@ -1,55 +1,34 @@
-#!/command/with-contenv sh
+#!/usr/bin/nu
 
-set -euo pipefail
-export BF_E="${PWD##*/}/$(basename ${0})"
+use bf
+use bf-s6
+bf env load -x cron
 
+# Run ASP.NET application
+def main [] {
+    # verify ASPNET_ASSEMBLY is set
+    let assembly = bf env req ASPNET_ASSEMBLY
+    let dir_live = bf env req ASPNET_APP_LIVE
 
-#======================================================================================================================
-# Verify ASPNET_ASSEMBLY is set.
-#======================================================================================================================
+    # verify assembly exists
+    let assembly_path = $"($dir_live)/($assembly)"
+    if (bf fs is_not_file $assembly_path) {
+        bf write notok $"($assembly_path) not found."
+        go_to_sleep 30sec
+        exit 0
+    }
 
-[[ -z "${ASPNET_ASSEMBLY}" ]] && bf-error "ASPNET_ASSEMBLY environment variable must be set."
+    # start application
+    bf write "Starting ASP.NET application."
+    bf write debug $" .. ($assembly_path)."
 
-
-#======================================================================================================================
-# Reset ASPNET_SLEEP variable.
-#======================================================================================================================
-
-bf-env ASPNET_SLEEP 0 > /dev/null 2>&1
-
-
-#======================================================================================================================
-# Sleep thread.
-#
-# Arguments
-#   1   The number of seconds to sleep for
-#======================================================================================================================
-
-go_to_sleep() {
-
-    SLEEP=${1}
-    bf-debug "Sleeping for ${SLEEP}s."
-    bf-env ASPNET_SLEEP ${SLEEP} > /dev/null 2>&1
-    sleep ${SLEEP}
-
+    ^s6-setuidgid www dotnet $assembly_path
 }
 
-
-#======================================================================================================================
-# Verify assembly exists before running it.
-#======================================================================================================================
-
-ASSEMBLY_PATH=${ASPNET_APP_LIVE}/${ASPNET_ASSEMBLY}
-if [ -f "${ASSEMBLY_PATH}" ] ; then
-
-    bf-echo "Starting ASP.NET application."
-    bf-debug " .. ${ASSEMBLY_PATH}."
-
-    s6-setuidgid www /usr/bin/dotnet "${ASSEMBLY_PATH}"
-
-else
-
-    bf-notok "${ASSEMBLY_PATH} not found."
-    go_to_sleep 30
-
-fi
+# Sleep the thread for a set about of time
+def go_to_sleep [
+    for: duration   # Amount of time to sleep for
+] {
+    bf write $"Sleeping for ($for)."
+    sleep $for
+}

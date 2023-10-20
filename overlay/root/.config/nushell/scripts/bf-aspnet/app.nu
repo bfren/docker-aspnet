@@ -32,7 +32,9 @@ export def restart [] {
 }
 
 # Switch publish and live application directories, and then restart the application
-export def switch [] {
+export def switch [
+    --terminate (-t)    # If set, the container will terminate after switching code
+] {
     # get directories for easy access
     let dir_publish = bf env req ASPNET_APP_PUBLISH
     let dir_live = bf env req ASPNET_APP_LIVE
@@ -65,10 +67,7 @@ export def switch [] {
 
     # output success message
     bf write ok "Application switched successfully."
-}
 
-# Switch publish and live application directories, and then terminate the container
-export def switch_terminate [] {
-    switch
-    bf-s6 cont terminate
+    # terminate the container
+    if $terminate { bf-s6 cont terminate }
 }

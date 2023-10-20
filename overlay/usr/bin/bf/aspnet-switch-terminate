@@ -1,8 +1,8 @@
 #!/usr/bin/nu
 
 use bf
-use bf-aspnet
+use bf-aspnet app
 bf env load -x
 
 # Switch publish and live application directories, and then terminate the container
-def main [] { bf-aspnet app switch_terminate }
+def main [] { app switch --terminate }

@@ -1,8 +1,8 @@
 #!/usr/bin/nu
 
 use bf
-use bf-aspnet
+use bf-aspnet app
 bf env load -x
 
 # Restart ASP.NET application
-def main [] { bf-aspnet app restart }
+def main [] { app restart }
