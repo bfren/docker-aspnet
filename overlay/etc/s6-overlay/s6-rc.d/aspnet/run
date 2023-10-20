@@ -2,7 +2,7 @@
 
 use bf
 use bf-s6
-bf env load -x cron
+bf env load -x aspnet
 
 # Run ASP.NET application
 def main [] {

@@ -2,7 +2,7 @@
 
 use bf
 use bf-s6
-bf env load -x cron
+bf env load -x aspnet
 
 # Show helpful log message - DO NOT TERMINATE CONTAINER though
 def main [...args] { bf-s6 svc finish }
