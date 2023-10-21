@@ -36,8 +36,8 @@ export def switch [
     --terminate (-t)    # If set, the container will terminate after switching code
 ] {
     # get directories for easy access
-    let dir_publish = bf env req ASPNET_APP_PUBLISH
-    let dir_live = bf env req ASPNET_APP_LIVE
+    let dir_publish = bf env ASPNET_APP_PUBLISH
+    let dir_live = bf env ASPNET_APP_LIVE
 
     # check that there are some published files to switch to
     let published_files_count = ls $dir_publish | length
@@ -63,7 +63,7 @@ export def switch [
 
     # reapply permissions
     bf write debug " .. reapplying permissions." app/switch
-    bf ch apply_file $"(bf env req CH_D)/10-aspnet"
+    bf ch apply_file $"(bf env CH_D)/10-aspnet"
 
     # output success message
     bf write ok "Application switched successfully."

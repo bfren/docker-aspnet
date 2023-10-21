@@ -1,5 +1,5 @@
 use bf
-bf env load -x
+bf env load
 
 # Get installed version of ASP.NET runtime
 def main [] {

@@ -7,8 +7,8 @@ bf env load -x aspnet
 # Run ASP.NET application
 def main [...args] {
     # verify ASPNET_ASSEMBLY is set
-    let assembly = bf env req ASPNET_ASSEMBLY
-    let dir_live = bf env req ASPNET_APP_LIVE
+    let assembly = bf env ASPNET_ASSEMBLY
+    let dir_live = bf env ASPNET_APP_LIVE
 
     # verify assembly exists
     let assembly_path = $"($dir_live)/($assembly)"
