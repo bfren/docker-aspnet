@@ -2,6 +2,7 @@
 
 use bf
 
+# Download URLs for .NET and ASP.NET runtimes
 const dotnet_url = "https://dotnetcli.azureedge.net/dotnet/Runtime/{v}/dotnet-runtime-{v}-linux-musl-{a}.tar.gz"
 const aspnet_url = "https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/{v}/aspnetcore-runtime-{v}-linux-musl-{a}.tar.gz"
 
@@ -25,17 +26,18 @@ def main [] {
     do { ^apk add --no-cache $deps } | ignore
 
     # get platform architecture
-    let target = $env.TARGETPLATFORM
-    let arch = match $target {
+    let platform = bf build | get Platform
+    let arch = match $platform {
         "linux/amd64" => "x64"
         "linux/arm64" => "arm64"
-        _ => { bf write error $"Unsupported target platform: ($target)" }
+        _ => { bf write error $"Unsupported platform: ($platform)" }
     }
     bf write $"Detected platform architecture is: ($arch)."
 
     # get .NET version
     cd /tmp
     let revision = bf fs read DOTNET_REVISION
+    bf build add "ASP.NET" $revision
     bf write $"Installing .NET v($revision)."
 
     # install .NET runtime
