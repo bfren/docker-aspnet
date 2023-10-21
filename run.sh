@@ -13,4 +13,4 @@ docker buildx build \
     -t aspnet${ASPNET}-dev \
     . \
     && \
-    docker run -it -e BF_DEBUG=1 -e BF_ASPNET_ASSEMBLY=does/not/exist.dll aspnet${ASPNET}-dev sh
+    docker run -it -e BF_DEBUG=1 -e BF_ASPNET_ASSEMBLY=bf.bfren_dev.dll -p "5000:5000" -v /mnt/d/Temp/Publish/bfren:/app/live aspnet${ASPNET}-dev sh
