@@ -53,7 +53,7 @@ def main [] {
     try {
         bf write $" .. extracting ($dotnet_file)."
         mkdir $dotnet_dir
-        ^tar -C $dotnet_dir -oxzf $dotnet_file
+        ^tar -oxzf $dotnet_file -C $dotnet_dir
         ^ln -s $"($dotnet_dir)/dotnet" /usr/bin/dotnet
     } catch {
         bf write error " .. error installing .NET runtime."
@@ -71,7 +71,7 @@ def main [] {
 
     try {
         bf write $" .. extracting ($aspnet_file)."
-        ^tar -C $dotnet_dir -ozxf $aspnet_file $"./($aspnet_dir)"
+        ^tar -oxzf $aspnet_file -C $dotnet_dir $"./($aspnet_dir)"
     }
 
     if not ($"($dotnet_dir)/($aspnet_dir)/($aspnet_build)" | path exists) {
