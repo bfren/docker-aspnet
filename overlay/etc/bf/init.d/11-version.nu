@@ -4,7 +4,7 @@ bf env load
 # Get installed version of ASP.NET runtime
 def main [] {
     # get the installed version ot ASP.NET
-    let version = glob /usr/share/dotnet/shared/Microsoft.NETCore.App/*
+    let version = glob $"(bf env ASPNET_RUNTIME)/*"
     if ($version | length) != 1 { bf write error "Unable to determine ASP.NET version." }
 
     # output version

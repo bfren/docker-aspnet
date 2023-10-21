@@ -77,6 +77,9 @@ def main [] {
     if not ($"($dotnet_dir)/($aspnet_dir)/($aspnet_build)" | path exists) {
         bf write error " .. error installing ASP.NET runtime."
     }
+
+    # save ASP.NET directory
+    bf env set ASPNET_RUNTIME $"($dotnet_dir)/($aspnet_dir)"
 }
 
 # Get the major version from a revision (i.e. get the first character)
