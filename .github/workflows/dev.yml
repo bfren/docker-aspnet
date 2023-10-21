@@ -59,7 +59,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             bfren/aspnet:net${{ matrix.dotnet }}-dev
-            bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}-beta
+            bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}-dev
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
