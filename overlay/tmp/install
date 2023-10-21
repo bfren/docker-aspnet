@@ -21,9 +21,9 @@ def main [] {
         libssl1.1
         libstdc++
         zlib
-    ] | str join " "
+    ]
     bf write "Installing .NET dependencies."
-    do { ^apk add --no-cache $deps } | ignore
+    bf install add $deps
 
     # get platform architecture
     let platform = bf build | get Platform
