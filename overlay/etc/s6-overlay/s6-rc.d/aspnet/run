@@ -22,7 +22,7 @@ def main [...args] {
     bf write "Starting ASP.NET application."
     bf write debug $" .. ($assembly_path)."
 
-    ^s6-setuidgid www /usr/bin/dotnet $assembly_path
+    exec s6-setuidgid www /usr/bin/dotnet $assembly_path
 }
 
 # Sleep the thread for a set about of time
