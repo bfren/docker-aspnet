@@ -1,16 +1,6 @@
-FROM --platform=$BUILDPLATFORM golang:alpine AS build
-
-ARG TARGETPLATFORM
-ARG BUILDPLATFORM
-
-RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
-
-FROM bfren/alpine-s6:alpine3.18-5.0.0-beta
-COPY --from=build /log /log
+FROM bfren/alpine-s6:alpine3.18-5.0.0-dev
 
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-aspnet"
-
-ARG TARGETPLATFORM
 
 ARG BF_IMAGE
 ARG BF_VERSION

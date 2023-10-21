@@ -4,8 +4,8 @@ set -euo pipefail
 
 docker pull bfren/alpine
 
-BASE_REVISION="5.0.0-beta"
-echo "Base: ${BASE_REVISION}"
+BASE_VERSION="5.0.0-dev"
+echo "Base: ${BASE_VERSION}"
 
 ASPNET_VERSIONS="6 7 8"
 for V in ${ASPNET_VERSIONS} ; do
@@ -18,7 +18,7 @@ for V in ${ASPNET_VERSIONS} ; do
         -e BF_DEBUG=0 \
         bfren/alpine esh \
         "/ws/Dockerfile.esh" \
-        BASE_REVISION=${BASE_REVISION} \
+        BASE_VERSION=${BASE_VERSION} \
         ALPINE_MINOR=${ALPINE_MINOR} \
         ASPNET_VERSION=${V}
     )
