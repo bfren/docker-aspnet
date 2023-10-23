@@ -23,7 +23,7 @@ def main [] {
         zlib
     ]
     bf write "Installing .NET dependencies."
-    bf install add $deps
+    bf pkg install $deps
 
     # get platform architecture
     let platform = bf build | get Platform
