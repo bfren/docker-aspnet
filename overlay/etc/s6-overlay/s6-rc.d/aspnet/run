@@ -21,7 +21,7 @@ def main [...args] {
     # start application
     bf write "Starting ASP.NET application."
     bf write debug $" .. ($assembly_path)."
-    ^bf-x-as www COMPlus_EnableDiagnostics=0 dotnet $assembly_path
+    ^bf-x-as www dotnet $assembly_path
 }
 
 # Sleep the thread for a set about of time
