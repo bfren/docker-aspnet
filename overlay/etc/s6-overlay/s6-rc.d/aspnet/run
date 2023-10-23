@@ -1,33 +1,17 @@
-#!/usr/bin/nu
+#!/bin/withenv sh
 
-use bf
-use bf-s6
-bf env load -x aspnet
+set -euo pipefail
 
-# Run ASP.NET application
-def main [...args] {
-    # verify ASPNET_ASSEMBLY is set
-    let assembly = bf env ASPNET_ASSEMBLY
-    let dir_live = bf env ASPNET_APP_LIVE
 
-    # verify assembly exists
-    let assembly_path = $"($dir_live)/($assembly)"
-    if (bf fs is_not_file $assembly_path) {
-        bf write notok $"($assembly_path) not found."
-        go_to_sleep 30sec
-        exit 0
-    }
+#======================================================================================================================
+# Run preflight checks.
+#======================================================================================================================
 
-    # start application
-    bf write "Starting ASP.NET application."
-    bf write debug $" .. ($assembly_path)."
-    ^bf-x-as www dotnet $assembly_path
-}
+nu -c "use bf-aspnet run ; run preflight"
 
-# Sleep the thread for a set about of time
-def go_to_sleep [
-    for: duration   # Amount of time to sleep for
-] {
-    bf write $"Sleeping for ($for)."
-    sleep $for
-}
+
+#======================================================================================================================
+# Start dotnet application.
+#======================================================================================================================
+
+s6-setuidgid www dotnet ${BF_ASPNET_APP_LIVE}/${BF_ASPNET_ASSEMBLY}
