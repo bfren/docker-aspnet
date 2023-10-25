@@ -12,7 +12,7 @@ export def disable [] {
     }
 
     # kill the .NET process (if it's still running)
-    let dotnet_pids = ps | where name == "/usr/bin/dotnet" | get pid
+    let dotnet_pids = ps | where name == "dotnet" | get pid
     if ($dotnet_pids | length) > 0 {
         bf write "Killing .NET processes." app/disable
         $dotnet_pids | each {|x| kill --force --quiet $x }
@@ -27,7 +27,7 @@ export def restart [] {
     disable
 
     # restart the applcation
-    bf write $"Restarting ($env.ASPNET_ASSEMBLY) application." app/restart
+    bf write $"Restarting (bf env ASPNET_ASSEMBLY) application." app/restart
     ^s6-rc -u change aspnet
 }
 
