@@ -123,9 +123,10 @@ def download [
     }
 
     # verify downloaded file
-    bf write $" .. verifying ($filename) download." verify
-    let result = do { ^echo $"($hash)  ($filename_with_ext)" | ^sha512sum -c - } | complete
-    if $result.exit_code > 0 { bf write error $" .. checksum did not match for ($filename)." verify }
+    bf write $" .. verifying ($filename) download." install/download
+    { ^echo $"($hash)  ($filename_with_ext)" | ^sha512sum -c - } | bf handle -f {|code, err|
+        bf write error $" .. checksum did not match for ($filename)." install/download
+    }
 
     # return filename with extension
     $filename_with_ext
