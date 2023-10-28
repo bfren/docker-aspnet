@@ -66,7 +66,7 @@ export def switch [
     bf ch apply_file "10-aspnet"
 
     # output success message
-    bf write ok "Application switched successfully."
+    bf write ok "Application switched successfully." app/switch
 
     # terminate the container
     if $terminate { bf-s6 cont terminate }
