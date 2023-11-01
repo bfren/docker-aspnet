@@ -6,7 +6,7 @@ export def preflight [...args] {
     bf env load
 
     # manually set executing script
-    bf env set X aspnet/run
+    bf env x_set --override run aspnet
 
     # verify ASPNET_ASSEMBLY is set
     let assembly = bf env ASPNET_ASSEMBLY
