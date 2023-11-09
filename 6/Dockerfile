@@ -7,6 +7,9 @@ ARG BF_VERSION
 
 EXPOSE 5000
 
+COPY ./overlay /
+COPY ./6/overlay /
+
 ENV \
     # The ASP.NET version - used to assist in calculating checksums
     ASPNET_VERSION=6 \
@@ -20,9 +23,6 @@ ENV \
     DOTNET_RUNNING_IN_CONTAINER=true \
     # Set the invariant mode to false so CultureInfo can be used
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
-
-COPY ./overlay /
-COPY ./6/overlay /
 
 RUN bf-install
 
