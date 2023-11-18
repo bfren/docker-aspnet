@@ -44,7 +44,7 @@ def main [] {
     # See https://github.com/dotnet/dotnet-docker/blob/main/src/aspnet/8.0/alpine3.18/arm64v8/Dockerfile
     bf write "Installing .NET runtime."
     let dotnet_build = match (get_major $revision) {
-        "8" => "8.0.0-rc.2.23479.6"
+        "9" => "xxx"
         _ => $revision
     }
     let dotnet_file = download $dotnet_build $arch dotnet $dotnet_url
@@ -63,7 +63,7 @@ def main [] {
     # See https://github.com/dotnet/dotnet-docker/blob/main/src/aspnet/8.0/alpine3.18/arm64v8/Dockerfile
     bf write $"Installing ASP.NET runtime."
     let aspnet_build = match (get_major $revision) {
-        "8" => "8.0.0-rc.2.23480.2"
+        "9" => "xxx"
         _ => $revision
     }
     let aspnet_file = download $aspnet_build $arch aspnet $aspnet_url
