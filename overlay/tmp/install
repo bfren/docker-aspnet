@@ -1,154 +1,143 @@
-#!/bin/sh
+#!/usr/bin/nu
 
-set -euo pipefail
-export BF_E=`basename ${0}`
+use bf
 
+# Download URLs for .NET and ASP.NET runtimes
+const dotnet_url = "https://dotnetcli.azureedge.net/dotnet/Runtime/{v}/dotnet-runtime-{v}-linux-musl-{a}.tar.gz"
+const aspnet_url = "https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/{v}/aspnetcore-runtime-{v}-linux-musl-{a}.tar.gz"
 
-#======================================================================================================================
-# Add www user.
-#======================================================================================================================
+# Setup and install .NET runtime and ASP.NET
+def main [] {
+    # add www user
+    bf user add www
 
-bf-adduser www
+    # install dotnet dependencies
+    let deps = [
+        ca-certificates
+        icu-libs
+        krb5-libs
+        libgcc
+        libintl
+        libssl1.1
+        libstdc++
+        zlib
+    ]
+    bf write "Installing .NET dependencies."
+    bf pkg install $deps
 
+    # get platform architecture
+    let platform = bf build | get Platform
+    let arch = match $platform {
+        "linux/amd64" => "x64"
+        "linux/arm/v7" => "arm"
+        "linux/arm64" => "arm64"
+        _ => { bf write error $"Unsupported platform: ($platform)" }
+    }
+    bf write $"Detected platform architecture is: ($arch)."
 
-#======================================================================================================================
-# Install dotnet dependencies.
-#======================================================================================================================
+    # get .NET version
+    cd /tmp
+    let revision = bf fs read DOTNET_REVISION
+    bf build add "ASP.NET" $revision
+    bf write $"Installing .NET v($revision)."
 
-apk add --no-cache \
-    ca-certificates \
-    icu-libs \
-    krb5-libs \
-    libgcc \
-    libintl \
-    libssl1.1 \
-    libstdc++ \
-    zlib
+    # install .NET runtime
+    # See https://github.com/dotnet/dotnet-docker/blob/main/src/aspnet/8.0/alpine3.18/arm64v8/Dockerfile
+    bf write "Installing .NET runtime."
+    let dotnet_build = match (get_major $revision) {
+        "9" => "xxx"
+        _ => $revision
+    }
+    let dotnet_file = download $dotnet_build $arch dotnet $dotnet_url
+    let dotnet_dir = "/usr/share/dotnet"
 
+    try {
+        bf write $" .. extracting ($dotnet_file)."
+        mkdir $dotnet_dir
+        ^tar -oxzf $dotnet_file -C $dotnet_dir
+        ^ln -s $"($dotnet_dir)/dotnet" /usr/bin/dotnet
+    } catch {
+        bf write error " .. error installing .NET runtime."
+    }
 
-#======================================================================================================================
-# Ensure target platform is set.
-#======================================================================================================================
+    # install ASP.NET runtime
+    # See https://github.com/dotnet/dotnet-docker/blob/main/src/aspnet/8.0/alpine3.18/arm64v8/Dockerfile
+    bf write $"Installing ASP.NET runtime."
+    let aspnet_build = match (get_major $revision) {
+        "9" => "xxx"
+        _ => $revision
+    }
+    let aspnet_file = download $aspnet_build $arch aspnet $aspnet_url
+    let aspnet_dir = "shared/Microsoft.AspNetCore.App"
 
-[[ -z "${TARGETPLATFORM-}" ]] && bf-error "Target platform not set."
+    try {
+        bf write $" .. extracting ($aspnet_file)."
+        ^tar -oxzf $aspnet_file -C $dotnet_dir $"./($aspnet_dir)"
+    }
 
+    if ($"($dotnet_dir)/($aspnet_dir)/($aspnet_build)" | bf fs is_not_dir) {
+        bf write error " .. error installing ASP.NET runtime."
+    }
 
-#======================================================================================================================
-# Get target platform architecture.
-#======================================================================================================================
+    # save ASP.NET directory
+    bf env set ASPNET_RUNTIME $"($dotnet_dir)/($aspnet_dir)"
 
-case "${TARGETPLATFORM}" in
-
-    linux/amd64)
-        ARCH="x64"
-        ;;
-
-    linux/arm64)
-        ARCH="arm64"
-        ;;
-
-    *)
-        bf-error "Unsupported target platform: ${TARGETPLATFORM}."
-        ;;
-
-esac
-
-bf-echo "Platform architecture ${ARCH}."
-
-
-#======================================================================================================================
-# Get .NET Version.
-#======================================================================================================================
-
-cd /tmp
-
-V=$(cat DOTNET_REVISION)
-bf-echo ".NET version ${V}."
-
-
-#======================================================================================================================
-# Verify checksum of a dotnet download.
-#   1   Either 'runtime' or 'aspnet'
-#======================================================================================================================
-
-verify () {
-
-    DL="${ASPNET_VERSION}-${ARCH}-${1}"
-
-    case "${DL}" in
-
-        6-x64-runtime)      HASH="9e0dd5233c4d69b77e3852f31f8e535d86d3381115a3bc7340e0642aa2358f7b7d8ce1cf5186126d238637d0f98186d7b54307f96c560d4f2356916962093e58" ;;
-        6-arm64-runtime)    HASH="ddc9a8d9a4bb723f83badd0e849d65f7138125207e4bcd17264ead839483687afee70ee1e1d01e6fab2fef95f85d552d950a9fe814416fbf8feb32842bbed2ff" ;;
-        7-x64-runtime)      HASH="012e228b5809a5823ba50f3b93823d343da51f09e32c94ef0c1389870ee535ef0fc603e4f13812c75cb5c0f1d942601e8ba3ab4c423c631982d36252eec7d3dc" ;;
-        7-arm64-runtime)    HASH="62c80c4c368f4ca1ccdf3501b8f3caf4f7f4cac91214fc6186750c997c76da8425f4ad1732dab7935e0187610a70ccc78ee3d2885802cf25d71e745d1995b9e3" ;;
-        8-x64-runtime)      HASH="22e77f222b2d9015352f97826c046cac81f33a3bc945837143b799895a55efffb536aec5040fdce95abcaddc2e4fcdc6d818b41b6b3c224d4902c6192cf9190c" ;;
-        8-arm64-runtime)    HASH="bc9391771681719d7d44ac9357a877cb20a2d96e7cf13c05b7e9b1fc6905f6d9731202929cc42e5c8ad96d1edf22efd0e69ed62d63c889b554df56582dfd1918" ;;
-
-        6-x64-aspnet)       HASH="e4b5f6447d498e352348490e70a7f6c0abf9339f7a1d326f32b5f96cef166833b1e0e942c913795a2d90b203e02f44f77be62f7898c17eac7b6c665cd4c13227" ;;
-        6-arm64-aspnet)     HASH="f47d4b1699c36d87db4297e86cf62222f7c89ed0341200df4e7dda6e63e3c1afa255e874501ed2cdf2a9170c508df54b27d88f0be72e8dfc760c02d3088c8c43" ;;
-        7-x64-aspnet)       HASH="a20921e3b534357938f93f368ef0de6eb5204208ece423697f28952176352b246dec43b41c95251b00769cf6a54f87bdcff48704f20a147759aacb3e6b58de3c" ;;
-        7-arm64-aspnet)     HASH="fa061e5fc279d95d600452651845d6297c9bae6776a9ed6562a681b272ea8bc33850ed005cce3cd901bbb940b2d012fea082aa83204e1684faa90b71b274bc6b" ;;
-        8-x64-aspnet)       HASH="af6889f875d113d014f1655f9b265e3e83e4b8203b4093b653d4b325d91ec54ed0ba324f1f417284ce631454656fa02f39f0601286c4d6ecc7b63ac8a67eec6c" ;;
-        8-arm64-aspnet)     HASH="67fdc66ba42f38ce04636f3a742bcfcbd17440aea19fdfed19ba1bebb934ef71959dd7b324064f927bcd1ff0f020601f3923ea12d0320f0a5d810b4fe32ee651" ;;
-
-        *)                  bf-error "Unsupported dotnet download: ${DL}." ;;
-
-    esac
-
-    bf-echo "Verifying ${1} download..."
-    echo "${HASH}  ${1}.tar.gz" | sha512sum -c -
-    bf-done
-
+    # add bf-aspnet module to config
+    bf config use bf-aspnet
 }
 
+# Get the major version from a revision (i.e. get the first character)
+def get_major [
+    revision: string    # Revision number
+] {
+    $revision | split chars | first
+}
 
-#======================================================================================================================
-# Download and install .NET Runtime.
-#======================================================================================================================
+# Download and verify a runtime for .NET or ASP.NET
+def download [
+    version: string     # Runtime verison
+    arch : string       # Platform architecture
+    kind: string        # Runtime kind - 'dotnet' or 'aspnet'
+    url_format: string  # URL format - see constants at top of module
+] {
+    # build the URL and filename
+    let url = $url_format | str replace --all "{v}" $version | str replace --all "{a}" $arch
+    let filename = $"(get_major $version)-($arch)-($kind)"
+    let filename_with_ext = $"($filename).tar.gz"
 
-DOTNET=/usr/share/dotnet
+    # download the requested runtime
+    bf write $" .. downloading ($url)."
+    http get $url | save $filename_with_ext
 
-if [ "$(echo ${V} | cut -c 1)" == "8" ] ; then
-    bf-echo "Changing version to ${V}."
-    V="8.0.0-rc.2.23479.6" # https://github.com/dotnet/dotnet-docker/blob/main/src/runtime/8.0/alpine3.18/arm64v8/Dockerfile
-fi
+    # get the relevant hash
+    let hash = match $filename {
+        "6-x64-dotnet" => "bee78309422930d7c3cf7880fcacc7d130b936fde6c16162448869ae7516321edc145b0a53087a5d206d07fef8844d7f06eafe6db90b035ab4957ccf3ff80d26"
+        "6-arm-dotnet" => "99235f8efcdcd5148cc40ae5f43e5546ba73bffa410d17ae0880be96f819b4afe4ff6676598df95f3c873dd49965379343b44cd3d5ffde7fffb77c0142aa65ed"
+        "6-arm64-dotnet" => "0466e251a07262c9796d4d67f61247f6c7c6c998414cc789dda6e4f927ab7ff9463ba226f0141f71bc27a1e55f97ed6d313220e008806be3045929b709fa1175"
+        "7-x64-dotnet" => "954cb4d80a7da484c5f73a4dd26b35866fe320260af6c7c7dd79e7b82bfc4d972c6c854c705514983f78ee2f44b572f30ed622dd69e94c737e6c5663279f68be"
+        "7-arm-dotnet" => "16343c03c29c4242683c9e1c9a669ffdc50ca8f5805ee539a3628a05e412dc7afe2df1a81ba57bfceedc9a42450bbd9b59a1b64b32e0e0429f0ce7e335db6f11"
+        "7-arm64-dotnet" => "92262e41a370d9c4b05b0dec1a73deccfe05b1c841300f6c0aa2eed49f7ca5c1d76727a571cef3c5a063edcd6da2ce69d2357c3e3372f5789387706b4512e97d"
+        "8-x64-dotnet" => "bc9278786a728bcc404dd014f7823334312c0db6d949df104bb31e775f53b5684bba00611abb58873b8894d20489d5145fb351903b68dece92a7dbad14c3b9f2"
+        "8-arm-dotnet" => "3947064cdcf0c3417e9809f7595707bdc537c6280de82e0df170b15abc6be6705cb180b243c23dc373a76698e9e9f434a89975ae1734abad7f39607ef83e772c"
+        "8-arm64-dotnet" => "a8bb01b3e3dce7cd5a5ddcb8af13f3bc9b3be1cd3d60ee728b845c88cb12005e5e8c5d54a51391fc27de4023080ce9b231c1c48e858b3f1b551a9e1936d59f27"
+        "6-x64-aspnet" => "2730ef44301f0926ba8edf41180351f7f145843fd37eff8e2845eab02a5c449281bbbfdd21f1710f7773d93627f514298a46706801aef0063f920c752e063ea1"
+        "6-arm-aspnet" => "cf325dc954bbcc1476899fa6716cb7d474cf98eca12ae555425336e6277e638e93c2d186f61a93a2ccf19e33ee440a15980f5180b54fac1a2aa68121df30cab6"
+        "6-arm64-aspnet" => "c0f827ceb51e39a0a78d82efad03a43adf1c6a9ca3e411ace69be2dac4faad56c74775381517d676154b3a5e0d972ba5ad05593623c7af945643d518749e0426"
+        "7-x64-aspnet" => "e3fdc0b57683c633e18df0afb70d3348c1a756541c7dfab6c763b9b9ac471aac7b34170cc07d3b989d80521ae3b0b5c2af1aea593b4e13079bfe678356933c25"
+        "7-arm-aspnet" => "df4645f89aa8d4ae45a550c6c8b97f81d34b9e6c51b9b37b72b07e62e9d4a195b4fa7f6cd75956f77ce47d55273cbdd4edd51caa43f0453c43f4b0c43592a1f7"
+        "7-arm64-aspnet" => "4f7b441a8116f0fe4f6429f6aa5fa68b2387bcc9e59bb56c5c8bb53733f7c2e57bd45502c15f5c2c56d554f15543dbe7cc3a3faf9b1600f018b2d229030b8bbd"
+        "8-x64-aspnet" => "12723b685b86d3d2f69692781f731fe2c56bfc4d34489b9c901775e78f8f96edb78b97b9234b44b14aa2f578c1a054e425ebe8ced42f59e82c39c90c341fc1d9"
+        "8-arm-aspnet" => "16254138c90ceb74becd25b0a4bc000838ee5e480c987b68300244d2916a97fb2adb4c715935f9a8547efd30bbf499ab68dfdcb79cfbeab77c46f1b575cca2e9"
+        "8-arm64-aspnet" => "9ac1b612e126c7c4a9eb2b3343c93875268f3a4d78cf4c6ece9e718b76b60f13e96efb9488e7d83cfb128ae766d8bf05e764d6a11c3a315ea1820a011afd585f"
+        _ => { bf write error $"Unsupported .NET download: ($filename)." }
+    }
 
-RUNTIME="runtime"
-RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/${V}/dotnet-runtime-${V}-linux-musl-${ARCH}.tar.gz"
-bf-echo "Downloading ${RUNTIME_URL}..."
-wget -O ${RUNTIME}.tar.gz ${RUNTIME_URL}
-bf-done
+    # verify downloaded file
+    bf write $" .. verifying ($filename) download." install/download
+    { $"($hash)  ($filename_with_ext)" | ^sha512sum -c - } | bf handle -f {|code, err|
+        bf write error $" .. checksum did not match for ($filename)." install/download
+    } install/download
 
-verify ${RUNTIME}
-
-bf-echo "Installing .NET runtime..."
-mkdir -p ${DOTNET} \
-    && tar -C ${DOTNET} -oxzf ${RUNTIME}.tar.gz \
-    && ln -s ${DOTNET}/dotnet /usr/bin/dotnet
-
-[[ -d ${DOTNET} ]] && bf-done \
-    || bf-error ".NET runtime not installed."
-
-
-#======================================================================================================================
-# Download and install ASP.NET Runtime.
-#======================================================================================================================
-
-if [ "$(echo ${V} | cut -c 1)" == "8" ] ; then
-    bf-echo "Changing version to ${V}."
-    V="8.0.0-rc.2.23480.2" # https://github.com/dotnet/dotnet-docker/blob/main/src/aspnet/8.0/alpine3.18/arm64v8/Dockerfile
-fi
-
-ASPNET="aspnet"
-ASPNET_URL="https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${V}/aspnetcore-runtime-${V}-linux-musl-${ARCH}.tar.gz"
-bf-echo "Downloading ${ASPNET_URL}..."
-wget -O ${ASPNET}.tar.gz ${ASPNET_URL}
-bf-done
-
-verify ${ASPNET}
-
-bf-echo "Installing ASP.NET..."
-tar -ozxf ${ASPNET}.tar.gz -C ${DOTNET} ./shared/Microsoft.AspNetCore.App
-
-[[ -d ${DOTNET}/shared/Microsoft.AspNetCore.App/${V} ]] && bf-done \
-    || bf-error "ASP.NET runtime not installed."
+    # return filename with extension
+    $filename_with_ext
+}

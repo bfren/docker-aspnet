@@ -1,11 +1,7 @@
-#!/command/with-contenv sh
+#!/usr/bin/nu
 
-set -euo pipefail
-export BF_E=`basename ${0}`
+use bf
+bf env load -x
 
-
-#======================================================================================================================
-# Test site.
-#======================================================================================================================
-
-bf-test-url ${ASPNETCORE_URLS//[+]/localhost}
+# Attempt to load localhost
+def main [] { bf http test_url $"(bf env -P ASPNETCORE_URLS | str replace "+" "localhost")" | if not $in { exit 1 } }
