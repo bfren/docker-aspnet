@@ -5,6 +5,7 @@ ASPNET=${1:-8}
 
 docker buildx build \
     --load \
+    --progress plain \
     --build-arg BF_IMAGE=aspnet \
     --build-arg BF_VERSION=${IMAGE} \
     -f ${ASPNET}/Dockerfile \
