@@ -16,9 +16,10 @@ def main [] {
         ca-certificates
         icu-libs
         krb5-libs
+        libcrypto3
         libgcc
         libintl
-        libssl1.1
+        libssl3
         libstdc++
         zlib
     ]
