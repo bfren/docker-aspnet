@@ -3,6 +3,7 @@ FROM bfren/alpine-s6:alpine<%= ${ALPINE_MINOR} %>-<%= ${BASE_VERSION} %>
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-aspnet"
 
 ARG BF_IMAGE
+ARG BF_PUBLISHING
 ARG BF_VERSION
 
 EXPOSE 5000
