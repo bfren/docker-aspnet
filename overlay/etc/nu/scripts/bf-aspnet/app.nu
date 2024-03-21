@@ -50,18 +50,18 @@ export def switch [
     let live_files_count = ls $dir_live| length
     if $live_files_count > 0 {
         bf write debug $" .. moving live files to ($dir_temp)." app/switch
-        echo $"($dir_live)/*" | mv $in $dir_temp
+        echo $"($dir_live)/*" | into glob | mv $in $dir_temp
     }
 
     # move published files to live
     bf write debug $" .. moving published files to ($dir_live)." app/switch
-    echo $"($dir_publish)/*" | mv $in $dir_live
+    echo $"($dir_publish)/*" | into glob | mv $in $dir_live
 
     # move old live files into publish
     let temp_files_count = ls $dir_temp | length
     if $temp_files_count > 0 {
         bf write debug $" .. moving old live files ($dir_publish)." app/switch
-        echo $"($dir_temp)/*" | mv $in $dir_publish
+        echo $"($dir_temp)/*" | into glob | mv $in $dir_publish
     }
 
     # reapply permissions
