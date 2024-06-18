@@ -4,4 +4,4 @@ use bf
 bf env load -x
 
 # Attempt to load localhost
-def main [] { bf http test_url $"(bf env -P ASPNETCORE_URLS | str replace "+" "localhost")" | if not $in { exit 1 } }
+def main [] { bf env -P ASPNETCORE_URLS | str replace "+" "localhost" | bf http test | if not $in { exit 1 } }
