@@ -46,7 +46,7 @@ def main [] {
     # see https://dotnetcli.blob.core.windows.net/dotnet/checksums/9.0.0-preview.5-sha.txt
     bf write "Stripping away preview build versions."
     let dotnet_build = match (get_major $revision) {
-        "9" => "9.0.0-preview.5.24306.11"
+        "9" => "9.0.0-preview.5.24306.7"
         _ => $revision
     }
     let aspnet_build = match (get_major $revision) {
