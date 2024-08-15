@@ -17,14 +17,14 @@ def main [] {
     bf build add "ASP.NET" $revision
 
     # handle preview versions - they come with build versions that we want to strip away
-    # see https://dotnetcli.blob.core.windows.net/dotnet/checksums/9.0.0-preview.5-sha.txt
+    # see https://dotnetcli.blob.core.windows.net/dotnet/checksums/9.0.0-preview.7-sha.txt
     bf write "Stripping away preview build versions."
     let dotnet_build = match ($revision | get_major) {
-        "9" => "9.0.0-preview.6.24327.7"
+        "9" => "9.0.0-preview.7.24405.7"
         _ => $revision
     }
     let aspnet_build = match ($revision | get_major) {
-        "9" => "9.0.0-preview.6.24328.4"
+        "9" => "9.0.0-preview.7.24406.2"
         _ => $revision
     }
     bf write $"Installing .NET v($revision)."
