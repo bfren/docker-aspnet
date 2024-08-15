@@ -19,11 +19,11 @@ def main [] {
     # handle preview versions - they come with build versions that we want to strip away
     # see https://dotnetcli.blob.core.windows.net/dotnet/checksums/9.0.0-preview.5-sha.txt
     bf write "Stripping away preview build versions."
-    let dotnet_build = match (get_major $revision) {
+    let dotnet_build = match ($revision | get_major) {
         "9" => "9.0.0-preview.6.24327.7"
         _ => $revision
     }
-    let aspnet_build = match (get_major $revision) {
+    let aspnet_build = match ($revision | get_major) {
         "9" => "9.0.0-preview.6.24328.4"
         _ => $revision
     }
@@ -40,7 +40,7 @@ def main [] {
         libssl3
         libstdc++
     ]
-    let deps = match (get_major $revision) {
+    let deps = match ($revision | get_major) {
         "9" => ($deps_common | append "zlib")
         _ => $deps_common
     }
@@ -93,11 +93,7 @@ def main [] {
 }
 
 # Get the major version from a revision (i.e. get the first character)
-def get_major [
-    revision: string    # Revision number
-] {
-    $revision | split chars | first
-}
+def get_major []: string -> string { $in | split chars | first }
 
 # Download and verify a runtime for .NET or ASP.NET
 def download [
@@ -108,7 +104,7 @@ def download [
 ] {
     # build the URL and filename
     let url = $url_format | str replace --all "{v}" $version | str replace --all "{a}" $arch
-    let filename = $"(get_major $version)-($arch)-($kind)"
+    let filename = $"($version | get_major)-($arch)-($kind)"
     let filename_with_ext = $"($filename).tar.gz"
 
     # download the requested runtime
@@ -117,30 +113,30 @@ def download [
 
     # get the relevant hash
     let hash = match $filename {
-        "6-arm-dotnet" => "b5a667e875a5f7e247dc4c9a5e2084a4162e20631dcfdfec10359d0235f271b65e95ce4b0b7aa5213a0cb023a84208640e13b6259b5edcb26e0e19b406114e6a"
-        "6-arm64-dotnet" => "5ed3da55a27f9dacfa6fdb9c555e797edb36613cfcd9f5fc4290da2a82736436b18f448afd15d980ef11a33bf5013cbdaf87e821dc88198b76d723482c7c12f5"
-        "6-x64-dotnet" => "01832b7f6359bdb21130486a1d40098e4bcba0ef93afa0610d25bec3295cfa8e2e930d284b9ca2f2bba30e0c2ddd6bdd15190003a2751ffcef5947c52d8886a5"
+        "6-arm-dotnet" => "a9594a489f8634af01e7c60acab5f7ee0ac544b98ce73ee671359becd6f6b29f4d9e64dfe3166822c0506157731ec44fa6db02a8be1b17a279af61a6679cfd38"
+        "6-arm64-dotnet" => "e5707970b2a852b80b1fd77a3883e50dec925d91eb89012c166e4a45e917064c24040a6e444b054767033cb9b9e8314b6b5117ffada6d248ab7f90c8e40fe555"
+        "6-x64-dotnet" => "3bfe4f9dde02bdaf35db07271cf56873b508c3229318bbe7d478eed855417ed3941d9d9a8ede2fd1cc5ce5f7b73c4e5ae4666d2cc47fe2ae09d5f8625c46e982"
         "7-arm-dotnet" => "25ccc373d1c4c0eb741e048c6fd48366310b36ac6f068c50f6bc01342a000464144e8457e7e1b6ccf6d99544d4914022efcb824e75636517bbf61c94852cdd74"
         "7-arm64-dotnet" => "552ca73467f8043d351c20d71df95ba963b32e8c75706df6f5d3fce525f3efdf1314df296c44fbedad5575782e37633998a79b2c23f7f7420f814ee2488f30a2"
         "7-x64-dotnet" => "31b9da08d633cd0028eb08c36ee2c5c3cb1be6d3c5e010c85ae291496fe5e818b5be59f5d47aff86ed939c260f762e57ff06934a4d0954376935b1adc799f1bf"
         "8-arm-dotnet" => "03aecb348a99d0afc9b90006e14a0c75ed69f7ef6cb8689fac171edf0f88aaa928a395ce433a390cee1ca4255560511c89d8d827a575b21876e2e7f94d5bceef"
         "8-arm64-dotnet" => "249246082498d3f6b5a3a0347527ac5a98ecd0fde235d6bb48bb18e4bb031eda6833526035279e99e97fbb5dc58fba132c9bed5f33442c47e571a91f648fa863"
         "8-x64-dotnet" => "31386a3af6cbeea3e1b0e2f109d10222c5ad41057540fd5c626959ec7d2a542b859c9699cb86a1ac812eb7fed139dcab0c53ecb8adf678fe0ad04c62cf6c1f8d"
-        "9-arm-dotnet" => "cd49793061602577d7d1017c2e0f43c205bc48eff50b9234ff8a56d2a873ffb1167429f5f132e5ac201a460efeed83c82c404e47ae87fe336970fd04b3cff697"
-        "9-arm64-dotnet" => "643fcc319138f31bb2cc7e7896e14caead677e16fa79b2d5031f339103f2bb5dbb9994485ed24281c93ecd32bea179861330c69e75d03db30a58d46fc932dad6"
-        "9-x64-dotnet" => "7c477a29faed51ea6bc01a1314b3c8d5907d41b2bebce28b52db453722bee703e3edf167e3143b316eca572a1e976619f3925cfd965953376cda38157e9395c1"
-        "6-arm-aspnet" => "b475c5880c222ef0c3e1a54bc7099dae7a26c5f21aa40984534502db0d384c72531e414536d12970183e052aa5b8ba289ea32ab011096347bcb9f1275df48172"
-        "6-arm64-aspnet" => "d479d7534192a8a936cc751c885c48512453ce51e2879866b26bbf354181f0cf053b8c8258eb76927f204aea6d639d10dfb1c4db80e7b35c592e00ec0b1eb4bb"
-        "6-x64-aspnet" => "8faf9f49c86adac4a09defeb4063ddd2cc2da7a3812afd5b9a6cce8d17d7b5496b737bbf213864c89d5654c83c5574fbc9ae117668252ccbb593d4dce53af71b"
+        "9-arm-dotnet" => "d627507d36e0ee3e8a6253d0488bb2c85458ba124016b32c8a481ec3d603f4393b700f1cd08c5640aad1971546526898ffb049e9590cbd655dda4375b7d7757e"
+        "9-arm64-dotnet" => "57bb109d2bd66c6e273b54d4bbb4836a53375f1cb13bed1139c6bc950f85de774070014fd19ddb8b43588fa32f6de60811b43cbff5d29b1f537cb8206561fc5c"
+        "9-x64-dotnet" => "343d911894ff3b61cf6ee560b5a5da14a8b84e9dffa2211529d885e81314a6b0e88b6018b3a116f05b0bcd6e80b2a1e8cb45547f193a49a3aafcdf3992b580e7"
+        "6-arm-aspnet" => "574abceb57f26e15f4e2ceb4837661e192c40898684880e078b8ad4cfc8f506e25a50f3cdc7276e17a9556e95e2b92ebc6d41a74a656244180d27341485a9ceb"
+        "6-arm64-aspnet" => "3da57b3de134db38f17094518d16653356491cf5d67222b2c37d720ec100644decb8fb3ad8dca645134efba7b57bf15aa25fe84b9a12711aa80c7de0c60861b4"
+        "6-x64-aspnet" => "f5a43b0bc1c832fd70cdfa4fe09849602760831133a2412f5f7d259496ccd0dc65999ba77a4e8d4b06a7614b851d4797f92d5c7c5c1c26f39642b75edcff13c2"
         "7-arm-aspnet" => "ca84e0eff052d45b7fa9afd8a68f1d56264155b507881105d206969922057bf332895a3c3a2a1702648e46712f022574d93ae187c8fd2610f8392909568abf56"
         "7-arm64-aspnet" => "65406e1714a3117daa342b3fd0dbcd5c3214315611eacbbd8580827f69a07a9480530320ba40692a3d6dbff832d929a1420079f1db30ca3fd67a6fd035149d04"
         "7-x64-aspnet" => "a80f31193af70d556e8d026d39d79863c8389b065fe0778e7b4360f7d1f6d36503ba52736c40e74a716c3c30500b185816ed60d79b06ae295754b67374a1fa45"
         "8-arm-aspnet" => "9acc8bc8c5fde692def85b1dffaa8648fcc6a2a482c252882660ecdc4ca8b4be8d59274891bfb9b106cca62849a705b482ef5b4c539014e284dc2309234ffe22"
         "8-arm64-aspnet" => "ca5b8d9fbdbe3c38f560d662705be00174885fc7abd875ac056c97788410329af9017ec6052a146b9414d26ff956accdfdc6ef315aaf7c6936b0520a9320493f"
         "8-x64-aspnet" => "a60d470dee1a1da34ce4d9e84a6dca1e7df2bbbc8b3b0fce36543f712b8a3da78a3ddf59b4ac231986f49a6fb44f59a270a184fabbda6a0e098d018d3e2afa46"
-        "9-arm-aspnet" => "836212e6c83f790096bcbc131f7bea1175a0ab17898c8e872e88bcb0e27b52e5f94cf27dcde815e54e102610cf2d002ffed4f325da815d3b6be416d2425f0d46"
-        "9-arm64-aspnet" => "f7e0e8c258d4199c3e79fbdfd12f2ccd02cf57afa9bd53add921f40e05bf300c29dde18589eb446e1a13fb0833eabecf46fe15ce04fe5cba915fcab6ad1091ac"
-        "9-x64-aspnet" => "c95601ea6775f229a7de6daf8ae92b947ae7942b134de7cb7073eab22114c940738b44273f6ddaafbabc5363c9f4cde1eff7423781b5a821eb9b0aa2535a3952"
+        "9-arm-aspnet" => "08b67ca34122f063370d0f24606174026d3e67f8767ac2e4c4393c214e608d47d82dad177a97c5e6e28d089412403f75012c00cdaabb109e461e266ad6a620c5"
+        "9-arm64-aspnet" => "df15606e28e68162739d6b5f3a3852664cbd8d78ff8e8ebed07e2f78c8699d0dd4bd2a3c3b5c98b63bfdae1106720fd4069d349d0d4e32037deea77a4e97efed"
+        "9-x64-aspnet" => "bddb66623e26d391d4587b46f6b7be5280788eb0355c558044016c1a12062005f2627bd3fdf51cb271f85eaa91fb920532ef235edd764e4ca63931595e1fb52b"
         _ => { bf write error $"Unsupported .NET download: ($filename)." }
     }
 
