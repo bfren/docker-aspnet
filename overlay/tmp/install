@@ -11,36 +11,10 @@ def main [] {
     # add www user
     bf user add www
 
-    # install dotnet dependencies
-    let deps = [
-        ca-certificates
-        icu-libs
-        krb5-libs
-        libcrypto3
-        libgcc
-        libintl
-        libssl3
-        libstdc++
-        zlib
-    ]
-    bf write "Installing .NET dependencies."
-    bf pkg install $deps
-
-    # get platform architecture
-    let platform = bf build | get Platform
-    let arch = match $platform {
-        "linux/amd64" => "x64"
-        "linux/arm/v7" => "arm"
-        "linux/arm64" => "arm64"
-        _ => { bf write error $"Unsupported platform: ($platform)" }
-    }
-    bf write $"Detected platform architecture is: ($arch)."
-
     # get .NET version
     cd /tmp
     let revision = bf fs read DOTNET_REVISION
     bf build add "ASP.NET" $revision
-    bf write $"Installing .NET v($revision)."
 
     # handle preview versions - they come with build versions that we want to strip away
     # see https://dotnetcli.blob.core.windows.net/dotnet/checksums/9.0.0-preview.5-sha.txt
@@ -53,6 +27,35 @@ def main [] {
         "9" => "9.0.0-preview.6.24328.4"
         _ => $revision
     }
+    bf write $"Installing .NET v($revision)."
+
+    # install dotnet dependencies
+    let deps_common = [
+        ca-certificates
+        icu-libs
+        krb5-libs
+        libcrypto3
+        libgcc
+        libintl
+        libssl3
+        libstdc++
+    ]
+    let deps = match (get_major $revision) {
+        "9" => ($deps_common | append "zlib")
+        _ => $deps_common
+    }
+    bf write "Installing .NET dependencies."
+    bf pkg install $deps
+
+    # get platform architecture
+    let platform = bf build | get Platform
+    let arch = match $platform {
+        "linux/amd64" => "x64"
+        "linux/arm/v7" => "arm"
+        "linux/arm64" => "arm64"
+        _ => { bf write error $"Unsupported platform: ($platform)" }
+    }
+    bf write $"Detected platform architecture is: ($arch)."
 
     # install .NET runtime
     bf write "Installing .NET runtime."
