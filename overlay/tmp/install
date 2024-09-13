@@ -17,14 +17,14 @@ def main [] {
     bf build add "ASP.NET" $revision
 
     # handle preview versions - they come with build versions that we want to strip away
-    # see https://dotnetcli.blob.core.windows.net/dotnet/checksums/9.0.0-preview.7-sha.txt
+    # see https://dotnetcli.blob.core.windows.net/dotnet/checksums/9.0.0-rc.1-sha.txt
     bf write "Stripping away preview build versions."
     let dotnet_build = match ($revision | get_major) {
-        "9" => "9.0.0-preview.7.24405.7"
+        "9" => "9.0.0-rc.1.24431.7"
         _ => $revision
     }
     let aspnet_build = match ($revision | get_major) {
-        "9" => "9.0.0-preview.7.24406.2"
+        "9" => "9.0.0-rc.1.24452.1"
         _ => $revision
     }
     bf write $"Installing .NET v($revision)."
@@ -122,9 +122,9 @@ def download [
         "8-arm-dotnet" => "8a6f920d93d7d5527dc289f472521e2a671afb4e663aaacfd82c32658c2ea39eab43a5c97d3d3d7ba58403ebfbf6cb96fc73ff5b7ccc1a9447d13bf41eeb80c9"
         "8-arm64-dotnet" => "26f35e1c6074a7d99a40ea48f6c02db78f4e2c743cbc74463a094da014e126e9379d09b4e56809ac9829b26b6ba0a901adc47adfc3c5d35a97e9ead5a6931489"
         "8-x64-dotnet" => "ca2ff32145506513253f80ecd72b5c24d8bda28f44ae83c988c39ebfa75e737d5510bcb84bc27a149d2e6995761f8b124d7701522ae9bbcac17fc32667217eb6"
-        "9-arm-dotnet" => "d627507d36e0ee3e8a6253d0488bb2c85458ba124016b32c8a481ec3d603f4393b700f1cd08c5640aad1971546526898ffb049e9590cbd655dda4375b7d7757e"
-        "9-arm64-dotnet" => "57bb109d2bd66c6e273b54d4bbb4836a53375f1cb13bed1139c6bc950f85de774070014fd19ddb8b43588fa32f6de60811b43cbff5d29b1f537cb8206561fc5c"
-        "9-x64-dotnet" => "343d911894ff3b61cf6ee560b5a5da14a8b84e9dffa2211529d885e81314a6b0e88b6018b3a116f05b0bcd6e80b2a1e8cb45547f193a49a3aafcdf3992b580e7"
+        "9-arm-dotnet" => "11189bcc13148694913ac5fb050b77db8104ac62dd39b970cd96aef399f7a7cee656a314b44f0113f96726e7ee0a269dea38637020fe06261a8b01ca0df9e4b4"
+        "9-arm64-dotnet" => "dd62a73736b275a15b5affa3465a0ef3d69619a06ccaaa3916b331f45b3859a9028e78eb7cd85c766deffb9703c7bb96788f4061d549cbdf325bf81894310521"
+        "9-x64-dotnet" => "bd77015ca46b8928f70a61e6cfef23c5e308ad40c03ddd421c210141b1a38cd5c4d8edf5365e8baee227db5a6ac71fbea481c1a8b3c5ba6ea58330afdd7fe231"
         "6-arm-aspnet" => "574abceb57f26e15f4e2ceb4837661e192c40898684880e078b8ad4cfc8f506e25a50f3cdc7276e17a9556e95e2b92ebc6d41a74a656244180d27341485a9ceb"
         "6-arm64-aspnet" => "3da57b3de134db38f17094518d16653356491cf5d67222b2c37d720ec100644decb8fb3ad8dca645134efba7b57bf15aa25fe84b9a12711aa80c7de0c60861b4"
         "6-x64-aspnet" => "f5a43b0bc1c832fd70cdfa4fe09849602760831133a2412f5f7d259496ccd0dc65999ba77a4e8d4b06a7614b851d4797f92d5c7c5c1c26f39642b75edcff13c2"
@@ -134,9 +134,9 @@ def download [
         "8-arm-aspnet" => "5d9f609e72dcfcc16b6bb63d49e7fd47c3e2d77913d9de14864417fb2a534b2f7db56530db165acc63633641c706d0faba95db985b09844677d8cb41039a0c67"
         "8-arm64-aspnet" => "6028c29306d4969ee404c459dca3130f1e9614d1954e8ed4400140b35ad8a1e66a0a8b3ae02155df6bd046cd9309074220487a1c2625c39f081bdc6c8ed62005"
         "8-x64-aspnet" => "822f2e1716dc2d2aa46ff08f4d2d9bb9ea8c82332785d0aba5f4f33e5eb60bdcd84e899cd2a13ca93032226710b5f0ca5c7159beda17027f84efa285278b5798"
-        "9-arm-aspnet" => "08b67ca34122f063370d0f24606174026d3e67f8767ac2e4c4393c214e608d47d82dad177a97c5e6e28d089412403f75012c00cdaabb109e461e266ad6a620c5"
-        "9-arm64-aspnet" => "df15606e28e68162739d6b5f3a3852664cbd8d78ff8e8ebed07e2f78c8699d0dd4bd2a3c3b5c98b63bfdae1106720fd4069d349d0d4e32037deea77a4e97efed"
-        "9-x64-aspnet" => "bddb66623e26d391d4587b46f6b7be5280788eb0355c558044016c1a12062005f2627bd3fdf51cb271f85eaa91fb920532ef235edd764e4ca63931595e1fb52b"
+        "9-arm-aspnet" => "29dbeee2ca4379b33457e2b056588114fa31813506c5359a23145f23a41d063d05eaa097ea117623a40fab113516b45150bd17a2f057287562c33fe9168bf299"
+        "9-arm64-aspnet" => "9f4f1a3a4f39377779bf4f76ce0b9763102d9ca617ffdf61ff75a0d81c5cc63fb5042708ff10b1a83e558050d9b95bbaf159fa77e27cc03e0ad343441e164b5e"
+        "9-x64-aspnet" => "0f945f9c7619918d619a66cfb6c8b01fd9939438ce8ef8be0797faea4cbd73cede6fd25c225855efb793be670bfc0f7198e9f231fa0511d7cf319d2fabbac9d3"
         _ => { bf write error $"Unsupported .NET download: ($filename)." }
     }
 
