@@ -1,7 +1,7 @@
 #!/bin/sh
 
 IMAGE=`cat VERSION`
-ASPNET=${1:-8}
+ASPNET=${1:-9}
 
 docker buildx build \
     --load \
