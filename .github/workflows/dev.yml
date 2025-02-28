@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dotnet: [ "6", "7", "8", "9" ]
+        dotnet: [ "6", "7", "8", "9", "10" ]
     runs-on: ubuntu-latest
     steps:
       -

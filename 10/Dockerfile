@@ -9,11 +9,11 @@ ARG BF_VERSION
 EXPOSE 5000
 
 COPY ./overlay /
-COPY ./8/overlay /
+COPY ./10/overlay /
 
 ENV \
     # The ASP.NET version - used to assist in calculating checksums
-    ASPNET_VERSION=8 \
+    ASPNET_VERSION=10 \
     # Configure web servers to bind to port 5000
     ASPNETCORE_URLS="http://+:5000" \
     # Must be defined so the service can run the application

@@ -4,10 +4,10 @@ set -euo pipefail
 
 docker pull bfren/alpine
 
-BASE_VERSION="5.5.1"
+BASE_VERSION="5.5.2"
 echo "Base: ${BASE_VERSION}"
 
-ASPNET_VERSIONS="6 7 8 9"
+ASPNET_VERSIONS="6 7 8 9 10"
 for V in ${ASPNET_VERSIONS} ; do
 
     echo "ASP.NET ${V}"
