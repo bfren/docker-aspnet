@@ -24,7 +24,7 @@ def main [] {
         _ => $revision
     }
     let aspnet_build = match ($revision | get_major) {
-        "10" => "10.0.0-preview.2.25164.1-"
+        "10" => "10.0.0-preview.2.25164.1"
         _ => $revision
     }
     bf write $"Installing .NET v($revision)."
