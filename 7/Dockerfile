@@ -1,4 +1,4 @@
-FROM ghcr.io/bfren/alpine-s6:alpine3.19-5.5.3
+FROM ghcr.io/bfren/alpine-s6:alpine3.19-5.5.4
 
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-aspnet"
 
