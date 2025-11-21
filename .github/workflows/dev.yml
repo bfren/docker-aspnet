@@ -43,12 +43,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Login to GitHub Container Registry
+        name: Login to Quay.io Container Registry
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
+          registry: quay.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.QUAY_TOKEN }}
       -
         name: Build and export
         id: docker_export
@@ -80,8 +80,8 @@ jobs:
           tags: |
             bfren/aspnet:net${{ matrix.dotnet }}-dev
             bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}-dev
-            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}-dev
-            ghcr.io/bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}-dev
+            quay.io/bfren/aspnet:net${{ matrix.dotnet }}-dev
+            quay.io/bfren/aspnet:net${{ matrix.dotnet }}-${{ steps.version.outputs.contents }}-dev
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
