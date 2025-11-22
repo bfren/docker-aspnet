@@ -32,6 +32,8 @@ def main [] {
     # install dotnet dependencies
     let deps_common = [
         ca-certificates-bundle
+        icu-libs
+        libcrypto3
         libgcc
         libssl3
         libstdc++
