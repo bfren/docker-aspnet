@@ -7,7 +7,7 @@ docker pull bfren/alpine
 BASE_VERSION="6.0.0"
 echo "Base: ${BASE_VERSION}"
 
-ASPNET_VERSIONS="6 7 8 9 10"
+ASPNET_VERSIONS="8 9 10"
 for V in ${ASPNET_VERSIONS} ; do
 
     echo "ASP.NET ${V}"
