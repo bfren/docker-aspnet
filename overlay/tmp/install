@@ -31,17 +31,13 @@ def main [] {
 
     # install dotnet dependencies
     let deps_common = [
-        ca-certificates
-        icu-libs
-        krb5-libs
-        libcrypto3
+        ca-certificates-bundle
         libgcc
-        libintl
         libssl3
         libstdc++
     ]
-    let deps = match ($revision | get_major) {
-        "9" => ($deps_common | append "zlib")
+    let deps = match ($revision | get_major | into int) {
+        8 => ($deps_common | append "zlib")
         _ => $deps_common
     }
     bf write "Installing .NET dependencies."
@@ -109,7 +105,7 @@ def download [
 
     # download the requested runtime
     bf write $" .. downloading ($url)."
-    http get $url | save $filename_with_ext
+    bf http download $url $filename_with_ext
 
     # get the relevant hash
     let hash = match $filename {
