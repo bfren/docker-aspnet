@@ -10,12 +10,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dotnet: [ "6", "7", "8", "9", "10" ]
+        dotnet: [ "8", "9", "10" ]
     runs-on: ubuntu-latest
     steps:
       -
         name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       -
         name: Get repository name
         run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
