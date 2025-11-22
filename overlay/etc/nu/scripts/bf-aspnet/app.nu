@@ -2,7 +2,7 @@ use bf
 use bf-s6
 
 # Disable the ASP.NET service
-export def disable [] {
+export def disable []: nothing -> nothing {
     # disable the ASP.NET service
     if (bf-s6 svc is_up aspnet) {
         bf write "Disabling ASP.NET service." app/disable
@@ -19,22 +19,28 @@ export def disable [] {
     } else {
         bf write debug "No .NET processes found." app/disable
     }
+
+    # return nothing
+    return
 }
 
 # Restart application
-export def restart [] {
+export def restart []: nothing -> nothing {
     # disable the service
     disable
 
     # restart the applcation
     bf write $"Restarting (bf env ASPNET_ASSEMBLY) application." app/restart
     ^s6-rc -u change aspnet
+
+    # return nothing
+    return
 }
 
 # Switch publish and live application directories, and then restart the application
 export def switch [
     --terminate (-t)    # If set, the container will terminate after switching code
-] {
+]: nothing -> nothing {
     # get directories for easy access
     let dir_publish = bf env ASPNET_APP_PUBLISH
     let dir_live = bf env ASPNET_APP_LIVE
@@ -50,18 +56,18 @@ export def switch [
     let live_files_count = ls $dir_live| length
     if $live_files_count > 0 {
         bf write debug $" .. moving live files to ($dir_temp)." app/switch
-        echo $"($dir_live)/*" | into glob | mv $in $dir_temp
+        $"($dir_live)/*" | into glob | mv $in $dir_temp
     }
 
     # move published files to live
     bf write debug $" .. moving published files to ($dir_live)." app/switch
-    echo $"($dir_publish)/*" | into glob | mv $in $dir_live
+    $"($dir_publish)/*" | into glob | mv $in $dir_live
 
     # move old live files into publish
     let temp_files_count = ls $dir_temp | length
     if $temp_files_count > 0 {
         bf write debug $" .. moving old live files ($dir_publish)." app/switch
-        echo $"($dir_temp)/*" | into glob | mv $in $dir_publish
+        $"($dir_temp)/*" | into glob | mv $in $dir_publish
     }
 
     # reapply permissions
@@ -73,4 +79,7 @@ export def switch [
 
     # terminate the container
     if $terminate { bf-s6 cont terminate }
+
+    # return nothing
+    return
 }

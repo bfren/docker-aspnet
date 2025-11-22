@@ -1,11 +1,10 @@
 #!/bin/sh
 
 IMAGE=`cat VERSION`
-ASPNET=${1:-9}
+ASPNET=${1:-10}
 
 docker buildx build \
     --load \
-    --progress plain \
     --build-arg BF_IMAGE=aspnet \
     --build-arg BF_VERSION=${IMAGE} \
     -f ${ASPNET}/Dockerfile \

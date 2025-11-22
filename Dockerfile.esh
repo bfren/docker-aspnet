@@ -1,4 +1,4 @@
-FROM ghcr.io/bfren/alpine-s6:alpine<%= ${ALPINE_MINOR} %>-<%= ${BASE_VERSION} %>
+FROM quay.io/bfren/alpine-s6:alpine<%= ${ALPINE_MINOR} %>-<%= ${BASE_VERSION} %>
 
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-aspnet"
 

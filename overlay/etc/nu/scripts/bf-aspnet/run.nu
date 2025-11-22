@@ -1,7 +1,7 @@
 use bf
 
 # Run preflight checks before executing process
-export def preflight [...args] {
+export def preflight [...args]: nothing -> nothing {
     # load environment
     bf env load
 
@@ -25,4 +25,7 @@ export def preflight [...args] {
     # start application
     bf write "Starting ASP.NET application."
     bf write debug $" .. ($assembly_path)."
+
+    # return nothing
+    return
 }
