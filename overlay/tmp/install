@@ -20,11 +20,11 @@ def main [] {
     # see https://dotnetcli.blob.core.windows.net/dotnet/checksums/11.0.0-preview.2-sha.txt
     bf write "Stripping away preview build versions."
     let dotnet_build = match ($revision | get_major) {
-        "11" => "11.0.0-preview.2.26159.112"
+        "11" => "11.0.0-preview.3.26207.106"
         _ => $revision
     }
     let aspnet_build = match ($revision | get_major) {
-        "11" => "11.0.0-preview.2.26159.112"
+        "11" => "11.0.0-preview.3.26207.106"
         _ => $revision
     }
     bf write $"Installing .NET v($revision)."
