@@ -87,7 +87,7 @@ def main [] {
     bf env set ASPNET_RUNTIME $"($dotnet_dir)/($aspnet_dir)"
 
     # add bf-aspnet module to config
-    bf config use bf-aspnet
+    bf config use_mod bf-aspnet
 }
 
 # Get the major version from a revision
