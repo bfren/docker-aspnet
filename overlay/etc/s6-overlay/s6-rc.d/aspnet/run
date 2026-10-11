@@ -14,4 +14,4 @@ nu -c "use bf-aspnet run ; run preflight"
 # Start dotnet application.
 #======================================================================================================================
 
-s6-setuidgid www dotnet ${BF_ASPNET_APP_LIVE}/${BF_ASPNET_ASSEMBLY}
+exec s6-setuidgid www dotnet ${BF_ASPNET_APP_LIVE}/${BF_ASPNET_ASSEMBLY}
