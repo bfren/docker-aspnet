@@ -1,7 +1,7 @@
 #!/usr/bin/nu
 
 use bf
-use bf-aspnet app
+use bf-aspnet [app]
 bf env load -x
 
 # Switch publish and live application directories, and then terminate the container

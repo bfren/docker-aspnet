@@ -1,2 +1,1 @@
-export module app.nu
-export module run.nu
+export use app.nu
