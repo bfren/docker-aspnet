@@ -1,17 +1,31 @@
-#!/bin/withenv sh
+#!/usr/bin/nu
 
-set -euo pipefail
+use bf
+use bf-s6
+bf env load
 
+# Start the ASP.NET application
+def main [
+    name: string    # The service name, passed by s6-supervise
+] {
+    # set executable name - used to make log output more useful
+    bf env x_set --override run $name
 
-#======================================================================================================================
-# Run preflight checks
-#======================================================================================================================
+    # run checks before executing service
+    let assembly_path = $"(bf env ASPNET_APP_LIVE)/(bf env ASPNET_ASSEMBLY)"
+    if ($assembly_path | bf fs is_not_file) {
+        bf write notok $"($assembly_path) not found."
+        let for = 30sec
+        bf write $"Sleeping for ($for)."
+        sleep $for
+        exit 66
+    }
 
-nu -c "use bf-aspnet run ; run preflight"
-
-
-#======================================================================================================================
-# Start dotnet application.
-#======================================================================================================================
-
-exec s6-setuidgid www dotnet ${BF_ASPNET_APP_LIVE}/${BF_ASPNET_ASSEMBLY}
+    # launch ASP.NET service as the www user
+    bf write "Starting ASP.NET application."
+    bf write debug $" .. ($assembly_path)."
+    let args = [
+        $assembly_path
+    ]
+    bf-s6 svc launch s6-setuidgid www dotnet ...$args
+}
