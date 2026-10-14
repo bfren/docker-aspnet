@@ -30,18 +30,13 @@ def main [] {
     bf write $"Installing .NET v($revision)."
 
     # install dotnet dependencies
-    let deps_common = [
-        ca-certificates-bundle
+    let deps = [
         icu-libs
-        libcrypto3
         libgcc
         libssl3
         libstdc++
+        tzdata
     ]
-    let deps = match ($revision | get_major | into int) {
-        8 => ($deps_common | append "zlib")
-        _ => $deps_common
-    }
     bf write "Installing .NET dependencies."
     bf pkg install $deps
 
