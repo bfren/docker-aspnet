@@ -3,8 +3,8 @@
 use bf
 
 # Download URLs for .NET and ASP.NET runtimes
-const dotnet_url = "https://dotnetcli.azureedge.net/dotnet/Runtime/{v}/dotnet-runtime-{v}-linux-musl-{a}.tar.gz"
-const aspnet_url = "https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/{v}/aspnetcore-runtime-{v}-linux-musl-{a}.tar.gz"
+const dotnet_url = "https://builds.dotnet.microsoft.com/dotnet/Runtime/{v}/dotnet-runtime-{v}-linux-musl-{a}.tar.gz"
+const aspnet_url = "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/{v}/aspnetcore-runtime-{v}-linux-musl-{a}.tar.gz"
 
 # Setup and install .NET runtime and ASP.NET
 def main [] {
