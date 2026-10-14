@@ -174,11 +174,17 @@ Add an `overlay/tmp/install` and `RUN bf-install` for anything else your applica
 ## Testing
 
 ```sh
-./run.sh        # builds the .NET 10 image and opens a shell in it
-./run.sh 8      # the same for .NET 8
+./test.sh        # builds the .NET 10 image and runs /test
+./test.sh 8      # the same for .NET 8
+./run.sh         # builds the .NET 10 image and opens a shell in it
 ```
 
-`run.sh` mounts an application folder from the author's machine - change the path to one of yours. This image has no tests of its own.
+`/test` runs this image's tests alongside the base images' tests, and fails if tests don't execute:
+
+* **Installation** - `dotnet` runs, the .NET and ASP.NET Core runtimes match the version in the build log, ICU is installed, and the `11-version` start-up script finds the runtime.
+* **Switching** - `aspnet-switch` swaps the folders, rolls back when run twice, refuses when nothing is published, and applies the permissions. These use temporary folders, never `/app`.
+
+Run it for each .NET version you change, as each has its own runtime and dependencies. `run.sh` mounts an application folder from the author's machine - change the path to one of yours.
 
 ## Troubleshooting
 
