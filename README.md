@@ -54,7 +54,8 @@ Open `http://localhost:5000`. `BF_ASPNET_ASSEMBLY` is the file name of your appl
 * ⏳ Waits for your application: if the assembly isn't there yet, the service checks again every 30 seconds instead of stopping the container
 * 🔄 Application restarted every day at 02:00
 * 🩺 Health check that loads the application's home page
-* 🌍 Globalisation enabled (ICU is installed), so `CultureInfo` works as expected
+* 🌍 Globalisation enabled (ICU is installed) for `en-US` and `en-GB` - see [Globalisation](#globalisation) for other cultures
+* 🕐 Time zone data installed, so `TimeZoneInfo` can convert between time zones
 * 🖥️ Built for `linux/amd64`, `linux/arm64` and `linux/arm/v7`
 
 ## Tags
@@ -115,6 +116,20 @@ Alpine + S6 adds [more variables](https://github.com/bfren/docker-alpine-s6#envi
 When the container starts, [Alpine + S6](https://github.com/bfren/docker-alpine-s6#starting) runs the initialisation scripts. This image adds two: `10-env` sets the application paths, and `11-version` checks the ASP.NET runtime and shows its version. Then S6 starts the `aspnet` service, which runs `dotnet /app/live/$BF_ASPNET_ASSEMBLY` as the `www` user.
 
 If the assembly doesn't exist yet, the service says so, waits 30 seconds and exits - S6 then starts it again. So you can start the container first and publish your application afterwards. Unlike most images in the ecosystem, the container does **not** stop when the application fails - S6 restarts it.
+
+### Globalisation
+
+Globalisation is on (`DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false`), so .NET uses ICU for cultures, sorting and formatting. Alpine's `icu-libs` comes with `icu-data-en`, which only contains the `en-US` and `en-GB` locales. Other cultures (e.g. `fr-FR`) don't cause an error - formatting and sorting quietly fall back to the default data instead.
+
+If your application needs other cultures, add Alpine's full ICU data in your own image - it adds about 32 MB:
+
+```dockerfile
+RUN apk add --no-cache icu-data-full
+```
+
+### Time zones
+
+`tzdata` is installed, so `TimeZoneInfo.FindSystemTimeZoneById("Europe/London")` and other IANA time zones work. The container's own time zone is set by `BF_TZ` (default `Europe/London`).
 
 ### Permissions
 
