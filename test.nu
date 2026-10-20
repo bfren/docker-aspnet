@@ -1,3 +1,5 @@
+#!/usr/bin/env -S nu -n
+
 use ../index/test.nu
 
 const dotnet_branches = [
