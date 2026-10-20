@@ -72,7 +72,7 @@ export def switch [
 
     # reapply permissions
     bf write debug " .. reapplying permissions." app/switch
-    bf ch apply_file "10-aspnet"
+    bf-s6 ch apply_file "10-aspnet"
 
     # output success message
     bf write ok "Application switched successfully." app/switch
