@@ -56,11 +56,10 @@ Open `http://localhost:5000`. `BF_ASPNET_ASSEMBLY` is the file name of your appl
 * 🩺 Health check that loads the application's home page
 * 🌍 Globalisation enabled (ICU is installed) for `en-US` and `en-GB` - see [Globalisation](#globalisation) for other cultures
 * 🕐 Time zone data installed, so `TimeZoneInfo` can convert between time zones
-* 🖥️ Built for `linux/amd64`, `linux/arm64` and `linux/arm/v7`
 
 ## Tags
 
-Images are published to Docker Hub (`bfren/aspnet`) and Quay.io (`quay.io/bfren/aspnet`). Tags start with the .NET version.
+Images are published to Docker Hub (`bfren/aspnet`) and Quay.io (`quay.io/bfren/aspnet`) for `linux/amd64`, `linux/arm/v7` and `linux/arm64`. Tags start with the .NET version.
 
 | Tag            | Example        | Use when                                              |
 | -------------- | -------------- | ----------------------------------------------------- |
