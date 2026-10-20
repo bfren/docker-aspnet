@@ -189,8 +189,9 @@ Add an `overlay/tmp/install` and `RUN bf-install` for anything else your applica
 ## Testing
 
 ```sh
-./test.sh        # builds the .NET 10 image and runs /test
-./test.sh 8      # the same for .NET 8
+./test.nu        # builds the .NET 10 image and runs /test
+./test.nu 8      # the same for .NET 8
+./test.nu --all  # every version, in parallel
 ./run.sh         # builds the .NET 10 image and opens a shell in it
 ```
 
