@@ -160,7 +160,7 @@ docker exec <container> aspnet-restart
 
 ### Health check
 
-`healthcheck` loads `ASPNETCORE_URLS` (with `+` replaced by `localhost`, so `http://localhost:5000` by default) and passes if the HTTP status is between 200 and 399. Docker runs it every 30 seconds (every 2 seconds during the first 60 seconds). If your application doesn't answer at `/` - an API, for example - replace `/usr/bin/bf/bf-healthcheck` in your own image.
+The health check (`/etc/bf/health.d/10-aspnet.nu`) loads `ASPNETCORE_URLS` (with `+` replaced by `localhost`, so `http://localhost:5000` by default) and passes if the HTTP status is between 200 and 399. Docker runs it every 30 seconds (every 2 seconds during the first 60 seconds). If your application doesn't answer at `/` - an API, for example - replace `/etc/bf/health.d/10-aspnet.nu` in your own image.
 
 ### The `bf-aspnet` module
 
@@ -170,7 +170,7 @@ docker exec <container> aspnet-restart
 | `bf-aspnet app restart` | Stop, then start the application again (used by `aspnet-restart`).                       |
 | `bf-aspnet app switch`  | Swap `/app/publish` and `/app/live`. Add `--terminate` to stop the container afterwards. |
 
-The helpers on the `PATH` are `aspnet-restart`, `aspnet-switch`, `aspnet-switch-terminate` and `bf-healthcheck` (also available as `healthcheck`).
+The helpers on the `PATH` are `aspnet-restart`, `aspnet-switch` and `aspnet-switch-terminate`.
 
 ## Building on this image
 
@@ -209,7 +209,7 @@ Run it for each .NET version you change, as each has its own runtime and depende
 
 ### The health check fails, but the application works
 
-The health check loads `/`. If your application returns 404 or 401 there, replace `bf-healthcheck` in your own image (see [Health check](#health-check)).
+The health check loads `/`. If your application returns 404 or 401 there, replace `/etc/bf/health.d/10-aspnet.nu` in your own image (see [Health check](#health-check)).
 
 ### My application can't write files
 
