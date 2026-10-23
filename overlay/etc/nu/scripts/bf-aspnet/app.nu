@@ -1,10 +1,20 @@
 use bf
 use bf-s6
 
-# Restart the ASP.NET application
+# Restart the ASP.NET application - it is killed (rather than stopped gracefully) so a slow or stalled shutdown cannot
+# block the restart, then S6 starts it again because the service is still wanted up
 export def restart []: nothing -> nothing {
     bf write $"Restarting (bf env ASPNET_ASSEMBLY) application." app/restart
-    bf-s6 svc restart aspnet
+
+    let args = [
+        "-k"        # -k   send SIGKILL
+        "-wr"       # -wr  wait until the service has been restarted
+        "-T" 10000  # -T   give up waiting after this many milliseconds
+        "/run/service/aspnet"
+    ]
+    { ^s6-svc ...$args } | bf handle app/restart
+
+    bf write ok "Application restarted." app/restart
 }
 
 # Switch publish and live application directories, and then restart the application
