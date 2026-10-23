@@ -1,40 +1,20 @@
 use bf
 use bf-s6
 
-# Disable the ASP.NET service
-export def disable []: nothing -> nothing {
-    # disable the ASP.NET service
-    if (bf-s6 svc is_up aspnet) {
-        bf write "Disabling ASP.NET service." app/disable
-        bf-s6 svc down aspnet
-    } else {
-        bf write debug "ASP.NET service is down." app/disable
-    }
-
-    # kill the .NET process (if it's still running)
-    let dotnet_pids = ps | where name == "dotnet" | get pid
-    if ($dotnet_pids | length) > 0 {
-        bf write "Killing .NET processes." app/disable
-        $dotnet_pids | each {|x| kill --force --quiet $x }
-    } else {
-        bf write debug "No .NET processes found." app/disable
-    }
-
-    # return nothing
-    return
-}
-
-# Restart application
+# Restart the ASP.NET application - it is killed (rather than stopped gracefully) so a slow or stalled shutdown cannot
+# block the restart, then S6 starts it again because the service is still wanted up
 export def restart []: nothing -> nothing {
-    # disable the service
-    disable
-
-    # restart the applcation
     bf write $"Restarting (bf env ASPNET_ASSEMBLY) application." app/restart
-    ^s6-rc -u change aspnet
 
-    # return nothing
-    return
+    let args = [
+        "-k"        # -k   send SIGKILL
+        "-wr"       # -wr  wait until the service has been restarted
+        "-T" 10000  # -T   give up waiting after this many milliseconds
+        "/run/service/aspnet"
+    ]
+    { ^s6-svc ...$args } | bf handle app/restart
+
+    bf write ok "Application restarted." app/restart
 }
 
 # Switch publish and live application directories, and then restart the application
