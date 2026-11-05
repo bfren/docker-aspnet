@@ -1,6 +1,6 @@
 # ASP.NET
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/bfren/docker-aspnet) ![Docker Pulls](https://img.shields.io/endpoint?url=https%3A%2F%2Fbfren.dev%2Fdocker%2Fpulls%2Faspnet) ![Docker Image Size](https://img.shields.io/endpoint?url=https%3A%2F%2Fbfren.dev%2Fdocker%2Fsize%2Faspnet) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/bfren/docker-aspnet/dev.yml?branch=main)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/bfren/docker-aspnet) ![Docker Pulls](https://img.shields.io/endpoint?url=https%3A%2F%2Fbfren.dev%2Fdocker%2Fpulls%2Faspnet) ![Docker Image Size](https://img.shields.io/endpoint?url=https%3A%2F%2Fbfren.dev%2Fdocker%2Fsize%2Faspnet) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/bfren/docker-aspnet/build.yml?branch=main)
 
 [Docker Hub](https://hub.docker.com/r/bfren/aspnet) - [Quay.io](https://quay.io/repository/bfren/aspnet) - [bfren ecosystem](https://github.com/bfren/docker)
 
@@ -34,7 +34,7 @@ Or with Docker Compose:
 ```yaml
 services:
   app:
-    image: quay.io/bfren/aspnet:net10-6.1
+    image: quay.io/bfren/aspnet:net10-7.0
     environment:
       - BF_ASPNET_ASSEMBLY=MyApp.dll
     ports:
@@ -61,22 +61,22 @@ Open `http://localhost:5000`. `BF_ASPNET_ASSEMBLY` is the file name of your appl
 
 Images are published to Docker Hub (`bfren/aspnet`) and Quay.io (`quay.io/bfren/aspnet`) for `linux/amd64`, `linux/arm/v7` and `linux/arm64`. Tags start with the .NET version.
 
-| Tag            | Example        | Use when                                              |
-| -------------- | -------------- | ----------------------------------------------------- |
-| `netX`         | `net10`        | You want the latest image for a .NET version          |
-| `netX-MAJOR`   | `net10-6`      | You want updates, but not breaking changes            |
-| `netX-MINOR`   | `net10-6.1`    | You want fixes only - **recommended for building on** |
-| `netX-VERSION` | `net10-6.1.21` | You want to pin this image exactly                    |
-| `netX.Y.Z`     | `net10.0.12`   | You want an exact .NET runtime release                |
+| Tag            | Example       | Use when                                              |
+| -------------- | ------------- | ----------------------------------------------------- |
+| `netX`         | `net10`       | You want the latest image for a .NET version          |
+| `netX-MAJOR`   | `net10-7`     | You want updates, but not breaking changes            |
+| `netX-MINOR`   | `net10-7.0`   | You want fixes only - **recommended for building on** |
+| `netX-VERSION` | `net10-7.0.0` | You want to pin this image exactly                    |
+| `netX.Y.Z`     | `net10.0.14`  | You want an exact .NET runtime release                |
 
 There is no `latest` tag - always choose a .NET version.
 
 | .NET | Runtime     | Type              | Alpine | Microsoft support ends |
 | ---- | ----------- | ----------------- | ------ | ---------------------- |
-| 11   | 11.0.0-rc.1 | Release candidate | 3.24   | n/a - not yet released |
-| 10   | 10.0.12     | Long-term support | 3.24   | 2028-11-14             |
-| 9    | 9.0.20      | Standard support  | 3.24   | 2026-11-10             |
-| 8    | 8.0.31      | Long-term support | 3.24   | 2026-11-10             |
+| 11   | 11.0.0-rc.3 | Release candidate | 3.24   | n/a - not yet released |
+| 10   | 10.0.14     | Long-term support | 3.24   | 2028-11-14             |
+| 9    | 9.0.22      | Standard support  | 3.24   | 2026-11-10             |
+| 8    | 8.0.33      | Long-term support | 3.24   | 2026-11-10             |
 
 .NET 8 and 9 both reach the end of support in November 2026 - use .NET 10 for anything new, and don't use .NET 11 in production until it is released. [Source: .NET Support Policy](https://dotnet.microsoft.com/platform/support/policy)
 
@@ -177,7 +177,7 @@ The helpers on the `PATH` are `aspnet-restart`, `aspnet-switch` and `aspnet-swit
 To ship your application inside the image rather than mounting it:
 
 ```dockerfile
-FROM quay.io/bfren/aspnet:net10-6.1
+FROM quay.io/bfren/aspnet:net10-7.0
 
 ENV BF_ASPNET_ASSEMBLY=MyApp.dll
 COPY ./publish /app/live
