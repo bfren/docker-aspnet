@@ -4,7 +4,7 @@ set -euo pipefail
 
 docker pull bfren/alpine
 
-BASE_VERSION="7.0.0-dev"
+BASE_VERSION="7.0.0"
 echo "Base: ${BASE_VERSION}"
 
 ASPNET_VERSIONS="8 9 10 11"
