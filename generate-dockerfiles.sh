@@ -27,5 +27,4 @@ for V in ${ASPNET_VERSIONS} ; do
 
 done
 
-docker system prune -f
 echo "Done."
