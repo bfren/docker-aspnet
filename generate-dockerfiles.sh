@@ -4,7 +4,7 @@ set -euo pipefail
 
 docker pull bfren/alpine
 
-BASE_VERSION="7.0.0"
+BASE_VERSION="7.0.1"
 echo "Base: ${BASE_VERSION}"
 
 ASPNET_VERSIONS="8 9 10 11"
@@ -27,5 +27,4 @@ for V in ${ASPNET_VERSIONS} ; do
 
 done
 
-docker system prune -f
 echo "Done."
