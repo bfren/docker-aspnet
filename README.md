@@ -66,7 +66,7 @@ Images are published to Docker Hub (`bfren/aspnet`) and Quay.io (`quay.io/bfren/
 | `netX`         | `net10`       | You want the latest image for a .NET version          |
 | `netX-MAJOR`   | `net10-7`     | You want updates, but not breaking changes            |
 | `netX-MINOR`   | `net10-7.0`   | You want fixes only - **recommended for building on** |
-| `netX-VERSION` | `net10-7.0.0` | You want to pin this image exactly                    |
+| `netX-VERSION` | `net10-7.0.1` | You want to pin this image exactly                    |
 | `netX.Y.Z`     | `net10.0.14`  | You want an exact .NET runtime release                |
 
 There is no `latest` tag - always choose a .NET version.
