@@ -19,11 +19,7 @@ def main [] {
     # handle preview versions - they come with build versions that we want to strip away
     # see https://dotnetcli.blob.core.windows.net/dotnet/checksums/11.0.0-rc.3-sha.txt
     bf write "Stripping away preview build versions."
-    let dotnet_build = match ($revision | get_major) {
-        "11" => "11.0.0-rc.3.26522.148"
-        _ => $revision
-    }
-    let aspnet_build = match ($revision | get_major) {
+    let build = match ($revision | get_major) {
         "11" => "11.0.0-rc.3.26522.148"
         _ => $revision
     }
@@ -52,7 +48,7 @@ def main [] {
 
     # install .NET runtime
     bf write "Installing .NET runtime."
-    let dotnet_file = download $dotnet_build $arch dotnet $dotnet_url
+    let dotnet_file = download $build $arch dotnet $dotnet_url
     let dotnet_dir = "/usr/share/dotnet"
 
     try {
@@ -66,7 +62,7 @@ def main [] {
 
     # install ASP.NET runtime
     bf write $"Installing ASP.NET runtime."
-    let aspnet_file = download $aspnet_build $arch aspnet $aspnet_url
+    let aspnet_file = download $build $arch aspnet $aspnet_url
     let aspnet_dir = "shared/Microsoft.AspNetCore.App"
 
     try {
@@ -74,7 +70,7 @@ def main [] {
         ^tar -oxzf $aspnet_file -C $dotnet_dir $"./($aspnet_dir)"
     }
 
-    if ($"($dotnet_dir)/($aspnet_dir)/($aspnet_build)" | bf fs is_not_dir) {
+    if ($"($dotnet_dir)/($aspnet_dir)/($build)" | bf fs is_not_dir) {
         bf write error " .. error installing ASP.NET runtime."
     }
 
