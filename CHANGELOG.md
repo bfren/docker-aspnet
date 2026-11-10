@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.2] - 2026-11-10
+
+### Changed
+
+- Base image updated to `bfren/alpine-s6` 7.0.2, which updates Nushell to 0.117.0 (your own Nushell scripts may
+  need changes), keeps the container starting when `BF_TZ` cannot be set, and no longer hides `CURRENT_FILE` and
+  `FILE_PWD` from services - see the
+  [Alpine + S6 changelog](https://github.com/bfren/docker-alpine-s6/blob/main/CHANGELOG.md).
+
+### Deprecated
+
+- .NET 8 and 9 reached the end of Microsoft support on 2026-11-10. This is the last release with .NET 8 and 9 images -
+  later releases build .NET 10 and 11 only. Use .NET 10 for anything new.
+
 ## [7.0.1] - 2026-11-06
 
 ### Changed
@@ -23,5 +37,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Images are built and published by the shared `bfren/docker` build workflow (`build.yml`), replacing the separate
   `dev.yml` and `publish.yml` workflows.
 
+[7.0.2]: https://github.com/bfren/docker-aspnet/compare/v7.0.1...v7.0.2
 [7.0.1]: https://github.com/bfren/docker-aspnet/compare/v7.0.0...v7.0.1
 [7.0.0]: https://github.com/bfren/docker-aspnet/compare/v6.1.27...v7.0.0
