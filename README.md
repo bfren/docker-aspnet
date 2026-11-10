@@ -66,7 +66,7 @@ Images are published to Docker Hub (`bfren/aspnet`) and Quay.io (`quay.io/bfren/
 | `netX`         | `net10`       | You want the latest image for a .NET version          |
 | `netX-MAJOR`   | `net10-7`     | You want updates, but not breaking changes            |
 | `netX-MINOR`   | `net10-7.0`   | You want fixes only - **recommended for building on** |
-| `netX-VERSION` | `net10-7.0.1` | You want to pin this image exactly                    |
+| `netX-VERSION` | `net10-7.0.2` | You want to pin this image exactly                    |
 | `netX.Y.Z`     | `net10.0.14`  | You want an exact .NET runtime release                |
 
 There is no `latest` tag - always choose a .NET version.
@@ -78,7 +78,7 @@ There is no `latest` tag - always choose a .NET version.
 | 9    | 9.0.22      | Standard support  | 3.24   | 2026-11-10             |
 | 8    | 8.0.33      | Long-term support | 3.24   | 2026-11-10             |
 
-.NET 8 and 9 both reach the end of support in November 2026 - use .NET 10 for anything new, and don't use .NET 11 in production until it is released. [Source: .NET Support Policy](https://dotnet.microsoft.com/platform/support/policy)
+.NET 8 and 9 reached the end of support on 2026-11-10. Version 7.0.2 is the last release with .NET 8 and 9 images - later releases build .NET 10 and 11 only. Use .NET 10 for anything new, and don't use .NET 11 in production until it is released. [Source: .NET Support Policy](https://dotnet.microsoft.com/platform/support/policy)
 
 ## Configuration
 
