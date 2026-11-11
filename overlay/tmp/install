@@ -18,7 +18,6 @@ def main [] {
 
     # handle preview versions - they come with build versions that we want to strip away
     # add a line per preview, e.g. "12" => "12.0.0-rc.1.<build>"
-    # see https://dotnetcli.blob.core.windows.net/dotnet/checksums/<version>-sha.txt
     bf write "Stripping away preview build versions."
     let build = match ($revision | get_major) {
         _ => $revision
