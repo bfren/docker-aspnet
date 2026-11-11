@@ -84,3 +84,35 @@ export def switch__applies_permissions [] {
     assert equal "www:www 400" $file "live files should be read-only and owned by www"
     assert equal "www:www 500" $dir "live directory should be owned by www"
 }
+
+
+#======================================================================================================================
+# restart_daily
+#======================================================================================================================
+
+# Run restart_daily with BF_ASPNET_ENABLE_DAILY_RESTART set to $enable and a stub s6-svc first on PATH, and return true
+# if the stub was called (the real s6-svc would restart the test container's service)
+def restart_daily_e [
+    enable: string  # Value of BF_ASPNET_ENABLE_DAILY_RESTART
+]: nothing -> bool {
+    let dir = mktemp --directory
+    let marker = $"($dir)/restarted"
+    $"#!/bin/sh\ntouch ($marker)\n" | save $"($dir)/s6-svc"
+    ^chmod +x $"($dir)/s6-svc"
+
+    let path = [$dir] | append ($env.PATH | [$in] | flatten | str join (char esep) | split row (char esep))
+    let vars = {PATH: $path, BF_ASPNET_ASSEMBLY: "app.dll", BF_ASPNET_ENABLE_DAILY_RESTART: $enable}
+    with-env $vars { restart_daily }
+
+    let result = $marker | path exists
+    rm --recursive --force $dir
+    $result
+}
+
+export def restart_daily__disabled__does_not_restart [] {
+    assert equal false (restart_daily_e "0") "the application should not restart when the daily restart is disabled"
+}
+
+export def restart_daily__enabled__restarts [] {
+    assert equal true (restart_daily_e "1") "the application should restart when the daily restart is enabled"
+}

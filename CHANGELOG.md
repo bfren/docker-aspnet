@@ -7,8 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [8.0.0] - Unreleased
 
+### Added
+
+- `BF_ASPNET_ENABLE_DAILY_RESTART` - set it to `1` to restart the application every day at 02:00.
+
 ### Changed
 
+- **Breaking:** the daily application restart is now off by default. Set `BF_ASPNET_ENABLE_DAILY_RESTART=1` to keep
+  restarting every day, as before.
 - .NET 11 updated from release candidate 3 to the released 11.0.0 (standard support, until 2028-11-14).
 - .NET 10 updated to 10.0.15.
 

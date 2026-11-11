@@ -13,7 +13,7 @@ It is [Alpine + S6](https://github.com/bfren/docker-alpine-s6) with:
 * the .NET and ASP.NET Core runtimes (the musl builds from Microsoft, checked against their SHA-512 hashes), for .NET 10 and 11
 * an `aspnet` service that runs your application as the non-root `www` user
 * two application folders - `live` and `publish` - so you can upload a new version and switch to it, and switch back if it goes wrong
-* a daily application restart and a health check
+* a health check, and an optional daily application restart
 
 It only contains the runtimes, not the SDK - build and publish your application elsewhere (`dotnet publish`), then run the output here. There is no SSL support - it is designed to run behind a reverse proxy such as [Caddy](https://github.com/bfren/docker-caddy-proxy).
 
@@ -34,7 +34,7 @@ Or with Docker Compose:
 ```yaml
 services:
   app:
-    image: quay.io/bfren/aspnet:net10-7.0
+    image: quay.io/bfren/aspnet:net10-8.0
     environment:
       - BF_ASPNET_ASSEMBLY=MyApp.dll
     ports:
@@ -52,7 +52,7 @@ Open `http://localhost:5000`. `BF_ASPNET_ASSEMBLY` is the file name of your appl
 * 🔁 Deploy without rebuilding: upload to `/app/publish`, then `aspnet-switch` - and switch again to roll back
 * 👤 The application runs as the non-root `www` user, with its files read-only
 * ⏳ Waits for your application: if the assembly isn't there yet, the service checks again every 30 seconds instead of stopping the container
-* 🔄 Application restarted every day at 02:00
+* 🔄 Optional daily application restart at 02:00 (`BF_ASPNET_ENABLE_DAILY_RESTART=1`)
 * 🩺 Health check that loads the application's home page
 * 🌍 Globalisation enabled (ICU is installed) for `en-US` and `en-GB` - see [Globalisation](#globalisation) for other cultures
 * 🕐 Time zone data installed, so `TimeZoneInfo` can convert between time zones
@@ -95,14 +95,15 @@ There is no `latest` tag - always choose a .NET version.
 
 ### Environment Variables
 
-| Variable                                | Values          | Description                                                                       | Default         |
-| --------------------------------------- | --------------- | --------------------------------------------------------------------------------- | --------------- |
-| `BF_ASPNET_ASSEMBLY`                    | file name       | **Required.** Your application's main `.dll`, relative to `/app/live`.            | *blank*         |
-| `ASPNETCORE_URLS`                       | URL             | Where the application listens. The health check uses it too - keep it to one URL. | `http://+:5000` |
-| `DOTNET_CONTENTROOT`                    | path            | The application's content root.                                                   | `/app/live`     |
-| `DOTNET_SYSTEM_GLOBALIZATION_INVARIANT` | `true`, `false` | Set to `true` to turn off globalisation support.                                  | `false`         |
-| `DOTNET_RUNNING_IN_CONTAINER`           | `true`          | Tells .NET it is running in a container.                                          | `true`          |
-| `BF_DEBUG`                              | `0`, `1`        | Show detailed output from `bf` scripts.                                           | `0`             |
+| Variable                                | Values          | Description                                                                               | Default         |
+| --------------------------------------- | --------------- | ----------------------------------------------------------------------------------------- | --------------- |
+| `BF_ASPNET_ASSEMBLY`                    | file name       | **Required.** Your application's main `.dll`, relative to `/app/live`.                    | *blank*         |
+| `BF_ASPNET_ENABLE_DAILY_RESTART`        | `0`, `1`        | Set to `1` to restart the application every day at 02:00 - see [Restarting](#restarting). | `0`             |
+| `ASPNETCORE_URLS`                       | URL             | Where the application listens. The health check uses it too - keep it to one URL.         | `http://+:5000` |
+| `DOTNET_CONTENTROOT`                    | path            | The application's content root.                                                           | `/app/live`     |
+| `DOTNET_SYSTEM_GLOBALIZATION_INVARIANT` | `true`, `false` | Set to `true` to turn off globalisation support.                                          | `false`         |
+| `DOTNET_RUNNING_IN_CONTAINER`           | `true`          | Tells .NET it is running in a container.                                                  | `true`          |
+| `BF_DEBUG`                              | `0`, `1`        | Show detailed output from `bf` scripts.                                                   | `0`             |
 
 Alpine + S6 adds [more variables](https://github.com/bfren/docker-alpine-s6#environment-variables) (timezone, cron).
 
@@ -150,11 +151,13 @@ Your application can read its own files but not change them. Store anything it w
 
 ### Restarting
 
-`aspnet-restart` stops the `aspnet` service, stops any remaining `dotnet` processes, then starts the service again. It runs automatically every day at 02:00, and you can run it yourself:
+`aspnet-restart` kills the application (SIGKILL, so a stalled shutdown cannot block it) and waits up to 10 seconds for S6 to start it again. Run it yourself with:
 
 ```sh
 docker exec <container> aspnet-restart
 ```
+
+Set `BF_ASPNET_ENABLE_DAILY_RESTART=1` to run it every day at 02:00. This recovers an application that has stopped responding without exiting (S6 only restarts it when it exits, and Docker doesn't restart an unhealthy container), and clears slow memory growth. Requests in progress at 02:00 are dropped. Before 8.0.0 the daily restart was always on.
 
 ### Health check
 
@@ -162,11 +165,11 @@ The health check (`/etc/bf/health.d/10-aspnet.nu`) loads `ASPNETCORE_URLS` (with
 
 ### The `bf-aspnet` module
 
-| Command                 | Use                                                                                      |
-| ----------------------- | ---------------------------------------------------------------------------------------- |
-| `bf-aspnet app disable` | Stop the `aspnet` service and any `dotnet` processes.                                    |
-| `bf-aspnet app restart` | Stop, then start the application again (used by `aspnet-restart`).                       |
-| `bf-aspnet app switch`  | Swap `/app/publish` and `/app/live`. Add `--terminate` to stop the container afterwards. |
+| Command                       | Use                                                                                      |
+| ----------------------------- | ---------------------------------------------------------------------------------------- |
+| `bf-aspnet app restart`       | Kill the application so S6 starts it again (used by `aspnet-restart`).                   |
+| `bf-aspnet app restart_daily` | Restart the application if `BF_ASPNET_ENABLE_DAILY_RESTART` is `1` (run daily by cron).  |
+| `bf-aspnet app switch`        | Swap `/app/publish` and `/app/live`. Add `--terminate` to stop the container afterwards. |
 
 The helpers on the `PATH` are `aspnet-restart`, `aspnet-switch` and `aspnet-switch-terminate`.
 
@@ -175,7 +178,7 @@ The helpers on the `PATH` are `aspnet-restart`, `aspnet-switch` and `aspnet-swit
 To ship your application inside the image rather than mounting it:
 
 ```dockerfile
-FROM quay.io/bfren/aspnet:net10-7.0
+FROM quay.io/bfren/aspnet:net10-8.0
 
 ENV BF_ASPNET_ASSEMBLY=MyApp.dll
 COPY ./publish /app/live
@@ -196,6 +199,7 @@ Add an `overlay/tmp/install` and `RUN bf-install` for anything else your applica
 
 * **Installation** - `dotnet` runs, the .NET and ASP.NET Core runtimes match the version in the build log, ICU is installed, and the `11-version` start-up script finds the runtime.
 * **Switching** - `aspnet-switch` swaps the folders, rolls back when run twice, refuses when nothing is published, and applies the permissions. These use temporary folders, never `/app`.
+* **Restarting** - the daily restart only runs when `BF_ASPNET_ENABLE_DAILY_RESTART` is `1`. These use a stub `s6-svc`, so the test container is never restarted.
 
 Run it for each .NET version you change, as each has its own runtime and dependencies. `run.sh` mounts an application folder from the author's machine - change the path to one of yours.
 

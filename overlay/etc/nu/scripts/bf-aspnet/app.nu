@@ -17,6 +17,16 @@ export def restart []: nothing -> nothing {
     bf write ok "Application restarted." app/restart
 }
 
+# Restart the ASP.NET application if BF_ASPNET_ENABLE_DAILY_RESTART is 1 - run every day by cron
+export def restart_daily []: nothing -> nothing {
+    if not (bf env check ASPNET_ENABLE_DAILY_RESTART) {
+        bf write debug "Daily restart is disabled." app/restart_daily
+        return
+    }
+
+    restart
+}
+
 # Switch publish and live application directories, and then restart the application
 export def switch [
     --terminate (-t)    # If set, the container will terminate after switching code
