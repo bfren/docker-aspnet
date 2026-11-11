@@ -10,7 +10,7 @@ An image for running a published [ASP.NET Core](https://dotnet.microsoft.com/app
 
 It is [Alpine + S6](https://github.com/bfren/docker-alpine-s6) with:
 
-* the .NET and ASP.NET Core runtimes (the musl builds from Microsoft, checked against their SHA-512 hashes), for .NET 8, 9, 10 and 11
+* the .NET and ASP.NET Core runtimes (the musl builds from Microsoft, checked against their SHA-512 hashes), for .NET 10 and 11
 * an `aspnet` service that runs your application as the non-root `www` user
 * two application folders - `live` and `publish` - so you can upload a new version and switch to it, and switch back if it goes wrong
 * a daily application restart and a health check
@@ -48,7 +48,7 @@ Open `http://localhost:5000`. `BF_ASPNET_ASSEMBLY` is the file name of your appl
 
 ## Features
 
-* 🟣 .NET 8, 9, 10 and 11 - choose with the image tag
+* 🟣 .NET 10 and 11 - choose with the image tag
 * 🔁 Deploy without rebuilding: upload to `/app/publish`, then `aspnet-switch` - and switch again to roll back
 * 👤 The application runs as the non-root `www` user, with its files read-only
 * ⏳ Waits for your application: if the assembly isn't there yet, the service checks again every 30 seconds instead of stopping the container
@@ -64,21 +64,19 @@ Images are published to Docker Hub (`bfren/aspnet`) and Quay.io (`quay.io/bfren/
 | Tag            | Example       | Use when                                              |
 | -------------- | ------------- | ----------------------------------------------------- |
 | `netX`         | `net10`       | You want the latest image for a .NET version          |
-| `netX-MAJOR`   | `net10-7`     | You want updates, but not breaking changes            |
-| `netX-MINOR`   | `net10-7.0`   | You want fixes only - **recommended for building on** |
-| `netX-VERSION` | `net10-7.0.2` | You want to pin this image exactly                    |
-| `netX.Y.Z`     | `net10.0.14`  | You want an exact .NET runtime release                |
+| `netX-MAJOR`   | `net10-8`     | You want updates, but not breaking changes            |
+| `netX-MINOR`   | `net10-8.0`   | You want fixes only - **recommended for building on** |
+| `netX-VERSION` | `net10-8.0.0` | You want to pin this image exactly                    |
+| `netX.Y.Z`     | `net10.0.15`  | You want an exact .NET runtime release                |
 
 There is no `latest` tag - always choose a .NET version.
 
-| .NET | Runtime     | Type              | Alpine | Microsoft support ends |
-| ---- | ----------- | ----------------- | ------ | ---------------------- |
-| 11   | 11.0.0-rc.3 | Release candidate | 3.24   | n/a - not yet released |
-| 10   | 10.0.14     | Long-term support | 3.24   | 2028-11-14             |
-| 9    | 9.0.22      | Standard support  | 3.24   | 2026-11-10             |
-| 8    | 8.0.33      | Long-term support | 3.24   | 2026-11-10             |
+| .NET | Runtime | Type              | Alpine | Microsoft support ends |
+| ---- | ------- | ----------------- | ------ | ---------------------- |
+| 11   | 11.0.0  | Standard support  | 3.24   | 2028-11-14             |
+| 10   | 10.0.15 | Long-term support | 3.24   | 2028-11-14             |
 
-.NET 8 and 9 reached the end of support on 2026-11-10. Version 7.0.2 is the last release with .NET 8 and 9 images - later releases build .NET 10 and 11 only. Use .NET 10 for anything new, and don't use .NET 11 in production until it is released. [Source: .NET Support Policy](https://dotnet.microsoft.com/platform/support/policy)
+.NET 8 and 9 reached the end of support on 2026-11-10 - version 7.0.2 was the last release with .NET 8 and 9 images. .NET 10 has long-term support; .NET 11 has standard support, which ends on the same date. [Source: .NET Support Policy](https://dotnet.microsoft.com/platform/support/policy)
 
 ## Configuration
 
@@ -189,7 +187,7 @@ Add an `overlay/tmp/install` and `RUN bf-install` for anything else your applica
 
 ```sh
 ./test.nu        # builds the .NET 10 image and runs /test
-./test.nu 8      # the same for .NET 8
+./test.nu 11     # the same for .NET 11
 ./test.nu --all  # every version, in parallel
 ./run.sh         # builds the .NET 10 image and opens a shell in it
 ```
@@ -228,10 +226,6 @@ Uploading files and switching is quicker than building and pushing an image for 
 ### Why doesn't the container stop when my application crashes?
 
 So that you can start it before the application is published, and so a crash only needs S6 to restart the application. Use `aspnet-switch-terminate` if you want a deployment to restart the whole container.
-
-### Can I use the .NET 11 image?
-
-It is a release candidate - fine for testing, not for production. It will be updated when .NET 11 is released.
 
 ## Licence
 
