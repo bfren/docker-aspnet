@@ -1,3 +1,8 @@
-#!/bin/sh
+#!/usr/bin/nu
 
-aspnet-restart
+use bf
+use bf-aspnet [app]
+bf env load -x
+
+# Restart ASP.NET application, if the daily restart is enabled
+def main [] { app restart_daily }

@@ -18,6 +18,8 @@ ENV \
     ASPNETCORE_URLS="http://+:5000" \
     # Must be defined so the service can run the application
     BF_ASPNET_ASSEMBLY= \
+    # Set to 1 to restart the application every day
+    BF_ASPNET_ENABLE_DAILY_RESTART=0 \
     # Otherwise it is set incorrectly to the S6 service directory
     DOTNET_CONTENTROOT="/app/live" \
     # Enable detection of running in a container

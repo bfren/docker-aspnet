@@ -3,8 +3,6 @@
 use ../index/test.nu
 
 const dotnet_branches = [
-    "8"
-    "9"
     "10"
     "11"
 ]

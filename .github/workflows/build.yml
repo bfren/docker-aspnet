@@ -20,8 +20,6 @@ jobs:
     with:
       image: aspnet
       folders: |
-        8
-        9
         10
         11
       platforms: |
