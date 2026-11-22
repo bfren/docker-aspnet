@@ -75,6 +75,8 @@ Images are published to Docker Hub (`bfren/aspnet`) and Quay.io (`quay.io/bfren/
 | `netX-VERSION` | `net10-8.0.1` | You want to pin this image exactly                    |
 | `netX.Y.Z`     | `net10.0.15`  | You want an exact .NET runtime release                |
 
+A new `MAJOR` version means a breaking change. Before moving to one, read the [changelog](CHANGELOG.md), where each breaking change is marked **Breaking**.
+
 There is no `latest` tag - always choose a .NET version.
 
 | .NET | Runtime | Type              | Alpine | Microsoft support ends |
