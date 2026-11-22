@@ -44,6 +44,8 @@ services:
       - ./v/publish:/app/publish
 ```
 
+This example is also in [`docker-compose.yml`](docker-compose.yml).
+
 1. Publish your application into the `live` folder: `dotnet publish -c Release -o ./v/live`.
 2. Set `BF_ASPNET_ASSEMBLY` to the file name of your application's main `.dll`, e.g. `MyApp.dll`.
 3. Run `docker compose up -d`, then open `http://localhost:5000`.

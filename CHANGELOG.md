@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [8.0.1] - Unreleased
 
+### Added
+
+- `docker-compose.yml` - the Quickstart example as a file you can copy.
+
 ### Fixed
 
 - README: the Quickstart is now numbered steps, including publishing your application into the mounted folder.
