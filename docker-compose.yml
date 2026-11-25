@@ -1,0 +1,10 @@
+services:
+  app:
+    image: quay.io/bfren/aspnet:net10-8.0
+    environment:
+      - BF_ASPNET_ASSEMBLY=MyApp.dll
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./v/live:/app/live
+      - ./v/publish:/app/publish

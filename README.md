@@ -44,7 +44,13 @@ services:
       - ./v/publish:/app/publish
 ```
 
-Open `http://localhost:5000`. `BF_ASPNET_ASSEMBLY` is the file name of your application's main `.dll`, inside `/app/live`.
+This example is also in [`docker-compose.yml`](docker-compose.yml).
+
+1. Publish your application into the `live` folder: `dotnet publish -c Release -o ./v/live`.
+2. Set `BF_ASPNET_ASSEMBLY` to the file name of your application's main `.dll`, e.g. `MyApp.dll`.
+3. Run `docker compose up -d`, then open `http://localhost:5000`.
+
+The `publish` folder is for deploying later versions without rebuilding anything - see [Deploying a new version](#deploying-a-new-version).
 
 ## Features
 
@@ -66,8 +72,10 @@ Images are published to Docker Hub (`bfren/aspnet`) and Quay.io (`quay.io/bfren/
 | `netX`         | `net10`       | You want the latest image for a .NET version          |
 | `netX-MAJOR`   | `net10-8`     | You want updates, but not breaking changes            |
 | `netX-MINOR`   | `net10-8.0`   | You want fixes only - **recommended for building on** |
-| `netX-VERSION` | `net10-8.0.0` | You want to pin this image exactly                    |
+| `netX-VERSION` | `net10-8.0.1` | You want to pin this image exactly                    |
 | `netX.Y.Z`     | `net10.0.15`  | You want an exact .NET runtime release                |
+
+A new `MAJOR` version means a breaking change. Before moving to one, read the [changelog](CHANGELOG.md), where each breaking change is marked **Breaking**.
 
 There is no `latest` tag - always choose a .NET version.
 
